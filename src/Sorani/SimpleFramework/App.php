@@ -10,6 +10,32 @@ class App
 {
 
     /**
+     * List of modules
+     * @var array
+     */
+    private $modules = [];
+
+    /**
+     *
+     * @var Router
+     */
+    private Router $router;
+
+    /**
+     * App constructor
+     *
+     * @param  string[] $modules List of modules to load
+     * @return void
+     */
+    public function __construct(array $modules = [])
+    {
+        $this->router = new Router();
+        foreach ($modules as $module) {
+            $this->modules = new $module($this->router);
+        }
+    }
+
+    /**
      * Start the App
      *
      * @param  mixed $request
@@ -23,9 +49,21 @@ class App
                 ->withStatus(301)
                 ->withHeader('Location', substr($uri, 0, -1));
         }
-        if ($uri === '/blog') {
-            return new Response(200, [], '<h1>Welcome to my Blog!</h1>');
+        $route = $this->router->match($request);
+        if (null === $route) {
+            return new Response(404, [], '<h1>Erreur 404</h1>');
         }
-        return new Response(404, [], '<h1>Erreur 404</h1>');
+        $params = $route->getParams();
+        $request = array_reduce(array_keys($params), function (ServerRequestInterface $request, $key) use ($params) {
+            return $request->withAttribute($key, $params[$key]);
+        }, $request);
+        $response = call_user_func_array($route->getCallback(), [$request]);
+        if (is_string($response)) {
+            return new Response(200, [], $response);
+        } elseif ($response instanceof ResponseInterface) {
+            return $response;
+        } else {
+            throw new \Exception('The response is neither a string nor an instance of ResponseInterface');
+        }
     }
 }
