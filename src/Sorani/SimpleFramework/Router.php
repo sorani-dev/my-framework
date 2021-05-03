@@ -28,11 +28,11 @@ class Router
     }
 
     /**
-     * get
+     * GET Method
      *
-     * @param  string $path
+     * @param  string $path Route path
      * @param  callable $callable
-     * @param  string $name
+     * @param  string $name Route name
      * @return void
      */
     public function get(string $path, callable $callable, string $name = null, ?array $options = [])
@@ -47,11 +47,11 @@ class Router
         );
     }
     /**
-     * get
+     * POST method
      *
      * @param  string $path
      * @param  callable $callable
-     * @param  string $name
+     * @param  string|null $name Route name
      * @return void
      */
     public function post(string $path, callable $callable, string $name = null, ?array $options = [])
@@ -70,7 +70,7 @@ class Router
      * Match a request path to a route and returns a Route if it matches or null on failure
      *
      * @param  ServerRequestInterface $request
-     * @return Route\null
+     * @return Route|null
      */
     public function match(ServerRequestInterface $request): ?Route
     {
@@ -85,6 +85,13 @@ class Router
         return null;
     }
 
+    /**
+     * Generate a URI from a Route name
+     *
+     * @param  mixed $name Route name
+     * @param  mixed $params route parameters
+     * @return string
+     */
     public function generateUri(string $name, array $params = []): ?string
     {
         return $this->router->generateUri($name, $params);

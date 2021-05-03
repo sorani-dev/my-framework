@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sorani\SimpleFramework\Router;
 
 use Psr\Http\Message\ResponseInterface;
@@ -7,6 +9,11 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * @class MiddlewareApp
+ * Use this class to make callables compatible with mezzio router interface
+ * which needs the MiddlewareInterface
+ */
 class MiddlewareApp implements MiddlewareInterface
 {
 

@@ -1,11 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sorani\SimpleFramework;
 
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * @class App
+ * Main App: Entry to Application
+ */
 class App
 {
 
@@ -25,7 +31,6 @@ class App
      * App constructor
      *
      * @param  string[] $modules List of modules to load
-     * @return void
      */
     public function __construct(array $modules = [])
     {
@@ -38,7 +43,7 @@ class App
     /**
      * Start the App
      *
-     * @param  mixed $request
+     * @param  ServerRequestInterface $request
      * @return ResponseInterface
      */
     public function run(ServerRequestInterface $request): ResponseInterface

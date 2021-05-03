@@ -33,6 +33,14 @@ class Route
     private array $options = [];
 
 
+    /**
+     * Route constructor
+     *
+     * @param  string $name Route name
+     * @param  callable $callback what to call when route found
+     * @param  array $parameters Parameters to inject in route
+     * @param  array $options Route options
+     */
     public function __construct(string $name, $callback, array $parameters, ?array $options = [])
     {
         $this->name = $name;
@@ -42,7 +50,7 @@ class Route
     }
 
     /**
-     * Get the value of name
+     * Get the route name
      * @return string
      */
     public function getName()
@@ -51,7 +59,7 @@ class Route
     }
 
     /**
-     * Get the value of callback
+     * Get the route callback
      * @return callable
      */
     public function getCallback()
@@ -60,7 +68,7 @@ class Route
     }
 
     /**
-     * Get the URL of parameters
+     * Get the Route URL parameters
      * @return string[]
      */
     public function getParams(): array
@@ -69,7 +77,7 @@ class Route
     }
 
     /**
-     * Get the options
+     * Get the Route options
      *
      * @return  array
      */
