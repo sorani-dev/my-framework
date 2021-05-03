@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sorani\SimpleFramework;
+namespace Sorani\SimpleFramework\Renderer;
 
-class Renderer
+class PHPRenderer implements RendererInterface
 {
     private const DEFAULT_NAMESPACE = '__MAIN__';
 
@@ -19,6 +19,19 @@ class Renderer
      * @var array
      */
     private array $globals = [];
+
+    /**
+     * __construct
+     *
+     * @param  string|null $defaultPath
+     * @return void
+     */
+    public function __construct(?string $defaultPath = null)
+    {
+        if (null !== $defaultPath) {
+            $this->addPath($defaultPath);
+        }
+    }
 
     /**
      * Add namespaced path to renderer for loading views

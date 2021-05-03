@@ -5,14 +5,9 @@ require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'vendor/autoload.php';
 use App\Blog\BlogModule;
 use function Http\Response\send;
 use GuzzleHttp\Psr7\ServerRequest;
+use Sorani\SimpleFramework\Renderer\TwigRenderer;
 
-use Sorani\SimpleFramework\Renderer;
-
-$renderer = new Renderer();
-$renderer->addPath(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'resources/views');
-
-
-
+$renderer = new TwigRenderer(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'resources/views');
 
 $app = new \Sorani\SimpleFramework\App(
     [

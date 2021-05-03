@@ -37,7 +37,6 @@ class App
      */
     public function __construct(array $modules = [], ?array $dependencies = [])
     {
-        var_dump($dependencies);
         $this->router = new Router();
         if (isset($dependencies['renderer'])) {
             $dependencies['renderer']->addGlobal('router', $this->router);

@@ -8,18 +8,18 @@ use GuzzleHttp\Psr7\Response;
 use Sorani\SimpleFramework\Router;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Sorani\SimpleFramework\Renderer;
+use Sorani\SimpleFramework\Renderer\RendererInterface;
 
 class BlogModule
 {
 
 
     /**
-     * @var Renderer
+     * @var RendererInterface
      */
-    private Renderer $renderer;
+    private $renderer;
 
-    public function __construct(Router $router, Renderer $renderer)
+    public function __construct(Router $router, RendererInterface $renderer)
     {
         $this->renderer = $renderer;
         $this->renderer->addPath('blog', __DIR__ . '/resources/views');

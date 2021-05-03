@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Sorani\SimpleFramework;
+namespace Tests\Sorani\SimpleFramework\Renderer;
 
 use PHPUnit\Framework\TestCase;
-use Sorani\SimpleFramework\Renderer;
+use Sorani\SimpleFramework\Renderer\PHPRenderer as Renderer;
 
-class RendererTest extends TestCase
+class PHPRendererTest extends TestCase
 {
     /**
      * @var Renderer
