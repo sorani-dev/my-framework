@@ -7,14 +7,15 @@
     <h1>Welcome to the Blog!</h1>
     
     <ul>
-        <li><a href="{{ path_for('blog.show', {slug: 'azeaze20-7'}) }}">Article 1</a></li>
-        <li>Article 1</li>
-        <li>Article 1</li>
-        <li>Article 1</li>
-        <li>Article 1</li>
-        <li>Article 1</li>
-        <li>Article 1</li>
-        <li>Article 1</li>
-    </ul>
+        
+        {% for post in posts %}
+                     
+        <li><a href="{{ path('blog.show', {slug: post.slug, id: post.id}) }}">{{ post.name }}</a></li>   
+            
+        {% else %}
+            <p>No posts</p>
+        {% endfor %}
+</ul>
+     </ul>
 {% endblock content %}
     

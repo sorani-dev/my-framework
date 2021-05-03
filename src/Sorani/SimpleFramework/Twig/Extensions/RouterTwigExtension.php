@@ -26,6 +26,7 @@ class RouterTwigExtension extends \Twig\Extension\AbstractExtension
     {
         return [
             new TwigFunction('path_for', [$this, 'pathFor']),
+            new TwigFunction('path', [$this, 'pathFor']),
         ];
     }
 
