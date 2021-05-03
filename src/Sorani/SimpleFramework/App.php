@@ -21,22 +21,29 @@ class App
      */
     private $modules = [];
 
+    private $dependencies = [];
+
     /**
      *
      * @var Router
      */
-    private Router $router;
+    private $router;
 
     /**
      * App constructor
      *
      * @param  string[] $modules List of modules to load
+     * @param  array $dependencies
      */
-    public function __construct(array $modules = [])
+    public function __construct(array $modules = [], ?array $dependencies = [])
     {
+        var_dump($dependencies);
         $this->router = new Router();
+        if (isset($dependencies['renderer'])) {
+            $dependencies['renderer']->addGlobal('router', $this->router);
+        }
         foreach ($modules as $module) {
-            $this->modules = new $module($this->router);
+            $this->modules = new $module($this->router, $dependencies['renderer']);
         }
     }
 

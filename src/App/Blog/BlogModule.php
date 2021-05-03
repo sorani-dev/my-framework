@@ -8,23 +8,35 @@ use GuzzleHttp\Psr7\Response;
 use Sorani\SimpleFramework\Router;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Sorani\SimpleFramework\Renderer;
 
 class BlogModule
 {
-    public function __construct(Router $router)
+
+
+    /**
+     * @var Renderer
+     */
+    private Renderer $renderer;
+
+    public function __construct(Router $router, Renderer $renderer)
     {
+        $this->renderer = $renderer;
+        $this->renderer->addPath('blog', __DIR__ . '/resources/views');
+
         $router->get('/blog', [$this, 'index'], 'blog.index');
-        $router->get('/blog/{slug}', [$this, 'show'], 'blog.show');
+        $router->get('/blog/{slug:[a-z0-9\-]+}', [$this, 'show'], 'blog.show');
     }
 
-    public function index(ServerRequestInterface $request): ResponseInterface
+    public function index(ServerRequestInterface $request): string
     {
-        return new Response(200, [], '<h1>Welcome to my Blog!</h1>');
+        return $this->renderer->render('@blog/index');
     }
 
     public function show(ServerRequestInterface $request): string
     {
-        $slug = $request->getAttribute('slug');
-        return '<h1>Welcome to the post ' . $slug . '</h1>';
+        return $this->renderer->render('@blog/show', [
+            'slug' => $request->getAttribute('slug')
+        ]);
     }
 }
