@@ -4,10 +4,14 @@
    <file>src</file>
    <file>public/index.php</file>
    <file>tests</file>
-  <rule ref="PSR12"></rule>
+  <rule ref="PSR12">
+  <exclude name="PSR1.Classes.ClassDeclaration.MissingNamespace"/>
+  </rule>
     <arg name="colors"/>
     <arg value="p"/>
     <rule ref="Generic.Arrays.DisallowLongArraySyntax"></rule>
     <exclude-pattern>./tests/Sorani/SimpleFramework/views/*</exclude-pattern> 
     <exclude-pattern>views/*</exclude-pattern> 
+    <!-- <exclude-pattern>db/seeds/*</exclude-pattern>  -->
+    <!-- <exclude-pattern>db/migrations/*</exclude-pattern>  -->
 </ruleset>

@@ -29,11 +29,10 @@ $container = $builder->build();
 
 $app = new \Sorani\SimpleFramework\App(
     $container,
-    [
-        BlogModule::class
-    ],
+    $modules
 );
+if (php_sapi_name() !== 'cli') {
+    $response = $app->run(ServerRequest::fromGlobals());
 
-$response = $app->run(ServerRequest::fromGlobals());
-
-send($response);
+    send($response);
+}

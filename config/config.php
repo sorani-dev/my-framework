@@ -11,6 +11,10 @@ use function DI\factory;
 use function DI\get;
 
 return [
+    'database.host' => 'localhost',
+    'database.username' => 'root',
+    'database.password' => 'root',
+    'database.name' => 'pratiquepoo',
     'views.path' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'resources/views',
     'twig.extensions' => [
         get(RouterTwigExtension::class),
