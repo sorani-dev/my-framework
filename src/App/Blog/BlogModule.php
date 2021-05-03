@@ -4,39 +4,23 @@ declare(strict_types=1);
 
 namespace App\Blog;
 
+use App\Blog\Actions\BlogAction;
 use GuzzleHttp\Psr7\Response;
 use Sorani\SimpleFramework\Router;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Sorani\SimpleFramework\Modules\Module;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 
-class BlogModule
+class BlogModule extends Module
 {
+    public const DEFINITIONS = __DIR__ . '/config/config.php';
 
-
-    /**
-     * @var RendererInterface
-     */
-    private $renderer;
-
-    public function __construct(Router $router, RendererInterface $renderer)
+    public function __construct(string $prefix, Router $router, RendererInterface $renderer)
     {
-        $this->renderer = $renderer;
-        $this->renderer->addPath('blog', __DIR__ . '/resources/views');
+        $renderer->addPath('blog', __DIR__ . '/resources/views');
 
-        $router->get('/blog', [$this, 'index'], 'blog.index');
-        $router->get('/blog/{slug:[a-z0-9\-]+}', [$this, 'show'], 'blog.show');
-    }
-
-    public function index(ServerRequestInterface $request): string
-    {
-        return $this->renderer->render('@blog/index');
-    }
-
-    public function show(ServerRequestInterface $request): string
-    {
-        return $this->renderer->render('@blog/show', [
-            'slug' => $request->getAttribute('slug')
-        ]);
+        $router->get($prefix, BlogAction::class, 'blog.index');
+        $router->get($prefix . '/{slug:[a-z0-9\-]+}', BlogAction::class, 'blog.show');
     }
 }

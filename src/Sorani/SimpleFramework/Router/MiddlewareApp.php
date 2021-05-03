@@ -30,11 +30,11 @@ class MiddlewareApp implements MiddlewareInterface
     /**
      * tMiddlewareApp constructor.
      *
-     * @param  mixed $callback
+     * @param  callable|string $callback
      * @param  mixed $extraOptions Extra options to add to the Route
      * @return void
      */
-    public function __construct(callable $callback, ?array $extraOptions = [])
+    public function __construct($callback, ?array $extraOptions = [])
     {
         $this->callback = $callback;
         $this->extraOptions = $extraOptions;

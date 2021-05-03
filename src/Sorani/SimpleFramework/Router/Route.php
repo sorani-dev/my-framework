@@ -37,7 +37,7 @@ class Route
      * Route constructor
      *
      * @param  string $name Route name
-     * @param  callable $callback what to call when route found
+     * @param  callable|string $callback what to call when route found
      * @param  array $parameters Parameters to inject in route
      * @param  array $options Route options
      */
@@ -60,7 +60,7 @@ class Route
 
     /**
      * Get the route callback
-     * @return callable
+     * @return callable|string
      */
     public function getCallback()
     {

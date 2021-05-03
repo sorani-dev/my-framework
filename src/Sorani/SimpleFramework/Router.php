@@ -31,11 +31,11 @@ class Router
      * GET Method
      *
      * @param  string $path Route path
-     * @param  callable $callable
+     * @param  callable|string $callable
      * @param  string $name Route name
      * @return void
      */
-    public function get(string $path, callable $callable, string $name = null, ?array $options = [])
+    public function get(string $path, $callable, string $name = null, ?array $options = [])
     {
         $this->router->addRoute(
             new RouterRoute(
@@ -50,11 +50,11 @@ class Router
      * POST method
      *
      * @param  string $path
-     * @param  callable $callable
+     * @param  callable|string $callable
      * @param  string|null $name Route name
      * @return void
      */
-    public function post(string $path, callable $callable, string $name = null, ?array $options = [])
+    public function post(string $path, $callable, string $name = null, ?array $options = [])
     {
         $this->router->addRoute(
             new RouterRoute(

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Renderer;
 
+use PHPUnit\Util\FileLoader;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -26,12 +27,10 @@ class TwigRenderer implements RendererInterface
      * @param  string $path
      * @return void
      */
-    public function __construct(string $path)
+    public function __construct(FilesystemLoader $loader, Environment $twig)
     {
-        $this->loader = new \Twig\Loader\FilesystemLoader($path);
-        $this->twig = new \Twig\Environment($this->loader, [
-
-        ]);
+        $this->loader = $loader;
+        $this->twig = $twig;
     }
 
     /**
