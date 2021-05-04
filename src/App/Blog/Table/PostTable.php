@@ -42,17 +42,17 @@ class PostTable
     }
 
     /**
-     * Find a single Post
+     * Find a single Post by its ID or null if not found
      *
      * @param  int $id
-     * @return Post
+     * @return Post|null
      */
-    public function find(int $id): Post
+    public function find(int $id): ?Post
     {
         $statement = $this->pdo
             ->prepare('SELECT * FROM posts WHERE posts.id = ?;');
         $statement->execute([$id]);
         $statement->setFetchMode(\PDO::FETCH_CLASS, Post::class);
-        return $post = $statement->fetch();
+        return $post = $statement->fetch() ?: null;
     }
 }

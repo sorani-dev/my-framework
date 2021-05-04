@@ -31,6 +31,6 @@ class TwigRendererFactory
         }
 
         // create the renderer
-        return new TwigRenderer($loader, $twig);
+        return new TwigRenderer($twig);
     }
 }
