@@ -22,10 +22,12 @@ class BlogModule extends Module
 
     public function __construct(ContainerInterface $c)
     {
+        $blogPrefix = $c->get('blog.prefix');
+
         $c->get(RendererInterface::class)->addPath('blog', __DIR__ . '/resources/views');
         $router = $c->get(Router::class);
-        $router->get($c->get('blog.prefix'), BlogActionIndex::class, 'blog.index');
-        $router->get($c->get('blog.prefix') . '/{slug:[a-z0-9\-]+}-{id:\d+}', BlogActionShow::class, 'blog.show');
+        $router->get($blogPrefix, BlogActionIndex::class, 'blog.index');
+        $router->get($blogPrefix . '/{slug:[a-z0-9\-]+}-{id:\d+}', BlogActionShow::class, 'blog.show');
 
         if ($c->has('admin.prefix')) {
             $prefix = $c->get('admin.prefix');
