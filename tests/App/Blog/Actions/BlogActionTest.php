@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\App\Blog\Actions;
 
 use App\Blog\Actions\BlogAction;
+use App\Blog\Entity\Post;
 use App\Blog\Table\PostTable;
 use GuzzleHttp\Psr7\ServerRequest;
 use PDO;
@@ -51,10 +52,10 @@ class BlogActionTest extends TestCase
         );
     }
 
-    public function makePost(int $id, string $slug): stdClass
+    public function makePost(int $id, string $slug): Post
     {
         //  Post test
-        $post = new \stdClass();
+        $post = new Post();
         $post->id = $id;
         $post->slug = $slug;
         return $post;

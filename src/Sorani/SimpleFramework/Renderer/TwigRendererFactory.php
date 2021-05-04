@@ -5,6 +5,7 @@ namespace Sorani\SimpleFramework\Renderer;
 use Psr\Container\ContainerInterface;
 use Sorani\SimpleFramework\Router;
 use Sorani\SimpleFramework\Twig\Extensions\RouterTwigExtension;
+use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
 
 class TwigRendererFactory
@@ -16,7 +17,11 @@ class TwigRendererFactory
 
         // intanciate the Loader and the Environement
         $loader = new \Twig\Loader\FilesystemLoader($viewPath);
-        $twig = new \Twig\Environment($loader, []);
+        $twig = new \Twig\Environment($loader, [
+            'debug' => true
+        ]);
+
+        $twig->addExtension($container->get(DebugExtension::class));
 
         // add extensions
         if ($container->has('twig.extensions')) {

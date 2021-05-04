@@ -55,7 +55,7 @@ class BlogAction
     {
         $id = $request->getAttribute('id');
         if (null === $id) {
-            return $this->index();
+            return $this->index($request);
         }
         return $this->show($request);
     }
@@ -66,9 +66,10 @@ class BlogAction
      *
      * @return string
      */
-    public function index(): string
+    public function index(ServerRequestInterface $request): string
     {
-        $posts = $this->postTable->findPaginated();
+        $params = $request->getQueryParams();
+        $posts = $this->postTable->findPaginated(12, (int)($params['p'] ?? 1));
 
         return $this->renderer->render('@blog/index', compact('posts'));
     }

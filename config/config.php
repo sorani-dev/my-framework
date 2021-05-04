@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use function DI\get;
@@ -9,7 +10,11 @@ use Sorani\SimpleFramework\Router;
 use Psr\Container\ContainerInterface;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 use Sorani\SimpleFramework\Renderer\TwigRendererFactory;
+use Sorani\SimpleFramework\Twig\Extensions\PagerFantaExtension;
+use Sorani\SimpleFramework\Twig\Extensions\PagerFantaExtensions;
 use Sorani\SimpleFramework\Twig\Extensions\RouterTwigExtension;
+use Sorani\SimpleFramework\Twig\Extensions\TextExtension;
+use Sorani\SimpleFramework\Twig\Extensions\TimeExtension;
 
 return [
     'database.host' => 'localhost',
@@ -19,6 +24,10 @@ return [
     'views.path' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'resources/views',
     'twig.extensions' => [
         get(RouterTwigExtension::class),
+        get(\Pagerfanta\Twig\Extension\PagerfantaExtension::class),
+        get(PagerFantaExtension::class),
+        get(TextExtension::class),
+        get(TimeExtension::class),
     ],
     Router::class => create(),
     RendererInterface::class => factory(TwigRendererFactory::class),

@@ -2,3 +2,4 @@ composer.phar
 /vendor/
 .vscode
 composer.lock
+CURRENT.md
