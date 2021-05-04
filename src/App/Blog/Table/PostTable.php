@@ -55,4 +55,48 @@ class PostTable
         $statement->setFetchMode(\PDO::FETCH_CLASS, Post::class);
         return $post = $statement->fetch() ?: null;
     }
+
+    /**
+     * Update a record in the database
+     *
+     * @param  int $id
+     * @param  array $params
+     * @return bool
+     */
+    public function update(int $id, array $params): bool
+    {
+        $fieldsQuery = join(' , ', array_map(function ($field) {
+            return "{$field} = :{$field}";
+        }, array_flip($params)));
+        $statement = $this->pdo->prepare("UPDATE posts SET {$fieldsQuery} WHERE id = :id;");
+        $params[':id'] = $id;
+        return $statement->execute($params);
+    }
+
+    /**
+     * Create a new record in the database
+     *
+     * @param  array $params
+     * @return bool
+     */
+    public function insert(array $params): bool
+    {
+        $fields = array_keys($params);
+        $names = join(', ', $fields);
+        $values = join(', :', $fields);
+        $statement = $this->pdo->prepare("INSERT INTO posts ({$names}) VALUES (:{$values});");
+        return $statement->execute($params);
+    }
+
+    /**
+     * Delete a record from the database
+     *
+     * @param  int $id
+     * @return bool
+     */
+    public function delete(int $id): bool
+    {
+        $statement = $this->pdo->prepare("DELETE FROM posts WHERE id = :id;");
+        return $statement->execute([':id' => $id]);
+    }
 }

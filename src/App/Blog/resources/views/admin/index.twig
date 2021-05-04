@@ -1,0 +1,47 @@
+{% extends '@admin/layout.twig' %}
+
+{% block title 'My Posts' %}
+
+
+{% block content %}
+<h1>Edit the posts</h1>
+
+    <p class="text-right">
+        <a href="{{ path_for('blog.admin.create') }}" class="btn btn-primary">Add a new Post</a>
+    </p>
+ 
+   {% if items %}
+       <table class="table table-striped">
+           <thead>
+               <tr>
+                   <td>Title</td>
+                   <td>Actions</td>
+               </tr>
+           </thead>
+           <tbody>
+               
+               {% for item in items %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>
+                        <a href="{{ path('blog.admin.edit', {id: item.id}) }}" class="btn btn-primary">Edit</a>
+                        <form class="d-inline" action="{{ path('blog.admin.delete', { id: item.id }) }}" method="post" onsubmit="return confirm('Are you sure about this?');">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+               {% endfor %}
+                   
+           </tbody>
+       </table>
+   {% else %}
+   <p class="text-center">No posts</p>
+   {% endif %}
+       
+{% if items %}
+<div class="d-flex justify-content-center mt-5 mb-4">
+    {{ paginate(items, 'blog.admin.index') }}
+</div>
+{% endif %}
+{% endblock content %}

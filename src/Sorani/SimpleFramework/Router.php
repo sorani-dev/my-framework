@@ -35,7 +35,7 @@ class Router
      * @param  string $name Route name
      * @return void
      */
-    public function get(string $path, $callable, string $name = null, ?array $options = [])
+    public function get(string $path, $callable, ?string $name = null, ?array $options = [])
     {
         $this->router->addRoute(
             new RouterRoute(
@@ -46,6 +46,7 @@ class Router
             )
         );
     }
+
     /**
      * POST method
      *
@@ -54,7 +55,7 @@ class Router
      * @param  string|null $name Route name
      * @return void
      */
-    public function post(string $path, $callable, string $name = null, ?array $options = [])
+    public function post(string $path, $callable, ?string $name = null, ?array $options = [])
     {
         $this->router->addRoute(
             new RouterRoute(
@@ -64,6 +65,45 @@ class Router
                 $name
             )
         );
+    }
+
+    /**
+     * DELETE method
+     *
+     * @param  string $path
+     * @param  callable|string $callable
+     * @param  string|null $name Route name
+     * @return void
+     */
+    public function delete(string $path, $callable, ?string $name = null, ?array $options = [])
+    {
+        $this->router->addRoute(
+            new RouterRoute(
+                $path,
+                new MiddlewareApp($callable, $options),
+                [RequestMethodInterface::METHOD_DELETE],
+                $name
+            )
+        );
+    }
+
+
+    /**
+     * Generates CRUD Routes
+     *
+     * @param  string $prefixPath
+     * @param  string $callable
+     * @param  string|null $prefixName
+     * @return void
+     */
+    public function crud(string $prefixPath, $callable, ?string $prefixName = null)
+    {
+        $this->get($prefixPath, $callable, $prefixName . '.index');
+        $this->get($prefixPath . '/new', $callable, $prefixName . '.create');
+        $this->post($prefixPath . '/new', $callable);
+        $this->get($prefixPath .  '/{id:\d+}', $callable, $prefixName . '.edit');
+        $this->post($prefixPath . '/{id:\d+}', $callable);
+        $this->delete($prefixPath . '/{id:\d+}', $callable, $prefixName . '.delete');
     }
 
     /**

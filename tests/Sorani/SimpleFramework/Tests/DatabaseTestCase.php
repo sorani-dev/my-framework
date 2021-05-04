@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Sorani\SimpleFramework\Tests;
 
+use Error;
 use PDO;
 use Phinx\Config\Config;
 use Phinx\Migration\Manager;
@@ -52,7 +53,7 @@ class DatabaseTestCase extends TestCase
      */
     protected function seedDatabase()
     {
-        $this->pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
+        $this->pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_BOTH);
         $this->manager->seed('testing');
         $this->pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_OBJ);
     }

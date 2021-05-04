@@ -2,6 +2,7 @@
 
 require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'vendor/autoload.php';
 
+use App\Admin\AdminModule;
 use App\Blog\BlogModule;
 use DI\ContainerBuilder;
 
@@ -10,7 +11,8 @@ use GuzzleHttp\Psr7\ServerRequest;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 
 $modules = [
-    BlogModule::class
+    AdminModule::class,
+    BlogModule::class,
 ];
 
 $builder = new ContainerBuilder();
@@ -25,7 +27,6 @@ foreach ($modules as $module) {
 $builder->addDefinitions(require dirname(__DIR__) . '/config.php');
 
 $container = $builder->build();
-
 
 $app = new \Sorani\SimpleFramework\App(
     $container,

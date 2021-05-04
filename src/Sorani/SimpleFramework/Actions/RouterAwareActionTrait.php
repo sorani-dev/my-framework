@@ -23,7 +23,7 @@ trait RouterAwareActionTrait
      * @param  array $params
      * @return ResponseInterface
      */
-    public function redirect(string $path, array $params): ResponseInterface
+    public function redirect(string $path, array $params = []): ResponseInterface
     {
         $redirectUri = $this->router->generateUri($path, $params);
         return (new Response())

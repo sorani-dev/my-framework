@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Blog;
 
-use App\Blog\Actions\BlogAction;
-use GuzzleHttp\Psr7\Response;
+use App\Blog\Actions\AdminBlogAction;
+use App\Blog\Actions\BlogActionIndex;
+use App\Blog\Actions\BlogActionShow;
+use Psr\Container\ContainerInterface;
 use Sorani\SimpleFramework\Router;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Sorani\SimpleFramework\Modules\Module;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 
@@ -20,11 +20,16 @@ class BlogModule extends Module
 
     public const SEEDS = __DIR__ . '/db/seeds';
 
-    public function __construct(string $prefix, Router $router, RendererInterface $renderer)
+    public function __construct(ContainerInterface $c)
     {
-        $renderer->addPath('blog', __DIR__ . '/resources/views');
+        $c->get(RendererInterface::class)->addPath('blog', __DIR__ . '/resources/views');
+        $router = $c->get(Router::class);
+        $router->get($c->get('blog.prefix'), BlogActionIndex::class, 'blog.index');
+        $router->get($c->get('blog.prefix') . '/{slug:[a-z0-9\-]+}-{id:\d+}', BlogActionShow::class, 'blog.show');
 
-        $router->get($prefix, BlogAction::class, 'blog.index');
-        $router->get($prefix . '/{slug:[a-z0-9\-]+}-{id:\d+}', BlogAction::class, 'blog.show');
+        if ($c->has('admin.prefix')) {
+            $prefix = $c->get('admin.prefix');
+            $router->crud($prefix . '/posts', AdminBlogAction::class, 'blog.admin');
+        }
     }
 }

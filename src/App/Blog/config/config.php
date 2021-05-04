@@ -10,8 +10,4 @@ use function DI\get;
 
 return [
     'blog.prefix' => '/blog',
-    'twig.extensions' => add([
-        get(DemoExtension::class),
-    ]),
-    BlogModule::class => \DI\autowire()->constructorParameter('prefix', get('blog.prefix'))
 ];

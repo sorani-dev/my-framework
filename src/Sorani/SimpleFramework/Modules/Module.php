@@ -10,7 +10,12 @@ class Module
     public const DEFINITIONS = null;
 
     /**
-     * Migrations folder for phinx
+     * Migrations folder for Phinx
      */
     public const MIGRATIONS = null;
+
+    /**
+     * Seed folder for Phinx
+     */
+    public const SEEDS = null;
 }
