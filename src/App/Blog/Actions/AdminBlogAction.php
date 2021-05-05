@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Blog\Actions;
 
+use App\Blog\Entity\Post;
 use App\Blog\Table\PostTable;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -135,11 +136,6 @@ class AdminBlogAction
 
         if ($request->getMethod() === 'POST') {
             $params = $this->getParams($request);
-            $now = date('Y-m-d H:i:s');
-            $params = array_merge($params, [
-                'updated_at' => $now,
-                'created_at' => $now,
-            ]);
             $validator = $this->getValidator($request);
             if ($validator->isValid()) {
                 $this->postTable->insert($params);
@@ -150,6 +146,9 @@ class AdminBlogAction
             $errors = $validator->getErrors();
 
             $item = $params;
+        } else {
+            // $item = new Post();
+            // $item->created_at = date('Y-m-d H:i:s');
         }
 
         return $this->renderer->render('@blog/admin/create', compact('item', 'errors'));
@@ -174,11 +173,18 @@ class AdminBlogAction
      */
     private function getParams(ServerRequestInterface $request): array
     {
-        return array_filter(
+        $params = array_filter(
             $request->getParsedBody(),
-            fn ($key) => in_array($key, ['name', 'slug', 'content']),
+            fn ($key) => in_array($key, ['name', 'slug', 'content', 'created_at']),
             ARRAY_FILTER_USE_KEY
         );
+
+        $now = date('Y-m-d H:i:s');
+        $params = array_merge($params, [
+            'updated_at' => $now,
+            // 'created_at' => $nPow,
+        ]);
+        return $params;
     }
 
     protected function getValidator(ServerRequestInterface $request): Validator

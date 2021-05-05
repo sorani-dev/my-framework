@@ -1,5 +1,9 @@
+{{ field('name', item.name, 'Post title', { class: 'form-control', }) }}
+{{ field('slug', item.slug, 'Post link', { class: 'form-control', }) }}
+{{ field('content', item.content, 'Content', { class: 'form-control', type: 'textarea' }) }}
+{{ field('created_at', item.created_at, 'Created date', { class: 'form-control datepicker'}) }}
 
-<div class="mb-3">
+{# <div class="mb-3">
     <label for="name">Post title</label>
     <input type="text" class="form-control" name="name" id="name" value="{{ item.name }}">
 </div>
@@ -10,4 +14,4 @@
 <div class="mb-3">
     <label for="content">Content</label>
     <textarea class="form-control" name="content" id="content" rows="10">{{ item.content }}</textarea>
-</div>
+</div> #}

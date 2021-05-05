@@ -5,7 +5,7 @@
 
 {% block content %}
     <h1>Add a post</h1>
-    <form action="{{ path('blog.admin.create') }}" method="post">
+    <form action="{{ path('blog.admin.create') }}" method="post" class="mb-5">
         {% include "@blog/admin/_form.twig" %}
         <button class="btn btn-primary" type="submit">Add</button>
     </form>

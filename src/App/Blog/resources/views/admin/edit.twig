@@ -5,7 +5,7 @@
 
 {% block content %}
     <h1>Edit the post: {{ item.name }}</h1>
-    <form action="{{ path_for('blog.admin.edit', {id: item.id}) }}" method="post">
+    <form action="{{ path_for('blog.admin.edit', {id: item.id}) }}" method="post" class="mb-5">
                 {% include "@blog/admin/_form.twig" %}
         <button class="btn btn-primary" type="submit">Edit</button>
     </form>

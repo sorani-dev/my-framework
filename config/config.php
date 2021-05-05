@@ -14,6 +14,7 @@ use Sorani\SimpleFramework\Session\FlashService;
 use Sorani\SimpleFramework\Session\PHPSession;
 use Sorani\SimpleFramework\Session\SessionInterface;
 use Sorani\SimpleFramework\Twig\Extensions\FlashExtension;
+use Sorani\SimpleFramework\Twig\Extensions\FormExtension;
 use Sorani\SimpleFramework\Twig\Extensions\PagerFantaExtension;
 use Sorani\SimpleFramework\Twig\Extensions\RouterTwigExtension;
 use Sorani\SimpleFramework\Twig\Extensions\TextExtension;
@@ -32,6 +33,7 @@ return [
         get(TextExtension::class),
         get(TimeExtension::class),
         get(FlashExtension::class),
+        get(FormExtension::class),
     ],
     SessionInterface::class => create(PHPSession::class),
     FlashService::class => create(FlashService::class)->constructor(get(SessionInterface::class)),

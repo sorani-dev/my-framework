@@ -42,8 +42,12 @@ class ValidatorTest extends TestCase
 
     public function testSlugSuccess()
     {
-        $errors = $this->makeValidator(['theSlug' => 'my-article-azsazszezfr141',])
-            ->slug('theSlug')
+        $errors = $this->makeValidator([
+            'theSlug' => 'my-article-azsazszezfr141',
+            'theSlug2' => 'articleazsazszezfr141',
+            ])
+            // ->slug('theSlug')
+            ->slug('theSlug2')
             ->getErrors();
 
         $this->assertCount(0, $errors);
@@ -54,14 +58,22 @@ class ValidatorTest extends TestCase
         $errors = $this->makeValidator([
             'slug1' => 'ay-Article-azs1234', // uppercase
             'slug2' => 'ay-article_zs1234', // underscore
-            'slug3' => 'ay--articlezs1234', // two dashes
+            'slug3' =>
+            'ay--articlezs1234', // two dashes
+            'slug4' => 'ay-articlezs1234-', // dashe at the end
+            'slug5' => '-ay-articlezs1234', // dashe at the begining
         ])
             ->slug('slug1')
             ->slug('slug2')
             ->slug('slug3')
+            ->slug('slug4')
+            ->slug('slug5')
             ->getErrors();
 
-        $this->assertCount(3, $errors);
+        $this->assertEquals(
+            ['slug1', 'slug2', 'slug3', 'slug4', 'slug5'],
+            array_keys($errors)
+        );
     }
 
     public function testNotEmpty()

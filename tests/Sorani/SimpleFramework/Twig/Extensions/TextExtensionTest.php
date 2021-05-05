@@ -41,7 +41,7 @@ class TestTextExtension extends TestCase
     public function testExcertptWithLongText()
     {
         $text = "Hello there everyone";
-        $this->assertEquals("Hello. there..", $this->textExtension->excerpt($text, 12));
+        $this->assertEquals("Hello there...", $this->textExtension->excerpt($text, 12));
     }
 
 
