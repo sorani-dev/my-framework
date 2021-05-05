@@ -1,0 +1,87 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Sorani\SimpleFramework\Session;
+
+use Exception;
+
+class PHPSession implements SessionInterface
+{
+    /**
+     * Get Session information based on its key with a default value if key not found (null if not defined)
+     *
+     * @param  string     $key
+     * @param  mixed|null $default
+     * @return mixed
+     */
+    public function get(string $key, $default = null)
+    {
+        $this->ensureStarted();
+        return $_SESSION[$key] ?? $default;
+    }
+
+    /**
+     * Add session information as value to a key
+     *
+     * @param  string $key
+     * @param  mixed  $value
+     * @return void
+     */
+    public function set(string $key, $value): void
+    {
+        $this->ensureStarted();
+        $_SESSION[$key] = $value;
+    }
+
+
+    /**
+     * Delete a key in the Session
+     *
+     * @param  string $key
+     * @return mixed
+     */
+    public function delete(string $key): void
+    {
+        $this->ensureStarted();
+        unset($_SESSION[$key]);
+    }
+
+    /**
+     * Check if the key in the Session
+     *
+     * @param  string $key
+     * @return bool
+     */
+    public function has(string $key): bool
+    {
+        $this->ensureStarted();
+        return isset($_SESSION[$key]);
+    }
+
+    /**
+     * Destroys the current session
+     *
+     * @return void
+     */
+    public function destroy(): void
+    {
+        $this->ensureStarted();
+        $_SESSION = [];
+    }
+
+    /**
+     * Start a session if SESSION_NONE, throws a SessionException if SESSION_DISABLED, does nothing if SESSION_ACTIVE
+     * @throws \Exception
+     */
+    protected function ensureStarted()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        } elseif (php_sapi_name() === 'cli') {
+            $_SESSION = [];
+        } elseif (session_status() === PHP_SESSION_DISABLED) {
+            throw new Exception();
+        }
+    }
+}

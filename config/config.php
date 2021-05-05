@@ -10,8 +10,11 @@ use Sorani\SimpleFramework\Router;
 use Psr\Container\ContainerInterface;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 use Sorani\SimpleFramework\Renderer\TwigRendererFactory;
+use Sorani\SimpleFramework\Session\FlashService;
+use Sorani\SimpleFramework\Session\PHPSession;
+use Sorani\SimpleFramework\Session\SessionInterface;
+use Sorani\SimpleFramework\Twig\Extensions\FlashExtension;
 use Sorani\SimpleFramework\Twig\Extensions\PagerFantaExtension;
-use Sorani\SimpleFramework\Twig\Extensions\PagerFantaExtensions;
 use Sorani\SimpleFramework\Twig\Extensions\RouterTwigExtension;
 use Sorani\SimpleFramework\Twig\Extensions\TextExtension;
 use Sorani\SimpleFramework\Twig\Extensions\TimeExtension;
@@ -28,7 +31,10 @@ return [
         get(PagerFantaExtension::class),
         get(TextExtension::class),
         get(TimeExtension::class),
+        get(FlashExtension::class),
     ],
+    SessionInterface::class => create(PHPSession::class),
+    FlashService::class => create(FlashService::class)->constructor(get(SessionInterface::class)),
     Router::class => create(),
     RendererInterface::class => factory(TwigRendererFactory::class),
     PDO::class => function (ContainerInterface $c) {

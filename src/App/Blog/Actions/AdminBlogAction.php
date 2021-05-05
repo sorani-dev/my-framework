@@ -10,6 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Sorani\SimpleFramework\Actions\RouterAwareActionTrait;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 use Sorani\SimpleFramework\Router;
+use Sorani\SimpleFramework\Session\FlashService;
 
 class AdminBlogAction
 {
@@ -31,17 +32,24 @@ class AdminBlogAction
     private $router;
 
     /**
+     * @var FlashService
+     */
+    private $flash;
+
+    /**
      * BlogAction Contructor
      *
      * @param  RendererInterface $renderer
      * @param  \PDO $pdo
      * @param  Router $router
+     * @param FlashService $flash
      */
-    public function __construct(RendererInterface $renderer, PostTable $postTable, Router $router)
+    public function __construct(RendererInterface $renderer, PostTable $postTable, Router $router, FlashService $flash)
     {
         $this->renderer = $renderer;
         $this->postTable = $postTable;
         $this->router = $router;
+        $this->flash = $flash;
     }
 
     /**
@@ -75,8 +83,9 @@ class AdminBlogAction
     {
         $params = $request->getQueryParams();
         $items = $this->postTable->findPaginated(12, (int)($params['p'] ?? 1));
+        $flash = $this->flash;
 
-        return $this->renderer->render('@blog/admin/index', compact('items'));
+        return $this->renderer->render('@blog/admin/index', compact('items', 'flash'));
     }
 
     /**
@@ -92,6 +101,7 @@ class AdminBlogAction
         if ($request->getMethod() === 'POST') {
             $params = $this->getParams($request);
             $this->postTable->update($item->id, $params);
+            $this->flash->success('The post was successfully updated');
             return $this->redirect('blog.admin.index');
         }
 
@@ -116,18 +126,30 @@ class AdminBlogAction
                 'created_at' => $now,
             ]);
             $this->postTable->insert($params);
+            $this->flash->success('The post was successfully created');
             return $this->redirect('blog.admin.index');
         }
 
         return $this->renderer->render('@blog/admin/create', compact('item'));
     }
 
-    public function delete(ServerRequestInterface $request)
+    /**
+     * Delete a Post
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     */
+    public function delete(ServerRequestInterface $request): ResponseInterface
     {
         $this->postTable->delete((int)$request->getAttribute('id'));
+        $this->flash->success('The post was successfully deleted');
         return $this->redirect('blog.admin.index');
     }
 
+    /**
+     * Filter the Input Parsed body
+     * @param ServerRequestInterface $request
+     */
     private function getParams(ServerRequestInterface $request): array
     {
         return array_filter(
