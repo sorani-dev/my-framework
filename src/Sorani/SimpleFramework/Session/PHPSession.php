@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Session;
 
-use Exception;
+use Sorani\Session\Exceptions\SessionException;
 
 class PHPSession implements SessionInterface
 {
@@ -81,7 +81,7 @@ class PHPSession implements SessionInterface
         } elseif (php_sapi_name() === 'cli') {
             $_SESSION = [];
         } elseif (session_status() === PHP_SESSION_DISABLED) {
-            throw new Exception();
+            throw new SessionException();
         }
     }
 }

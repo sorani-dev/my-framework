@@ -21,7 +21,7 @@ class TwigRendererFactory
             'debug' => true
         ]);
 
-        $twig->addExtension($container->get(DebugExtension::class));
+        $twig->addExtension(new DebugExtension());
 
         // add extensions
         if ($container->has('twig.extensions')) {
