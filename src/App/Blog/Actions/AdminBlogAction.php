@@ -6,6 +6,8 @@ namespace App\Blog\Actions;
 
 use App\Blog\Entity\Post;
 use App\Blog\Table\PostTable;
+use DateTimeImmutable;
+use DateTimeZone;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Sorani\SimpleFramework\Actions\RouterAwareActionTrait;
@@ -146,11 +148,16 @@ class AdminBlogAction
             $errors = $validator->getErrors();
 
             $item = $params;
-        } else {
-            // $item = new Post();
-            // $item->created_at = date('Y-m-d H:i:s');
-        }
-
+        } // } else {
+        $item = new Post();
+        // $d = ini_get('date.timezone');
+        // if ($d) {
+        //     $tz = new DateTimeZone($d);
+        //     $item->created_at = new DateTimeImmutable('now', $tz);
+        // } else {
+        $item->created_at = new DateTimeImmutable();
+        // }
+        // }
         return $this->renderer->render('@blog/admin/create', compact('item', 'errors'));
     }
 
@@ -190,10 +197,11 @@ class AdminBlogAction
     protected function getValidator(ServerRequestInterface $request): Validator
     {
         return (new Validator($request->getParsedBody()))
-            ->required('name', 'slug', 'content')
+            ->required('name', 'slug', 'content', 'created_at')
             ->length('content', 10)
             ->length('name', 2, 250)
             ->length('slug', 2, 50)
+            ->dateTime('created_at')
             ->slug('slug');
     }
 }
