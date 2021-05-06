@@ -6,12 +6,13 @@ namespace App\Blog\Entity;
 
 use DateTime;
 use DateTimeImmutable;
+use Sorani\SimpleFramework\Database\EntityInterface;
 
 /**
  * Post Entity
  * Describes a Post (in the respective fields in the db table)
  */
-class Post
+class Post implements EntityInterface
 {
     /**
      * @var int
@@ -42,6 +43,11 @@ class Post
      * @var string|\DateTimeImmutable
      */
     public $updated_at;
+
+    /**
+     * @var string
+     */
+    public $category_name;
 
     public function __construct()
     {

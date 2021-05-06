@@ -1,4 +1,5 @@
 {{ field('name', item.name, 'Post title', { class: 'form-control', }) }}
+{{ field('category_id', item.category_id, 'Category', { class: 'form-control', options: categories }) }}
 {{ field('slug', item.slug, 'Post link', { class: 'form-control', }) }}
 {{ field('content', item.content, 'Content', { class: 'form-control', type: 'textarea' }) }}
 {{ field('created_at', item.created_at, 'Creation date', { class: 'form-control datepicker'}) }}

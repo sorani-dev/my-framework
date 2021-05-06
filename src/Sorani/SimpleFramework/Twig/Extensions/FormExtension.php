@@ -53,6 +53,8 @@ class FormExtension extends AbstractExtension
 
         if ($type === 'textarea') {
             $input = $this->textarea($value, $attributes);
+        } elseif (isset($options['options'])) {
+            $input = $this->select($value, $options['options'], $attributes);
         } else {
             $input = $this->input($value, $attributes);
         }
@@ -69,7 +71,6 @@ EOT;
     /**
      * Textarea field
      *
-     * @param  string $key
      * @param  string|null $value
      * @param  array $attributes
      * @return string
@@ -82,14 +83,34 @@ EOT;
     /**
      * Input field
      *
-     * @param  string $key
      * @param  string|null $value Field value
-     * @param  string $attributes class, ...
+     * @param  array $attributes class, ...
      * @return string
      */
     public function input(?string $value = null, array $attributes): string
     {
         return  "<input type=\"text\" " . $this->getHtmlFromArray($attributes) . " value=\"{$value}\">";
+    }
+
+    /**
+     * Select field
+     *
+     * @param  mixed|string|null $value Field value
+     * @param  array $options select options as key value pair [key1 => value1, ...]
+     * @param  array $attributes class, ...
+     * @return string
+     */
+    public function select($value, array $options, ?array $attributes = []): string
+    {
+        if (false !== strpos($attributes['class'], 'custom-select')) {
+            $attributes['class'] = trim(str_replace('form-control', '', $attributes['class']));
+        }
+        $htmlOptions = array_reduce(array_keys($options), function (string $html, $key) use ($options, $value) {
+            $params = ['value' => $key, 'selected' =>  (string)$key === (string)$value];
+            return
+            $html . '<option ' . $this->getHtmlFromArray($params) . '>' . $options[$key] . '</option>';
+        }, '');
+        return "<select " . $this->getHtmlFromArray($attributes) . ">" . $htmlOptions . "</select>";
     }
 
     protected function getContextFieldError(array $context)
@@ -125,19 +146,25 @@ EOT;
      */
     protected function getHtmlFromArray(array $attributes): string
     {
-        return implode(' ', array_map(function ($key, $value) {
-            return sprintf('%s="%s"', $key, $value);
-        }, array_keys($attributes), $attributes));
+        $htmlParsed = [];
+        foreach ($attributes as $key => $value) {
+            if ($value === true) {
+                $htmlParsed[] =  (string)$key;
+            } elseif ($value !== false) {
+                $htmlParsed[] =  sprintf('%s="%s"', $key, $value);
+            }
+        }
+        return implode(' ', $htmlParsed);
     }
 
     /**
-     * Convert a value to az astring if it an object
+     * Convert a value to a string if it is an object
      * eg: \DateTimeInterface
      *
      * @param  mixed $value
-     * @return string|null
+     * @return mixed|null
      */
-    protected function convertValue($value): ?string
+    protected function convertValue($value)
     {
         if ($value instanceof \DateTimeInterface) {
             return $value->format('Y-m-d H:i:s');

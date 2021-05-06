@@ -59,7 +59,9 @@ class PaginatedQuery implements AdapterInterface
         $statement = $this->pdo->prepare($this->query . ' LIMIT :offset, :length;');
         $statement->bindValue(':offset', $offset, \PDO::PARAM_INT);
         $statement->bindValue(':length', $length, \PDO::PARAM_INT);
-        $statement->setFetchMode(\PDO::FETCH_CLASS, $this->entityName);
+        if ($this->entityName) {
+            $statement->setFetchMode(\PDO::FETCH_CLASS, $this->entityName);
+        }
         $statement->execute();
         return $statement->fetchAll();
     }

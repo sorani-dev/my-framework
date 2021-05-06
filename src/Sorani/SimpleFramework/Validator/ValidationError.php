@@ -37,6 +37,7 @@ class ValidationError
         'maxLength' => 'The %s field must contain less than %d characters',
         'dateTime.invalid' => 'The field % must have a valid datetime format (%)',
         'dateTime.error' => 'The field % must be a valid datetime (%)',
+        'table.exists' => "The field % doesn't exist in the table %s",
     ];
 
     /**

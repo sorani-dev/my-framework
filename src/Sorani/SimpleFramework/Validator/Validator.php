@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Validator;
 
-use DateTimeImmutable;
+use Sorani\SimpleFramework\Database\Table;
 
 class Validator
 {
@@ -91,11 +91,11 @@ class Validator
 
         if (
             null !== $minLength &&
-             null !== $maxLength &&
-             ($length < $minLength || $length > $maxLength)
+            null !== $maxLength &&
+            ($length < $minLength || $length > $maxLength)
         ) {
-                 $this->addError($key, 'betweenLength', [$minLength, $maxLength]);
-                 return $this;
+            $this->addError($key, 'betweenLength', [$minLength, $maxLength]);
+            return $this;
         }
 
         if (
@@ -135,13 +135,47 @@ class Validator
 
         $errors = \DateTimeImmutable::getLastErrors();
         if ($errors['error_count'] > 0) {
-            $this->addError($key, 'dateTime.invalid');
+            $this->addError($key, 'dateTime.invalid', ['format' => $format]);
         } elseif ($errors['warning_count'] > 0) {
-            $this->addError($key, 'dateTime.error');
+            $this->addError($key, 'dateTime.error', ['format' => $format]);
         }
         return $this;
     }
 
+    /**
+     * Check that the element exist in the table
+     *
+     * @param  key $key
+     * @param  Table $table Table
+     * @return self
+     */
+    public function existsKey(string $key, Table $table): self
+    {
+        if (!$table->exists((int)$key)) {
+            $this->addError($key, 'table.exists', [$table->getTable()]);
+        }
+        return $this;
+    }
+
+    /**
+     * Check that the element exist in the table
+     *
+     * @param  key $key
+     * @param  Table $table Table
+     * @param \PDO $pdo
+     * @return self
+     */
+    public function existsRecord(string $key, string $table, \PDO $pdo): self
+    {
+        $value = $this->getValue($key);
+        $statement = $pdo->prepare("SELECT id FROM {$table} WHERE id = ?");
+        $statement->execute([$value]);
+
+        if ($statement->fetchColumn() === false) {
+            $this->addError($key, 'table.exists', [$table]);
+        }
+        return $this;
+    }
     /**
      * Retrieve the errors
      *

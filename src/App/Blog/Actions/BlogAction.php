@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Blog\Actions;
 
 use App\Blog\Table\PostTable;
-use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Sorani\SimpleFramework\Actions\RouterAwareActionTrait;

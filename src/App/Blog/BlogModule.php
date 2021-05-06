@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Blog;
 
-use App\Blog\Actions\AdminBlogAction;
 use App\Blog\Actions\BlogActionIndex;
 use App\Blog\Actions\BlogActionShow;
+use App\Blog\Actions\CategoryCrudAction;
+use App\Blog\Actions\PostCrudAction;
 use Psr\Container\ContainerInterface;
 use Sorani\SimpleFramework\Router;
 use Sorani\SimpleFramework\Modules\Module;
@@ -31,7 +32,8 @@ class BlogModule extends Module
 
         if ($c->has('admin.prefix')) {
             $prefix = $c->get('admin.prefix');
-            $router->crud($prefix . '/posts', AdminBlogAction::class, 'blog.admin');
+            $router->crud($prefix . '/posts', PostCrudAction::class, 'blog.admin');
+            $router->crud($prefix . '/categories', CategoryCrudAction::class, 'blog.admin.category');
         }
     }
 }

@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Tests\Sorani\SimpleFramework\Validator;
 
 use PHPUnit\Framework\TestCase;
+use Sorani\SimpleFramework\TestCase\DatabaseTestCase;
+use Sorani\SimpleFramework\TestCase\ExtendedTestCase;
 use Sorani\SimpleFramework\Validator\Validator;
 
-class ValidatorTest extends TestCase
+class ValidatorTest extends ExtendedTestCase
 {
     private function makeValidator(?array $params = []): Validator
     {
@@ -45,7 +47,7 @@ class ValidatorTest extends TestCase
         $errors = $this->makeValidator([
             'theSlug' => 'my-article-azsazszezfr141',
             'theSlug2' => 'articleazsazszezfr141',
-            ])
+        ])
             // ->slug('theSlug')
             ->slug('theSlug2')
             ->getErrors();
@@ -138,6 +140,19 @@ class ValidatorTest extends TestCase
         $this->assertCount(
             1,
             $this->makeValidator(['date' => '25:10:11'])->dateTime('date', \DateTimeImmutable::RFC3339)->getErrors()
+        );
+    }
+
+    public function testExists()
+    {
+        $pdo = $this->getTestDatabase();
+        $this->makeInsertTestDatabase($pdo, "a1", "a2");
+
+        $this->assertTrue(
+            $this->makeValidator(['category' => 1])->existsRecord('category', 'comments', $pdo)->isValid()
+        );
+        $this->assertFalse(
+            $this->makeValidator(['category' => 150])->existsRecord('category', 'comments', $pdo)->isValid()
         );
     }
 }

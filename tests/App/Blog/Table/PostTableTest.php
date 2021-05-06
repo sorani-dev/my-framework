@@ -6,7 +6,7 @@ namespace Tests\App\Blog\Table;
 
 use App\Blog\Entity\Post;
 use App\Blog\Table\PostTable;
-use Tests\Sorani\SimpleFramework\Tests\DatabaseTestCase;
+use Sorani\SimpleFramework\TestCase\DatabaseTestCase;
 
 class PostTableTest extends DatabaseTestCase
 {
@@ -17,12 +17,14 @@ class PostTableTest extends DatabaseTestCase
 
     public function setUp(): void
     {
-        parent::setUp();
-        $this->postTable = new PostTable($this->pdo);
+        $pdo = $this->getPdo();
+        $this->migrateDatabase($pdo);
+        $this->postTable = new PostTable($pdo);
     }
+
     public function testFind()
     {
-        $this->seedDatabase();
+        $this->seedDatabase($this->postTable->getPdo());
         $post = $this->postTable->find(1);
         $this->assertInstanceOf(Post::class, $post);
     }
@@ -36,7 +38,7 @@ class PostTableTest extends DatabaseTestCase
 
     public function testUpdate()
     {
-        $this->seedDatabase();
+        $this->seedDatabase($this->postTable->getPdo());
         $this->postTable->update(1, ['name' => 'Hello', 'slug' => 'demo']);
         $post = $this->postTable->find(1);
         $this->assertEquals('Hello', $post->name);
@@ -63,17 +65,17 @@ class PostTableTest extends DatabaseTestCase
     public function testDelete()
     {
         $post =
-        [
-            'name' => 'Hello',
-            'slug' => 'demo',
-            'content' => 'Tinkerbell singing in a tree',
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
-        ];
+            [
+                'name' => 'Hello',
+                'slug' => 'demo',
+                'content' => 'Tinkerbell singing in a tree',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ];
         $this->postTable->insert($post);
         $this->postTable->insert($post);
-        $this->assertEquals(2, (int)$this->pdo->query('SELECT COUNT(*) FROM posts')->fetchColumn());
-        $this->postTable->delete((int)$this->pdo->lastInsertId());
-        $this->assertEquals(1, (int)$this->pdo->query('SELECT COUNT(*) FROM posts')->fetchColumn());
+        $this->assertEquals(2, (int)$this->postTable->getPdo()->query('SELECT COUNT(*) FROM posts')->fetchColumn());
+        $this->postTable->delete((int)$this->postTable->getPdo()->lastInsertId());
+        $this->assertEquals(1, (int)$this->postTable->getPdo()->query('SELECT COUNT(*) FROM posts')->fetchColumn());
     }
 }
