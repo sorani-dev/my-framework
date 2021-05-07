@@ -38,6 +38,7 @@ class ValidationError
         'dateTime.invalid' => 'The field % must have a valid datetime format (%)',
         'dateTime.error' => 'The field % must be a valid datetime (%)',
         'table.exists' => "The field % doesn't exist in the table %s",
+        'table.unique' => "The field % must be unique",
     ];
 
     /**

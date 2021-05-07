@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Blog\Actions;
 
+use App\Blog\Table\CategoryTable;
 use App\Blog\Table\PostTable;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
@@ -12,7 +13,7 @@ use Sorani\SimpleFramework\Actions\RouterAwareActionTrait;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 use Sorani\SimpleFramework\Router;
 
-class BlogActionShow
+class PostIndexAction
 {
     use RouterAwareActionTrait;
 
@@ -27,42 +28,44 @@ class BlogActionShow
     private $postTable;
 
     /**
-     * @var Router
+     * @var CategoryTable
      */
-    private $router;
+    private $categoryTable;
 
     /**
-     * BlogAction Contructor
+     * PostIndexAction Contructor
      *
      * @param  RendererInterface $renderer
-     * @param  \PDO $pdo
      * @param  Router $router
+     * @param CategoryTable $categoryTable
      */
-    public function __construct(RendererInterface $renderer, PostTable $postTable, Router $router)
-    {
+    public function __construct(
+        RendererInterface $renderer,
+        PostTable $postTable,
+        CategoryTable $categoryTable
+    ) {
         $this->renderer = $renderer;
         $this->postTable = $postTable;
-        $this->router = $router;
+        $this->categoryTable = $categoryTable;
     }
 
     /**
-     * Show a post
-     * Redirects to good URL for post if slug is incorrect
+     * Manage methods to call based on Request attributes
      *
-     * @param  ServerRequestInterface $request
-     * @return ResponseInterface|string
+     * @param ServerRequestInterface $request
+     * @return string
      */
     public function __invoke(ServerRequestInterface $request)
     {
-        $slug = $request->getAttribute('slug');
-        $post = $this->postTable->find((int)$request->getAttribute('id'));
 
-        if ($post->slug !== $slug) {
-            return $this->redirect('blog.show', [
-                'slug' => $post->slug,
-                'id' => $post->id
-            ]);
-        }
-        return $this->renderer->render('@blog/show', ['post' => $post]);
+        $params = $request->getQueryParams();
+
+        $page = $params['p'] ?? 1;
+
+        $posts = $this->postTable->findPaginatedPublic(12, (int)$page);
+        $categories = $this->categoryTable->findAll();
+
+
+        return $this->renderer->render('@blog/index', compact('posts', 'categories', 'page'));
     }
 }

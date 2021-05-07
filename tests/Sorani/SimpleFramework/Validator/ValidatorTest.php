@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Sorani\SimpleFramework\Validator;
 
-use PHPUnit\Framework\TestCase;
-use Sorani\SimpleFramework\TestCase\DatabaseTestCase;
 use Sorani\SimpleFramework\TestCase\ExtendedTestCase;
 use Sorani\SimpleFramework\Validator\Validator;
 
@@ -143,7 +141,7 @@ class ValidatorTest extends ExtendedTestCase
         );
     }
 
-    public function testExists()
+    public function testExistsRecord()
     {
         $pdo = $this->getTestDatabase();
         $this->makeInsertTestDatabase($pdo, "a1", "a2");
@@ -153,6 +151,25 @@ class ValidatorTest extends ExtendedTestCase
         );
         $this->assertFalse(
             $this->makeValidator(['category' => 150])->existsRecord('category', 'comments', $pdo)->isValid()
+        );
+    }
+
+    public function testUniqueRecord()
+    {
+        $pdo = $this->getTestDatabase();
+        $this->makeInsertTestDatabase($pdo, "a1", "a2");
+
+        $this->assertTrue(
+            $this->makeValidator(['name' => "a3"])->uniqueRecord('name', 'comments', $pdo)->isValid()
+        );
+        $this->assertFalse(
+            $this->makeValidator(['name' => "a1"])->uniqueRecord('name', 'comments', $pdo)->isValid()
+        );
+        $this->assertTrue(
+            $this->makeValidator(['name' => "a1"])->uniqueRecord('name', 'comments', $pdo, 1)->isValid()
+        );
+        $this->assertFalse(
+            $this->makeValidator(['name' => "a2"])->uniqueRecord('name', 'comments', $pdo, 1)->isValid()
         );
     }
 }

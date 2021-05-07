@@ -32,15 +32,32 @@ class PagerFantaExtension extends AbstractExtension
         ];
     }
 
-    public function paginate(Pagerfanta $paginatedResults, string $routeName, array $queryArgs = []): string
-    {
+    /**
+     * Generate the pagination
+     *
+     * @param  Pagerfanta $paginatedResults
+     * @param  string $routeName
+     * @param  array $routerParams Route arguments
+     * @param  array $queryArgs Query parameters
+     * @return string
+     */
+    public function paginate(
+        Pagerfanta $paginatedResults,
+        string $routeName,
+        array $routerParams = [],
+        array $queryArgs = []
+    ): string {
         $view = new TwitterBootstrap4View();
         $options  = ['proximity' => 3];
-        return $view->render($paginatedResults, function (int $currentPage) use ($routeName, $queryArgs) {
-            if ($currentPage > 1) {
-                $queryArgs['p'] = $currentPage;
-            }
-            return $this->router->generateUri($routeName, [], $queryArgs);
-        }, $options);
+        return $view->render(
+            $paginatedResults,
+            function (int $currentPage) use ($routeName, $routerParams, $queryArgs) {
+                if ($currentPage > 1) {
+                    $queryArgs['p'] = $currentPage;
+                }
+                return $this->router->generateUri($routeName, $routerParams, $queryArgs);
+            },
+            $options
+        );
     }
 }

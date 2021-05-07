@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Sorani\SimpleFramework\Database;
 
+use Sorani\SimpleFramework\Database\Exceptions\NoRecordFoundException;
 use Sorani\SimpleFramework\Database\Table;
 use Sorani\SimpleFramework\TestCase\ExtendedTestCase;
 
@@ -36,6 +37,9 @@ class TableTest extends ExtendedTestCase
         $actual = $this->table->find(1);
         $this->assertInstanceOf(\stdClass::class, $actual);
         $this->assertEquals('a1', $actual->name);
+
+        $this->expectException(NoRecordFoundException::class);
+        $actual = $this->table->find(5);
     }
 
     public function testFindAsList()
@@ -51,5 +55,28 @@ class TableTest extends ExtendedTestCase
         $this->assertTrue($this->table->exists(1));
         $this->assertTrue($this->table->exists(2));
         $this->assertFalse($this->table->exists(3));
+    }
+
+    public function testFindAll()
+    {
+        $this->makeInsertTestDatabase($this->table->getPdo(), "a1", "a2");
+        $actual = $this->table->findAll();
+        $this->assertCount(2, $actual);
+        $this->assertInstanceOf(\stdClass::class, $actual[0]);
+        $this->assertEquals('a1', $actual[0]->name);
+        $this->assertEquals('a2', $actual[1]->name);
+    }
+
+    public function testFindBy()
+    {
+        $this->makeInsertTestDatabase($this->table->getPdo(), "a1", "a2", "a1");
+        $actual = $this->table->findBy('name', "a1");
+        // $this->assertCount(1, $actual);
+        $this->assertInstanceOf(\stdClass::class, $actual);
+        $this->assertEquals('a1', $actual->name);
+        $this->assertEquals('1', $actual->id);
+
+        $this->expectException(NoRecordFoundException::class);
+        $actual = $this->table->findBy('name', "fresfdrfdrdrfrdegf");
     }
 }

@@ -158,7 +158,7 @@ class Validator
     }
 
     /**
-     * Check that the element exist in the table
+     * Check that the element exists in the table
      *
      * @param  key $key
      * @param  Table $table Table
@@ -176,6 +176,35 @@ class Validator
         }
         return $this;
     }
+
+    /**
+     * Check that the element is unique in the table
+     *
+     * @param  key $key
+     * @param  Table $table Table
+     * @param \PDO $pdo
+     * @param int|null $exclude
+     * @return self
+     */
+    public function uniqueRecord(string $key, string $table, \PDO $pdo, ?int $exclude = null): self
+    {
+        $value = $this->getValue($key);
+        $query = "SELECT id FROM {$table} WHERE $key = ?";
+        $params = [$value];
+        if (null !== $exclude) {
+            $query .= ' AND id != ?';
+            $params[] = $exclude;
+        }
+
+        $statement = $pdo->prepare($query);
+        $statement->execute($params);
+
+        if ($statement->fetchColumn() !== false) {
+            $this->addError($key, 'table.unique', [$value]);
+        }
+        return $this;
+    }
+
     /**
      * Retrieve the errors
      *

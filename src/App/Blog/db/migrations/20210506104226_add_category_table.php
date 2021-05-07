@@ -23,6 +23,7 @@ final class AddCategoryTable extends AbstractMigration
         $this->table('categories')
             ->addColumn('name', Column::STRING)
             ->addColumn('slug', Column::STRING)
+            ->addIndex('slug', ['unique' => true])
             ->create();
     }
 }

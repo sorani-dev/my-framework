@@ -59,7 +59,7 @@ class App
         ) {
             $request = $request->withMethod($parsedBody['_method']);
         }
-        if (!empty($uri) && $uri[-1] === '/') {
+        if (!empty($uri) && $uri[-1] === '/' && $uri !== '/') {
             return (new Response())
                 ->withStatus(301)
                 ->withHeader('Location', substr($uri, 0, -1));

@@ -6,6 +6,7 @@ namespace Sorani\SimpleFramework\Database;
 
 use Pagerfanta\Pagerfanta;
 use Sorani\SimpleFramework\Database\EntityInterface;
+use Sorani\SimpleFramework\Database\Exceptions\NoRecordFoundException;
 use Sorani\SimpleFramework\Database\PaginatedQuery;
 use stdClass;
 
@@ -74,20 +75,46 @@ class Table
      *
      * @param  int $id
      * @return EntityInterface|\stdClass|null
+     * @throws NoRecordFoundException
      */
     public function find(int $id)
     {
-        $statement = $this->pdo
-            ->prepare("SELECT * FROM {$this->table} WHERE id = ?;");
-        $statement->execute([$id]);
-        if ($this->entity) {
-            $statement->setFetchMode(\PDO::FETCH_CLASS, $this->entity);
-        }
-        return $post = $statement->fetch() ?: null;
+        return $this->fetchOrFail("SELECT * FROM {$this->table} WHERE id = ?;", [$id]);
     }
 
     /**
-     * Retrive a list of data as key value pair from the records
+     * Retrieve all records
+     *
+     * @return EntityInterface
+     */
+    public function findAll(): array
+    {
+        $statement = $this->pdo->query("SELECT * FROM {$this->table};");
+
+        if ($this->entity) {
+            $statement->setFetchMode(\PDO::FETCH_CLASS, $this->entity);
+        } else {
+            $statement->setFetchMode(\PDO::FETCH_OBJ);
+        }
+        return $statement->fetchAll();
+    }
+
+    /**
+     * Retrieve a record for a specific field
+     *
+     * @param  string $field Field name
+     * @param  string $value Value to search for
+     * @return EntityInterface|\stdClass|EntityInterface[]|\stdClass
+     *
+     * @throws NoRecordFoundException
+     */
+    public function findBy(string $field, string $value)
+    {
+        return $this->fetchOrFail("SELECT * FROM {$this->table} WHERE {$field}=?;", [$value]);
+    }
+
+    /**
+     * Retrieve a list of data as key value pair from the records
      * (eg: ['key1' => 'value1','key2' => 'value2', ])
      *
      * @return array
@@ -95,8 +122,8 @@ class Table
     public function findAsList(): array
     {
         $results = $this->pdo
-        ->query("SELECT id, name FROM {$this->table};")
-        ->fetchAll(\PDO::FETCH_NUM);
+            ->query("SELECT id, name FROM {$this->table};")
+            ->fetchAll(\PDO::FETCH_NUM);
         $list = [];
         foreach ($results as $result) {
             $list[$result[0]] = $result[1];
@@ -189,5 +216,28 @@ class Table
     public function getTable(): string
     {
         return $this->table;
+    }
+
+    /**
+     * Execute a query and retrieve the first result
+     *
+     * @param  string $query The query statement
+     * @param array $params The parameters
+     * @return EntityInterface|\stdClass|null
+     * @throws NoRecordFoundException
+     */
+    protected function fetchOrFail(string $query, array $params = [])
+    {
+        $statement = $this->pdo->prepare($query);
+        $statement->execute($params);
+        if ($this->entity) {
+            $statement->setFetchMode(\PDO::FETCH_CLASS, $this->entity);
+        }
+
+        $record = $statement->fetch();
+        if ($record === false) {
+            throw new NoRecordFoundException();
+        }
+        return $record;
     }
 }

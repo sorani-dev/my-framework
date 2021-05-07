@@ -6,6 +6,7 @@ namespace Tests\App\Blog\Table;
 
 use App\Blog\Entity\Post;
 use App\Blog\Table\PostTable;
+use Sorani\SimpleFramework\Database\Exceptions\NoRecordFoundException;
 use Sorani\SimpleFramework\TestCase\DatabaseTestCase;
 
 class PostTableTest extends DatabaseTestCase
@@ -31,6 +32,7 @@ class PostTableTest extends DatabaseTestCase
 
     public function testFindNoRecordFound()
     {
+        $this->expectException(NoRecordFoundException::class);
         $post = $this->postTable->find(100000);
         $this->assertNotInstanceOf(Post::class, $post);
         $this->assertNull($post);
