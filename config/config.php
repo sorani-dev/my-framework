@@ -8,11 +8,13 @@ use function DI\factory;
 use Sorani\SimpleFramework\Router;
 
 use Psr\Container\ContainerInterface;
+use Sorani\SimpleFramework\Middleware\CsrfMiddleware;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 use Sorani\SimpleFramework\Renderer\TwigRendererFactory;
 use Sorani\SimpleFramework\Session\FlashService;
 use Sorani\SimpleFramework\Session\PHPSession;
 use Sorani\SimpleFramework\Session\SessionInterface;
+use Sorani\SimpleFramework\Twig\Extension\CsrfExtension;
 use Sorani\SimpleFramework\Twig\Extension\FlashExtension;
 use Sorani\SimpleFramework\Twig\Extension\FormExtension;
 use Sorani\SimpleFramework\Twig\Extension\PagerFantaExtension;
@@ -34,10 +36,12 @@ return [
         get(TimeExtension::class),
         get(FlashExtension::class),
         get(FormExtension::class),
+        get(CsrfExtension::class),
     ],
     SessionInterface::class => create(PHPSession::class),
     FlashService::class => create(FlashService::class)->constructor(get(SessionInterface::class)),
     Router::class => create(),
+    CsrfMiddleware::class => create()->constructor(get(SessionInterface::class) ),
     RendererInterface::class => factory(TwigRendererFactory::class),
     PDO::class => function (ContainerInterface $c) {
         $pdo = new PDO(

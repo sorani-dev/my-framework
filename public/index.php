@@ -10,6 +10,7 @@ use function Http\Response\send;
 use GuzzleHttp\Psr7\ServerRequest;
 use Middlewares\Whoops;
 use Sorani\SimpleFramework\Middleware\{
+    CsrfMiddleware,
     MethodMiddleware,
     RouterMiddleware,
     NotFoundMiddleware,
@@ -30,6 +31,7 @@ $app = (new \Sorani\SimpleFramework\App(dirname(__DIR__) . '/config/config.php')
     ->pipe(Whoops::class)
     ->pipe(TrailingSlashMiddleware::class)
     ->pipe(MethodMiddleware::class)
+    ->pipe(CsrfMiddleware::class)
     ->pipe(RouterMiddleware::class)
     ->pipe(DispatcherMiddleware::class)
 

@@ -19,12 +19,14 @@
                </tr>
            </thead>
            <tbody>
-               {% for item in items %}
+               {% set token = csrf_input() %}
+            {%for item in items %}
                 <tr>
                     <td>{{ item.name }}</td>
                     <td>
                         <a href="{{ path(routePrefix ~ '.edit', {id: item.id}) }}" class="btn btn-primary">Edit</a>
                         <form class="d-inline" action="{{ path(routePrefix ~ '.delete', { id: item.id }) }}" method="post" onsubmit="return confirm('Are you sure about this?');">
+                            {{ token|raw }}
                             <input type="hidden" name="_method" value="DELETE">
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>

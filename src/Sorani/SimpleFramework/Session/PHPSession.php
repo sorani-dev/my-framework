@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Session;
 
+use ArrayAccess;
 use Sorani\Session\Exceptions\SessionException;
 
-class PHPSession implements SessionInterface
+class PHPSession implements SessionInterface, ArrayAccess
 {
     /**
      * Get Session information based on its key with a default value if key not found (null if not defined)
@@ -83,5 +84,25 @@ class PHPSession implements SessionInterface
         } elseif (session_status() === PHP_SESSION_DISABLED) {
             throw new SessionException();
         }
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        $this->set($offset, $value);
+    }
+
+    public function offsetExists($offset)
+    {
+        return $this->has($offset);
+    }
+
+    public function offsetUnset($offset)
+    {
+        $this->delete($offset);
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->get($offset);
     }
 }
