@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sorani\SimpleFramework\Twig\Extensions;
+namespace Sorani\SimpleFramework\Twig\Extension;
 
 use Sorani\SimpleFramework\Session\FlashService;
 use Twig\Extension\AbstractExtension;

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Sorani\SimpleFramework\Twig\Extensions;
+namespace Tests\Sorani\SimpleFramework\Twig\Extension;
 
 use PHPUnit\Framework\TestCase;
-use Sorani\SimpleFramework\Twig\Extensions\FormExtension;
+use Sorani\SimpleFramework\Twig\Extension\FormExtension;
 
 class FormExtensionTest extends TestCase
 {

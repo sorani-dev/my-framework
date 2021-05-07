@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Sorani\SimpleFramework\Twig\Extensions;
+namespace Tests\Sorani\SimpleFramework\Twig\Extension;
 
 use DateTimeImmutable;
 use DateTimeInterface;
 use PHPUnit\Framework\TestCase;
-use Sorani\SimpleFramework\Twig\Extensions\TimeExtension;
+use Sorani\SimpleFramework\Twig\Extension\TimeExtension;
 use Twig\Environment;
 
 class TimeExtensionTest extends TestCase

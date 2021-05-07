@@ -13,12 +13,12 @@ use Sorani\SimpleFramework\Renderer\TwigRendererFactory;
 use Sorani\SimpleFramework\Session\FlashService;
 use Sorani\SimpleFramework\Session\PHPSession;
 use Sorani\SimpleFramework\Session\SessionInterface;
-use Sorani\SimpleFramework\Twig\Extensions\FlashExtension;
-use Sorani\SimpleFramework\Twig\Extensions\FormExtension;
-use Sorani\SimpleFramework\Twig\Extensions\PagerFantaExtension;
-use Sorani\SimpleFramework\Twig\Extensions\RouterTwigExtension;
-use Sorani\SimpleFramework\Twig\Extensions\TextExtension;
-use Sorani\SimpleFramework\Twig\Extensions\TimeExtension;
+use Sorani\SimpleFramework\Twig\Extension\FlashExtension;
+use Sorani\SimpleFramework\Twig\Extension\FormExtension;
+use Sorani\SimpleFramework\Twig\Extension\PagerFantaExtension;
+use Sorani\SimpleFramework\Twig\Extension\RouterTwigExtension;
+use Sorani\SimpleFramework\Twig\Extension\TextExtension;
+use Sorani\SimpleFramework\Twig\Extension\TimeExtension;
 
 return [
     'database.host' => 'localhost',

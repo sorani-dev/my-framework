@@ -132,6 +132,17 @@ class Table
     }
 
     /**
+     * Retrieve the number of records
+     *
+     * @return int
+     */
+    public function count(): int
+    {
+        return (int)$this->fetchColumn("SELECT COUNT(id) FROM {$this->table};");
+        // return $count !== false ? (int)$count : -1;
+    }
+
+    /**
      * Update a record in the database
      *
      * @param  int $id
@@ -239,5 +250,22 @@ class Table
             throw new NoRecordFoundException();
         }
         return $record;
+    }
+
+    /**
+     * Execute a query and retrieve the first column
+     *
+     * @param  string $query The query statement
+     * @param array $params The parameters
+     * @return mixed
+     */
+    protected function fetchColumn(string $query, array $params = [])
+    {
+        $statement = $this->pdo->prepare($query);
+        $statement->execute($params);
+        if ($this->entity) {
+            $statement->setFetchMode(\PDO::FETCH_CLASS, $this->entity);
+        }
+        return  $statement->fetchColumn();
     }
 }

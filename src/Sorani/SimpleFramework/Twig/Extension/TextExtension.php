@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sorani\SimpleFramework\Twig\Extensions;
+namespace Sorani\SimpleFramework\Twig\Extension;
 
 use Psr\Container\ContainerInterface;
 use Twig\Environment;

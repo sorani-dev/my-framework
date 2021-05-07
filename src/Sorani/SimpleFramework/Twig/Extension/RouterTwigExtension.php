@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sorani\SimpleFramework\Twig\Extensions;
+namespace Sorani\SimpleFramework\Twig\Extension;
 
 use Sorani\SimpleFramework\Router;
 use Twig\TwigFunction;
@@ -27,6 +27,7 @@ class RouterTwigExtension extends \Twig\Extension\AbstractExtension
         return [
             new TwigFunction('path_for', [$this, 'pathFor']),
             new TwigFunction('path', [$this, 'pathFor']),
+            new TwigFunction('is_subpath', [$this, 'isSubPath']),
         ];
     }
 
@@ -40,5 +41,19 @@ class RouterTwigExtension extends \Twig\Extension\AbstractExtension
     public function pathFor(string $path, ?array $params = []): string
     {
         return $this->router->generateUri($path, $params);
+    }
+
+    /**
+     * Check if the current URI contains the requested Route Path
+     * (eg: 'blog.show')
+     *
+     * @param  string $path The path to match
+     * @return bool Matched path, the path is part of the REQUEST_URI
+     */
+    public function isSubPath(string $path): bool
+    {
+        $uri = $_SERVER['REQUEST_URI'] ?? '/';
+        $expectedUri = $this->router->generateUri($path);
+        return strpos($uri, $expectedUri) !== false;
     }
 }

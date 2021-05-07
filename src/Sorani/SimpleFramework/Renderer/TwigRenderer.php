@@ -103,4 +103,14 @@ class TwigRenderer implements RendererInterface
         $namespace = $this->getNamespace($view);
         return str_replace('@' . $namespace, $this->paths[$namespace], $view);
     }
+
+    /**
+     * Get the value of twig
+     *
+     * @return  Environment
+     */
+    public function getTwig(): Environment
+    {
+        return $this->twig;
+    }
 }

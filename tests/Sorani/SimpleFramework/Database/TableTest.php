@@ -79,4 +79,13 @@ class TableTest extends ExtendedTestCase
         $this->expectException(NoRecordFoundException::class);
         $actual = $this->table->findBy('name', "fresfdrfdrdrfrdegf");
     }
+
+    public function testCount()
+    {
+        $actual = $this->table->count();
+        $this->assertEquals(0, $actual);
+        $this->makeInsertTestDatabase($this->table->getPdo(), "a1", "a2", "a3");
+        $actual = $this->table->count();
+        $this->assertEquals(3, $actual);
+    }
 }

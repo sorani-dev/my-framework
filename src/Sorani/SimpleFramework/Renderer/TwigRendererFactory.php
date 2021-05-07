@@ -2,11 +2,9 @@
 
 namespace Sorani\SimpleFramework\Renderer;
 
-use Psr\Container\ContainerInterface;
-use Sorani\SimpleFramework\Router;
-use Sorani\SimpleFramework\Twig\Extensions\RouterTwigExtension;
 use Twig\Extension\DebugExtension;
-use Twig\Loader\FilesystemLoader;
+use Psr\Container\ContainerInterface;
+use Sorani\SimpleFramework\Renderer\TwigRenderer;
 
 class TwigRendererFactory
 {

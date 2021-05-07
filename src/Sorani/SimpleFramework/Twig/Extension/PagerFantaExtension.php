@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sorani\SimpleFramework\Twig\Extensions;
+namespace Sorani\SimpleFramework\Twig\Extension;
 
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\View\TwitterBootstrap4View;
