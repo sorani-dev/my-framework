@@ -2,36 +2,39 @@
 
 require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'vendor/autoload.php';
 
-use App\Admin\AdminModule;
 use App\Blog\BlogModule;
-use DI\ContainerBuilder;
+use App\Admin\AdminModule;
+use Franzl\Middleware\Whoops\WhoopsMiddleware;
 
 use function Http\Response\send;
 use GuzzleHttp\Psr7\ServerRequest;
-use Sorani\SimpleFramework\Renderer\RendererInterface;
+use Middlewares\Whoops;
+use Sorani\SimpleFramework\Middleware\{
+    MethodMiddleware,
+    RouterMiddleware,
+    NotFoundMiddleware,
+    DispatcherMiddleware,
+    TrailingSlashMiddleware
+};
 
 $modules = [
     AdminModule::class,
     BlogModule::class,
 ];
 
-$builder = new ContainerBuilder();
 
-$builder->addDefinitions(require dirname(__DIR__) . '/config/config.php');
 
-foreach ($modules as $module) {
-    if ($module::DEFINITIONS) {
-        $builder->addDefinitions($module::DEFINITIONS);
-    }
-}
-$builder->addDefinitions(require dirname(__DIR__) . '/config.php');
+$app = (new \Sorani\SimpleFramework\App(dirname(__DIR__) . '/config/config.php'))
+    ->addModule(AdminModule::class)
+    ->addModule(BlogModule::class)
+    ->pipe(Whoops::class)
+    ->pipe(TrailingSlashMiddleware::class)
+    ->pipe(MethodMiddleware::class)
+    ->pipe(RouterMiddleware::class)
+    ->pipe(DispatcherMiddleware::class)
 
-$container = $builder->build();
+    ->pipe(NotFoundMiddleware::class);
 
-$app = new \Sorani\SimpleFramework\App(
-    $container,
-    $modules
-);
 if (php_sapi_name() !== 'cli') {
     $response = $app->run(ServerRequest::fromGlobals());
 

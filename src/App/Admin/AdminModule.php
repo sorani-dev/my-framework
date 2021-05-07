@@ -18,8 +18,12 @@ class AdminModule extends Module
      */
     public const DEFINITIONS = __DIR__ . '/config/config.php';
 
-    public function __construct(RendererInterface $renderer, Router $router, AdminTwigExtension $adminTwigExtension, string $prefix)
-    {
+    public function __construct(
+        RendererInterface $renderer,
+        Router $router,
+        AdminTwigExtension $adminTwigExtension,
+        string $prefix
+    ) {
         $renderer->addPath('admin', __DIR__ . '/resources/views');
         $router->get($prefix, DashboardAction::class, 'admin');
 

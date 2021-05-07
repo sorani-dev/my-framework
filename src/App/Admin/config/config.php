@@ -14,7 +14,12 @@ return [
     'admin.prefix' => '/admin',
     'admin.widgets' => [],
     AdminTwigExtension::class => create()->constructor(get('admin.widgets')),
-    AdminModule::class => create()->constructor(get(RendererInterface::class), get(Router::class), get(AdminTwigExtension::class), get('admin.prefix')),
+    AdminModule::class => create()->constructor(
+        get(RendererInterface::class),
+        get(Router::class),
+        get(AdminTwigExtension::class),
+        get('admin.prefix')
+    ),
     DashboardAction::class => create()->constructor(get(RendererInterface::class), get('admin.widgets')),
 
 ];

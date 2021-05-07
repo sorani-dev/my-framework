@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace Sorani\SimpleFramework;
 
+use DI\ContainerBuilder;
 use GuzzleHttp\Psr7\Response;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * @class App
  * Main App: Entry to Application
  */
-class App
+class App implements RequestHandlerInterface
 {
 
     /**
@@ -22,25 +25,80 @@ class App
      */
     private $modules = [];
 
+
     /**
-     *Container
+     * Definition file containing a configuration array
+     * @var string
+     */
+    private $definition;
+
+    /**
      * @var ContainerInterface
      */
     private $container;
 
     /**
-     * App constructor
-     *
-     * @param  ContainerInterface $container
-     * @param  string[] $modules List of modules to load
-     * @param  array $dependencies
+     * @var string[]
      */
-    public function __construct(ContainerInterface $container, array $modules = [])
+    private $middlewares = [];
+
+    /**
+     * Middleware index (where in the queue are we?)
+     * @var int
+     */
+    private $middlewareIndex = 0;
+
+    /**
+     * App Constructor
+     *
+     * @param  string $definition definition file path
+     */
+    public function __construct(string $definition)
     {
-        $this->container = $container;
-        foreach ($modules as $module) {
-            $this->modules = $container->get($module);
+        $this->definition = $definition;
+    }
+
+    /**
+     * Add a Module to the Application (functionality)
+     *
+     * @param  string $module
+     * @return self
+     */
+    public function addModule(string $module): self
+    {
+        $this->modules[] = $module;
+        return $this;
+    }
+
+
+    /**
+     * Add a middleware (comportement)
+     *
+     * @param  string $middleware
+     * @return self
+     */
+    public function pipe(string $middleware): self
+    {
+        $this->middlewares[] = $middleware;
+        return $this;
+    }
+
+
+    public function process(ServerRequestInterface $request): ResponseInterface
+    {
+        $middleware = $this->getMiddleware();
+        if (null === $middleware) {
+            throw new \Exception('No middleware has been able to intercept the request');
+        } elseif (is_callable($middleware)) {
+            return $middleware($request, [$this, 'process']);
+        } elseif ($middleware instanceof MiddlewareInterface) {
+            return $middleware->process($request, $this);
         }
+    }
+
+    public function handle(ServerRequestInterface $request): ResponseInterface
+    {
+        return $this->process($request);
     }
 
     /**
@@ -51,20 +109,14 @@ class App
      */
     public function run(ServerRequestInterface $request): ResponseInterface
     {
-        $uri = $request->getUri()->getPath();
-        $parsedBody = $request->getParsedBody();
-        if (
-            isset($parsedBody['_method']) &&
-            in_array($parsedBody['_method'], ['PATCH', 'PUT', 'DELETE'])
-        ) {
-            $request = $request->withMethod($parsedBody['_method']);
+        foreach ($this->modules as $module) {
+            $this->getContainer()->get($module);
         }
-        if (!empty($uri) && $uri[-1] === '/' && $uri !== '/') {
-            return (new Response())
-                ->withStatus(301)
-                ->withHeader('Location', substr($uri, 0, -1));
-        }
-        /** @var Router $router */
+        return $this->process($request);
+      /*
+
+
+        /** @var Router $router * /
         $router = $this->container->get(Router::class);
         $route = $router->match($request);
         if (null === $route) {
@@ -86,6 +138,7 @@ class App
         } else {
             throw new \Exception('The response is neither a string nor an instance of ResponseInterface');
         }
+*/
     }
 
     /**
@@ -95,6 +148,34 @@ class App
      */
     public function getContainer(): ContainerInterface
     {
+        if ($this->container === null) {
+            $builder = new ContainerBuilder();
+
+            $builder->addDefinitions($this->definition);
+
+            foreach ($this->modules as $module) {
+                if ($module::DEFINITIONS) {
+                    $builder->addDefinitions($module::DEFINITIONS);
+                }
+            }
+
+            $this->container = $builder->build();
+        }
         return $this->container;
+    }
+
+    /**
+     * getMiddleware
+     *
+     * @return object
+     */
+    private function getMiddleware(): object
+    {
+        if (isset($this->middlewares[$this->middlewareIndex])) {
+            $middleware = $this->container->get($this->middlewares[$this->middlewareIndex]);
+            $this->middlewareIndex++;
+            return $middleware;
+        }
+        return null;
     }
 }

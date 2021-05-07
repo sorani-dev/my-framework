@@ -32,6 +32,7 @@
         "twig/twig": "^3.3",
         "php-di/php-di": "^6.3",
         "robmorgan/phinx": "^0.12.6",
-        "pagerfanta/pagerfanta": "^2"
+        "pagerfanta/pagerfanta": "^2",
+        "middlewares/whoops": "1.*"
     }
 }
