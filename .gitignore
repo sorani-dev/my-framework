@@ -6,3 +6,4 @@ CURRENT.md
 html-coverage/
 phpunit.xml.dist
 phpunit.xml.back
+/tmp

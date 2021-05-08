@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sorani\SimpleFramework\Renderer;
 
 use Twig\Extension\DebugExtension;
@@ -10,13 +12,18 @@ class TwigRendererFactory
 {
     public function __invoke(ContainerInterface $container): TwigRenderer
     {
+        // ge tthe environement type
+        $debug = $container->get('env') !== 'production';
+
         // get path to the views
         $viewPath = $container->get('views.path');
 
         // intanciate the Loader and the Environement
         $loader = new \Twig\Loader\FilesystemLoader($viewPath);
         $twig = new \Twig\Environment($loader, [
-            'debug' => true
+            'debug' => $debug,
+            'cache' => $debug ? false : 'tmp/views',
+            'auto_reload' => $debug,
         ]);
 
         $twig->addExtension(new DebugExtension());

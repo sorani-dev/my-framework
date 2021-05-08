@@ -2,15 +2,19 @@
 
 declare(strict_types=1);
 
+use function DI\autowire;
 use function DI\get;
 use function DI\create;
+use function DI\env;
 use function DI\factory;
+
 use Sorani\SimpleFramework\Router;
 
 use Psr\Container\ContainerInterface;
 use Sorani\SimpleFramework\Middleware\CsrfMiddleware;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 use Sorani\SimpleFramework\Renderer\TwigRendererFactory;
+use Sorani\SimpleFramework\Router\RouterFactory;
 use Sorani\SimpleFramework\Session\FlashService;
 use Sorani\SimpleFramework\Session\PHPSession;
 use Sorani\SimpleFramework\Session\SessionInterface;
@@ -23,6 +27,7 @@ use Sorani\SimpleFramework\Twig\Extension\TextExtension;
 use Sorani\SimpleFramework\Twig\Extension\TimeExtension;
 
 return [
+    'env' => env('ENV', 'production'),
     'database.host' => 'localhost',
     'database.username' => 'root',
     'database.password' => 'root',
@@ -40,8 +45,8 @@ return [
     ],
     SessionInterface::class => create(PHPSession::class),
     FlashService::class => create(FlashService::class)->constructor(get(SessionInterface::class)),
-    Router::class => create(),
-    CsrfMiddleware::class => create()->constructor(get(SessionInterface::class) ),
+    Router::class => factory(RouterFactory::class),
+    CsrfMiddleware::class => autowire()->constructorParameter('session', get(SessionInterface::class)),
     RendererInterface::class => factory(TwigRendererFactory::class),
     PDO::class => function (ContainerInterface $c) {
         $pdo = new PDO(

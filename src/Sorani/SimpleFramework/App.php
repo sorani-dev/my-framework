@@ -113,7 +113,7 @@ class App implements RequestHandlerInterface
             $this->getContainer()->get($module);
         }
         return $this->process($request);
-      /*
+        /*
 
 
         /** @var Router $router * /
@@ -150,6 +150,18 @@ class App implements RequestHandlerInterface
     {
         if ($this->container === null) {
             $builder = new ContainerBuilder();
+
+            $env = getenv('ENV') ?:  'production';
+            if ($env === 'production') {
+                $apcuAvailable = function_exists('apcu_enabled') && apcu_enabled();
+                if ($apcuAvailable) {
+                    $builder->enableDefinitionCache(__NAMESPACE__);
+                }
+                $builder->enableCompilation('tmp/proxies');
+                $builder->writeProxiesToFile(true, __DIR__ . '/tmp/proxies');
+                // $builder->enableDefinitionCache(new ApcuCache());
+                // $builder->writeProxiesToFile(true, __DIR__ . '/tmp/proxies');
+            }
 
             $builder->addDefinitions($this->definition);
 

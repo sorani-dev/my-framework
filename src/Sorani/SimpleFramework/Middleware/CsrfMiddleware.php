@@ -56,6 +56,7 @@ class CsrfMiddleware implements MiddlewareInterface
         $this->formKey = $formKey;
         $this->sessionKey = $sessionKey;
         $this->session = &$session;
+        $this->limit = $limit;
     }
 
     /**

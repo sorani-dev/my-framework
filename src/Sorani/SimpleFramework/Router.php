@@ -22,9 +22,12 @@ class Router
      */
     private $router;
 
-    public function __construct()
+    public function __construct(?string $cache = null)
     {
-        $this->router = new FastRouteRouter();
+        $this->router = new FastRouteRouter(null, null, [
+            FastRouteRouter::CONFIG_CACHE_ENABLED => null !== $cache,
+            FastRouteRouter::CONFIG_CACHE_FILE => $cache,
+        ]);
     }
 
     /**

@@ -22,7 +22,6 @@ class MethodMiddleware implements MiddlewareInterface
         ) {
             $request = $request->withMethod($parsedBody['_method']);
         }
-        //  var_dump($next);
         return $next($request);
     }
 

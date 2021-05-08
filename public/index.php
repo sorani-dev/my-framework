@@ -1,14 +1,9 @@
 <?php
 
-require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'vendor/autoload.php';
-
+use Middlewares\Whoops;
 use App\Blog\BlogModule;
 use App\Admin\AdminModule;
-use Franzl\Middleware\Whoops\WhoopsMiddleware;
-
-use function Http\Response\send;
 use GuzzleHttp\Psr7\ServerRequest;
-use Middlewares\Whoops;
 use Sorani\SimpleFramework\Middleware\{
     CsrfMiddleware,
     MethodMiddleware,
@@ -18,6 +13,13 @@ use Sorani\SimpleFramework\Middleware\{
     TrailingSlashMiddleware
 };
 
+use function Http\Response\send;
+
+chdir(dirname(__DIR__));
+
+require 'vendor' . DIRECTORY_SEPARATOR . '/autoload.php';
+
+
 $modules = [
     AdminModule::class,
     BlogModule::class,
@@ -25,7 +27,7 @@ $modules = [
 
 
 
-$app = (new \Sorani\SimpleFramework\App(dirname(__DIR__) . '/config/config.php'))
+$app = (new \Sorani\SimpleFramework\App('config/config.php'))
     ->addModule(AdminModule::class)
     ->addModule(BlogModule::class)
     ->pipe(Whoops::class)
