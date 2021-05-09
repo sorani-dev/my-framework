@@ -6,19 +6,10 @@ namespace Tests\Sorani\SimpleFramework\Database\Query;
 
 use Sorani\SimpleFramework\Database\Query\QueryBuilder;
 use Sorani\SimpleFramework\TestCase\DatabaseTestCase;
+use Tests\Sorani\SimpleFramework\Database\fixtures\Demo;
 
 class QueryBuilderTest extends DatabaseTestCase
 {
-    /**
-     * @var QueryBuilder
-     */
-    private QueryBuilder $queryBuilder;
-
-    public function setUp(): void
-    {
-        $this->queryBuilder = new QueryBuilder();
-    }
-
     public function testSimpleQuery()
     {
         $query = (new QueryBuilder())->from('posts')->fields('name');
@@ -184,5 +175,37 @@ class QueryBuilderTest extends DatabaseTestCase
             'SELECT department, COUNT(*) AS "Man_Power" FROM employees GROUP BY department HAVING COUNT(*) >= 10;',
             (string)$query
         );
+    }
+
+    public function testHydrateEntity()
+    {
+        $pdo = $this->getPdo();
+        $this->migrateDatabase($pdo);
+        $this->seedDatabase($pdo);
+
+        $query = new QueryBuilder($pdo);
+        $posts = $query->from('posts', 'p')
+            ->into(Demo::class)->all();
+        $this->assertStringEndsWith('demo', $posts[0]->getSlug());//getUsername());
+    }
+
+    public function testIntoEntityIsTheSameInstance()
+    {
+        $pdo = $this->getPdo();
+        $this->migrateDatabase($pdo);
+        $this->seedDatabase($pdo);
+
+        $query = new QueryBuilder($pdo);
+        $comments = $query->from('posts', 'p')
+            ->where('p.id < :number')
+            ->params(
+                [
+                    'number' => 30,
+                ]
+            )
+            ->into(Demo::class)->all();
+        $comment = $comments[0];
+        $comment2 = $comments[0];
+        $this->assertSame($comment, $comment2);
     }
 }

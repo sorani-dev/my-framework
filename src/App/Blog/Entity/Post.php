@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Blog\Entity;
 
-use DateTime;
 use DateTimeImmutable;
+use Sorani\SimpleFramework\Database\Entity\EntityTimestampsTrait;
 use Sorani\SimpleFramework\Database\EntityInterface;
 
 /**
@@ -14,6 +14,8 @@ use Sorani\SimpleFramework\Database\EntityInterface;
  */
 class Post implements EntityInterface
 {
+    use EntityTimestampsTrait;
+
     /**
      * @var int
      */
@@ -34,28 +36,107 @@ class Post implements EntityInterface
      */
     public string $content;
 
-    /**
-     * @var string|\DateTimeImmutable
-     */
-    public $created_at;
-
-    /**
-     * @var string|\DateTimeImmutable
-     */
-    public $updated_at;
 
     /**
      * @var string
      */
-    public $category_name;
+    public $categoryName;
 
-    public function __construct()
+
+    /**
+     * Get the value of id
+     *
+     * @return  int
+     */
+    public function getId()
     {
-        if ($this->created_at) {
-            $this->created_at = new DateTimeImmutable($this->created_at);
-        }
-        if ($this->updated_at) {
-            $this->updated_at = new DateTimeImmutable($this->updated_at);
-        }
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @param  int  $id
+     *
+     * @return  self
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of name
+     *
+     * @return  string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set the value of name
+     *
+     * @param  string  $name
+     *
+     * @return  self
+     */
+    public function setName(string $name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of content
+     *
+     * @return  string
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * Set the value of content
+     *
+     * @param  string  $content
+     *
+     * @return  self
+     */
+    public function setContent(string $content)
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+
+    /**
+     * Get the value of categoryName
+     *
+     * @return  string
+     */
+    public function getCategoryName()
+    {
+        return $this->categoryName;
+    }
+
+    /**
+     * Set the value of categoryName
+     *
+     * @param  string  $categoryName
+     *
+     * @return  self
+     */
+    public function setCategoryName(string $categoryName)
+    {
+        $this->categoryName = $categoryName;
+
+        return $this;
     }
 }

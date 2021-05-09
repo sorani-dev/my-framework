@@ -6,7 +6,7 @@ namespace Sorani\SimpleFramework\Database;
 
 use Pagerfanta\Pagerfanta;
 use Sorani\SimpleFramework\Database\EntityInterface;
-use Sorani\SimpleFramework\Database\Exceptions\NoRecordFoundException;
+use Sorani\SimpleFramework\Database\Exception\NoRecordFoundException;
 use Sorani\SimpleFramework\Database\PaginatedQuery;
 use stdClass;
 

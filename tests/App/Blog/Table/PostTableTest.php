@@ -6,7 +6,7 @@ namespace Tests\App\Blog\Table;
 
 use App\Blog\Entity\Post;
 use App\Blog\Table\PostTable;
-use Sorani\SimpleFramework\Database\Exceptions\NoRecordFoundException;
+use Sorani\SimpleFramework\Database\Exception\NoRecordFoundException;
 use Sorani\SimpleFramework\TestCase\DatabaseTestCase;
 
 class PostTableTest extends DatabaseTestCase

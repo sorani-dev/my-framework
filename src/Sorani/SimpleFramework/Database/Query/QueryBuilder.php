@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Database\Query;
 
-class QueryBuilder
+use Sorani\SimpleFramework\Database\EntityInterface;
+
+class QueryBuilder implements \IteratorAggregate
 {
     /**
      * constants for queryType
@@ -57,15 +59,7 @@ class QueryBuilder
      * @var array
      */
     private $where = [];
-
-    /**
-     * HAVING
-     *
-     * @var array
-     */
-    private $having = [];
-
-    /**
+   /**
      * ORDER BY
      *
      * @var array
@@ -80,7 +74,15 @@ class QueryBuilder
      */
     private $groupBy = [];
 
+
     /**
+     * HAVING
+     *
+     * @var array
+     */
+    private $having = [];
+
+     /**
      * LIMIT
      *
      * @var string
@@ -108,13 +110,6 @@ class QueryBuilder
     private $joinByString = [];
 
     /**
-     * SET for UPDATE
-     *
-     * @var array
-     */
-    private $set = [];
-
-    /**
      * UNION
      *
      * @var array
@@ -129,7 +124,7 @@ class QueryBuilder
     private $pdo;
 
     /**
-     * Parameters to inject at the execution of this query if needed
+     * Parameters to inject the the query is executed if any parameter needed
      *
      * @var array
      */
@@ -184,11 +179,13 @@ class QueryBuilder
 
 
     /*
-     * @param  string $foreignTable
-     * @param  string $conditions
-     * @param  string $joinType
-     * @return self
-     */
+    * JOIN Statement
+    *
+    * @param  string $foreignTable
+    * @param  string $conditions
+    * @param  string $joinType
+    * @return self
+    */
     public function joinByString(string $foreignTable, string $conditions, string $joinType = self::JOIN_LEFT): self
     {
         $this->joinByString[$joinType][] = [$foreignTable, $conditions];
@@ -198,7 +195,7 @@ class QueryBuilder
     /**
      * WHERE
      *
-     * @param  string $conditions The conditions willbe linked with an AND
+     * @param  string $conditions The conditions will be linked with an AND
      * @return self
      */
     public function where(string ...$conditions): self
@@ -211,7 +208,7 @@ class QueryBuilder
      * field IN ???
      *
      * @param  string $field
-     * @param  mixed  $values (scalar)
+     * @param  mixed  $values (scalar of QueryBuilder instance)
      * @return $this
      */
     public function in($field, $values)
@@ -257,7 +254,7 @@ class QueryBuilder
     }
 
     /**
-     * LIMIT numberOfRows number of rows to be returned
+     * LIMIT: the number of rows to be returned
      *
      * @param  int $limit
      * @return QueryBuilder
@@ -273,7 +270,8 @@ class QueryBuilder
     }
 
     /**
-     * OFFSET  pick from row number $offset
+     * OFFSET:  pick from row number $offset
+     * If offset is zero, then it is not taken in account in the resulting query
      *
      * @param  int $offset
      * @return QueryBuilder
@@ -301,7 +299,7 @@ class QueryBuilder
     }
 
     /**
-     * GROUP BY ...
+     * HAVING ...
      *
      * @param  string $groupBy
      * @return QueryBuilder
@@ -315,8 +313,8 @@ class QueryBuilder
     /**
      * Set parameters for query
      *
-     * @param  array $parameters
-     * @param  bool  $replace
+     * @param  array $parameters Parameters: [':a', $val]
+     * @param  bool  $replace replace parameters
      * @return $this
      */
     public function params(array $parameters = [], ?bool $replace = false): self
@@ -344,10 +342,47 @@ class QueryBuilder
     }
 
     /**
+     * Add an Entity by its name to hydrate later
+     *
+     * @param  string $entity
+     * @return $this
+     */
+    public function into(string $entity): self
+    {
+        $this->entity = $entity;
+        return $this;
+    }
+
+    /**
+     * Retrieve all rows from the query
+     *
+     * @return QueryResult
+     */
+    public function all(): QueryResult
+    {
+        return new QueryResult($this->execute()->fetchAll(\PDO::FETCH_ASSOC), $this->entity);
+    }
+
+
+    /**
+     * Get an hydrated entity from the query
+     *
+     * @param  string $index
+     * @return EntityInterface
+     */
+    public function get(int $index): EntityInterface
+    {
+        if ($this->entity) {
+            return Hydrator::getInstance()->hydrate($this->all()[$index], $this->entity);
+        }
+        return $this->entity;
+    }
+
+    /**
      * Count the number of rows (cloned from the QueryBuilder instance)
      *
-     * @param  mixed $field
-     * @return int
+     * @param  string $field
+     * @return int Number of rows found.
      */
     public function count(?string $field = 'id'): int
     {
@@ -360,6 +395,7 @@ class QueryBuilder
 
     /**
      * Execute a query on the QueryBuilder object
+     *
      * @return \PDOStatement
      */
     protected function execute(): \PDOStatement
@@ -374,7 +410,7 @@ class QueryBuilder
     }
 
     /**
-     * __toString Get the Query a a string
+     * Get the Query as a string (__toString)
      *
      * @return string
      */
@@ -419,13 +455,18 @@ class QueryBuilder
         return implode(' ', $parts) . ';';
     }
 
+    /**
+     * Alias of __toString
+     *
+     * @return string
+     */
     public function queryToString(): string
     {
         return $this->__toString();
     }
 
     /**
-     * Build FROM TABLE1, [TABLE2, [...]]
+     * Build: FROM TABLE1, [TABLE2, [...]]
      *
      * @return string
      */
@@ -446,6 +487,11 @@ class QueryBuilder
         return implode(', ', $from);
     }
 
+    /**
+     * Build and return JOIN ... ON...
+     *
+     * @return string
+     */
     protected function buildJoin()
     {
         $joinString = [];
@@ -457,5 +503,17 @@ class QueryBuilder
             }
         }
         return implode(' ', $joinString);
+    }
+
+
+    /**
+     * getIterator
+     * IteratorAggregate implementation
+     *
+     * @return void
+     */
+    public function getIterator()
+    {
+        return $this->all();
     }
 }

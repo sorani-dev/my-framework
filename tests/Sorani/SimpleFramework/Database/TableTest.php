@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Sorani\SimpleFramework\Database;
 
-use Sorani\SimpleFramework\Database\Exceptions\NoRecordFoundException;
+use Sorani\SimpleFramework\Database\Exception\NoRecordFoundException;
 use Sorani\SimpleFramework\Database\Table;
 use Sorani\SimpleFramework\TestCase\ExtendedTestCase;
 
