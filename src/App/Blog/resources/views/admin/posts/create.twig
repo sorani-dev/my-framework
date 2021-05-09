@@ -2,10 +2,18 @@
 
 {% block title 'My Posts' %}
 
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+<script>
+    $(document).ready(function () {
+            bsCustomFileInput.init()
+        })
+</script>
+{% endblock javascripts %}
 
 {% block content %}
     <h1>Add a post</h1>
-    <form action="{{ path(routePrefix ~ '.create') }}" method="post" class="mb-5">
+    <form action="{{ path(routePrefix ~ '.create') }}" method="post" class="mb-5" enctype="multipart/form-data">
         {% include viewPath ~ "/_form.twig" %}
         <button class="btn btn-primary" type="submit">Add</button>
     </form>

@@ -15,15 +15,15 @@ class Category implements EntityInterface
     /**
      * @var int
      */
-    public int $id;
+    public $id;
 
     /**
      * @var string
      */
-    public string $name;
+    public $name;
 
     /**
      * @var string
      */
-    public string $slug;
+    public $slug;
 }

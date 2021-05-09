@@ -39,6 +39,8 @@ class ValidationError
         'dateTime.error' => 'The field %s must be a valid datetime (%)',
         'table.exists' => "The field %s doesn't exist in the table %s",
         'table.unique' => "The field %s must be unique",
+        'filetype' => "The field %s is not a valid format (%s)",
+        'uploaded' => "You must upload a file",
     ];
 
     /**

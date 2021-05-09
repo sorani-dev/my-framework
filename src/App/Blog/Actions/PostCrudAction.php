@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Blog\Actions;
 
 use App\Blog\Entity\Post;
+use App\Blog\PostUpload;
 use App\Blog\Table\CategoryTable;
 use App\Blog\Table\PostTable;
 use Psr\Http\Message\ServerRequestInterface;
@@ -31,6 +32,12 @@ class PostCrudAction extends CrudAction
      */
     private $categoryTable;
 
+
+    /**
+     * @var PostUpload
+     */
+    private $postUpload;
+
     /**
      * PostCrudAction Contructor
      *
@@ -44,20 +51,30 @@ class PostCrudAction extends CrudAction
         PostTable $table,
         Router $router,
         FlashService $flash,
-        CategoryTable $categoryTable
+        CategoryTable $categoryTable,
+        PostUpload $postUpload
     ) {
         parent::__construct($renderer, $table, $router, $flash);
         $this->categoryTable = $categoryTable;
+        $this->postUpload = $postUpload;
     }
     /**
      * Filter the Input Parsed body
+     *
      * @param ServerRequestInterface $request
+     * @param Post $item
      */
-    protected function getParams(ServerRequestInterface $request): array
+    protected function getParams(ServerRequestInterface $request, EntityInterface $item): array
     {
+        $params = array_merge($request->getParsedBody(), $request->getUploadedFiles());
+        // Upload the file
+        $params['image'] = $this->postUpload->upload($params['image'], $item->image);
+
         $params = array_filter(
-            $request->getParsedBody(),
-            fn ($key) => in_array($key, ['name', 'slug', 'content', 'created_at', 'category_id']),
+            $params,
+            function ($key) {
+                return in_array($key, ['name', 'slug', 'content', 'created_at', 'category_id', 'image']);
+            },
             ARRAY_FILTER_USE_KEY
         );
 
@@ -71,7 +88,7 @@ class PostCrudAction extends CrudAction
 
     protected function getValidator(ServerRequestInterface $request): Validator
     {
-        return parent::getValidator($request)
+        $v = parent::getValidator($request)
             ->required('name', 'slug', 'content', 'created_at', 'category_id')
             ->length('content', 10)
             ->length('name', 2, 250)
@@ -79,13 +96,20 @@ class PostCrudAction extends CrudAction
             // ->existsKey('category_id', $this->categoryTable)
             ->existsRecord('category_id', $this->categoryTable->getTable(), $this->categoryTable->getPdo())
             ->dateTime('created_at')
+            ->extension('image', ['jpg', 'jpeg', 'png'])
             ->slug('slug');
+
+        if (null === $request->getAttribute('id')) {
+            $v->uploaded('image');
+        }
+
+        return $v;
     }
 
     protected function formParams(array $params): array
     {
         $params['categories'] = $this->categoryTable->findAsList();
-        $params['categories']['14747447'] = 'Catégorie fake';
+        // $params['categories']['14747447'] = 'Catégorie fake';
         return $params;
     }
 

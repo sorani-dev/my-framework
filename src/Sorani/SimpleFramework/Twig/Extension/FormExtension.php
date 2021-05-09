@@ -42,6 +42,7 @@ class FormExtension extends AbstractExtension
             'name' => $key,
             'id' => $key,
         ];
+        $labelClass = "";
 
         $errorsHtml = $this->getErrorHtml($context, $key);
 
@@ -53,6 +54,10 @@ class FormExtension extends AbstractExtension
 
         if ($type === 'textarea') {
             $input = $this->textarea($value, $attributes);
+        } elseif ($type === 'file') {
+            $input = $this->file($attributes);
+            $labelClass =  'class="custom-file-label"';
+            $class[] = 'custom-file align-middle';
         } elseif (isset($options['options'])) {
             $input = $this->select($value, $options['options'], $attributes);
         } else {
@@ -62,7 +67,7 @@ class FormExtension extends AbstractExtension
 
         return <<<"EOT"
         <div class="{$class}">
-    <label for="{$key}">{$label}</label>
+    <label for="{$key}"{$labelClass}>{$label}</label>
     {$input}{$errorsHtml}
 </div>
 EOT;
@@ -93,6 +98,20 @@ EOT;
     }
 
     /**
+     * Input file field
+     *
+     * @param  array $attributes class, ...
+     * @return string
+     */
+    public function file(array $attributes): string
+    {
+        // $attributes['class'] .= " form-control-file";
+        // $attributes['class'] =
+        $attributes['class'] .= ' custom-file-input';
+        return  "<input type=\"file\" " . $this->getHtmlFromArray($attributes) . ">";
+    }
+
+    /**
      * Select field
      *
      * @param  mixed|string|null $value Field value
@@ -108,7 +127,7 @@ EOT;
         $htmlOptions = array_reduce(array_keys($options), function (string $html, $key) use ($options, $value) {
             $params = ['value' => $key, 'selected' =>  (string)$key === (string)$value];
             return
-            $html . '<option ' . $this->getHtmlFromArray($params) . '>' . $options[$key] . '</option>';
+                $html . '<option ' . $this->getHtmlFromArray($params) . '>' . $options[$key] . '</option>';
         }, '');
         return "<select " . $this->getHtmlFromArray($attributes) . ">" . $htmlOptions . "</select>";
     }

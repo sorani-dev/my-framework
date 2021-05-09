@@ -19,22 +19,27 @@ class Post implements EntityInterface
     /**
      * @var int
      */
-    public int $id;
+    public $id;
 
     /**
      * @var string
      */
-    public string $name;
+    public $name;
 
     /**
     * @var string
     */
-    public string $slug;
+    public $slug;
 
     /**
      * @var string
      */
-    public string $content;
+    public $content;
+
+    /**
+     * @var string
+     */
+    public $image;
 
 
     /**
@@ -138,5 +143,15 @@ class Post implements EntityInterface
         $this->categoryName = $categoryName;
 
         return $this;
+    }
+
+    /**
+     * Get the thumbnail of the image
+     *
+     * @return string
+     */
+    public function getThumb(): string
+    {
+        return '/uploads/posts/' . $this->image;
     }
 }

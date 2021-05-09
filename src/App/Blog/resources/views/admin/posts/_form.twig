@@ -8,11 +8,18 @@
         {{ field('category_id', item.category_id, 'Category', { class: 'form-control', options: categories }) }}
     </div>
 </div>
-<div class="row">
-    <div class="col-md-6">
-        {{ field('image', item.image, 'Image', { class: 'form-control', type: 'file'}) }}
+<div class="row" style="align-items: flex-end;">
+    <div class="col-md-4">
+        
+        {% if item.image %}
+            <img src="{{ item.thumb }}" alt="{{ image }}" class="w-100">
+        {% endif %}
+            
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
+        {{ field('image', item.image, 'Image', { class: 'form-control', type: 'file' }) }}
+    </div>
+    <div class="col-md-4">
         {{ field('slug', item.slug, 'Link', { class: 'form-control', }) }}
     </div>
 </div>

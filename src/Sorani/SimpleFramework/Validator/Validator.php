@@ -4,10 +4,22 @@ declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Validator;
 
+use Psr\Http\Message\UploadedFileInterface;
 use Sorani\SimpleFramework\Database\Table;
 
 class Validator
 {
+    /**
+     * Authorized MIME extensions with their corresponding file extensions
+     * @var array
+     */
+    private const MIME_TYPES = [
+        'jpg' =>  'image/jpeg',
+        'jpeg' => 'image/jpeg',
+        'pdf' => 'application/pdf',
+        'png' => 'image/png',
+    ];
+
     /**
      * @var array
      */
@@ -204,6 +216,48 @@ class Validator
         }
         return $this;
     }
+
+        /**
+         * Check if the file has been uploaded successfully
+         *
+         * @param  string $key
+         * @return self
+         */
+    public function uploaded(string $key): self
+    {
+        /** @var UploadedFileInterface $file */
+        $file = $this->getValue($key);
+        if (null === $file || $file->getError() !== UPLOAD_ERR_OK) {
+            $this->addError($key, 'uploaded');
+        }
+        return $this;
+    }
+
+    /**
+     * Checks the file extenstion(s)
+     *
+     * @param  string $key Field name
+     * @param  string[] $extensions Accepted extensions
+     * @return self
+     */
+    public function extension(string $key, array $extensions): self
+    {
+        /** @var UploadedFileInterface */
+        $file = $this->getValue($key);
+        // if file exists and the upload was OK
+        if (null !== $file && UPLOAD_ERR_OK === $file->getError()) {
+            $type = $file->getClientMediaType();
+            $extension = mb_strtolower(pathinfo($file->getClientFilename(), PATHINFO_EXTENSION));
+            $expectedMimeType = self::MIME_TYPES[$extension] ?? null;
+
+            if (!in_array($extension, $extensions) || $expectedMimeType !== $type) {
+                $this->addError($key, 'filetype', [implode(',', $extensions)]);
+            }
+        }
+
+        return $this;
+    }
+
 
     /**
      * Retrieve the errors

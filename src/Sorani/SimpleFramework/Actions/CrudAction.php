@@ -131,12 +131,11 @@ abstract class CrudAction
         $errors = [];
 
         if ($request->getMethod() === 'POST') {
-            $params = $this->getParams($request);
             $validator = $this->getValidator($request);
-
             if ($validator->isValid()) {
-                $this->table->update($item->id, $params);
+                $this->table->update((int)$item->id, $this->getParams($request, $item));
                 $this->flash->success($this->messages['edit']);
+
                 return $this->redirect($this->routePrefix . '.index');
             }
             $errors = $validator->getErrors();
@@ -145,6 +144,7 @@ abstract class CrudAction
             // $item->slug = $params['slug'];
             // $item->content = $params['content'];
 
+            $params = $request->getParsedBody();
             $params['id'] = $item->id;
             $item = $params;
         }
@@ -167,17 +167,16 @@ abstract class CrudAction
         $errors = [];
 
         if ($request->getMethod() === 'POST') {
-            $params = $this->getParams($request);
             $validator = $this->getValidator($request);
             if ($validator->isValid()) {
-                $this->table->insert($params);
+                $this->table->insert($this->getParams($request, $item));
                 $this->flash->success($this->messages['create']);
                 return $this->redirect($this->routePrefix . '.index');
             }
 
             $errors = $validator->getErrors();
 
-            $item = $params;
+            $item = $request->getParsedBody();
         }
 
         return $this->renderer->render(
@@ -201,9 +200,11 @@ abstract class CrudAction
 
     /**
      * Filter the Input Parsed body
+     *
      * @param ServerRequestInterface $request
+     * @param EntityInterface $item
      */
-    protected function getParams(ServerRequestInterface $request): array
+    protected function getParams(ServerRequestInterface $request, EntityInterface $item): array
     {
         return
             array_filter(
@@ -223,7 +224,7 @@ abstract class CrudAction
      */
     protected function getValidator(ServerRequestInterface $request): Validator
     {
-        return (new Validator($request->getParsedBody()));
+        return new Validator(array_merge($request->getParsedBody(), $request->getUploadedFiles()));
     }
 
     /**
