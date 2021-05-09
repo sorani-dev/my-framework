@@ -35,10 +35,10 @@ class ValidationError
         'betweenLength' => "The %s field must contain between %d and %d characters",
         'minLength' => 'The %s field must contain more than %d characters',
         'maxLength' => 'The %s field must contain less than %d characters',
-        'dateTime.invalid' => 'The field % must have a valid datetime format (%)',
-        'dateTime.error' => 'The field % must be a valid datetime (%)',
-        'table.exists' => "The field % doesn't exist in the table %s",
-        'table.unique' => "The field % must be unique",
+        'dateTime.invalid' => 'The field %s must have a valid datetime format (%)',
+        'dateTime.error' => 'The field %s must be a valid datetime (%)',
+        'table.exists' => "The field %s doesn't exist in the table %s",
+        'table.unique' => "The field %s must be unique",
     ];
 
     /**

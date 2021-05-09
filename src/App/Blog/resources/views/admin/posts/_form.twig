@@ -1,19 +1,20 @@
 {{ csrf_input() }}
-{{ field('name', item.name, 'Post title', { class: 'form-control', }) }}
-{{ field('category_id', item.category_id, 'Category', { class: 'form-control', options: categories }) }}
-{{ field('slug', item.slug, 'Post link', { class: 'form-control', }) }}
-{{ field('content', item.content, 'Content', { class: 'form-control', type: 'textarea' }) }}
-{{ field('created_at', item.created_at, 'Creation date', { class: 'form-control datepicker'}) }}
+<div class="row">
+    <div class="col-md-6">
+        {{ field('name', item.name, 'Post title', { class: 'form-control', }) }}
+    </div>
 
-{# <div class="mb-3">
-    <label for="name">Post title</label>
-    <input type="text" class="form-control" name="name" id="name" value="{{ item.name }}">
+    <div class="col-md-6">
+        {{ field('category_id', item.category_id, 'Category', { class: 'form-control', options: categories }) }}
+    </div>
 </div>
-<div class="mb-3">
-    <label for="slug">Post slug</label>
-    <input type="text" class="form-control" name="slug" id="slug" value="{{ item.slug }}">
+<div class="row">
+    <div class="col-md-6">
+        {{ field('image', item.image, 'Image', { class: 'form-control', type: 'file'}) }}
+    </div>
+    <div class="col-md-6">
+        {{ field('slug', item.slug, 'Link', { class: 'form-control', }) }}
+    </div>
 </div>
-<div class="mb-3">
-    <label for="content">Content</label>
-    <textarea class="form-control" name="content" id="content" rows="10">{{ item.content }}</textarea>
-</div> #}
+    {{ field('content', item.content, 'Content', { class: 'form-control', type: 'textarea' }) }}
+    {{ field('created_at', item.created_at, 'Creation date', { class: 'form-control datepicker'}) }}
