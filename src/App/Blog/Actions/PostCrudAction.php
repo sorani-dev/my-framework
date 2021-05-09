@@ -8,6 +8,7 @@ use App\Blog\Entity\Post;
 use App\Blog\PostUpload;
 use App\Blog\Table\CategoryTable;
 use App\Blog\Table\PostTable;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Sorani\SimpleFramework\Actions\CrudAction;
 use Sorani\SimpleFramework\Database\EntityInterface;
@@ -58,6 +59,15 @@ class PostCrudAction extends CrudAction
         $this->categoryTable = $categoryTable;
         $this->postUpload = $postUpload;
     }
+
+    public function delete(ServerRequestInterface $request): ResponseInterface
+    {
+        /** @var Post $post */
+        $post = $this->table->find((int)$request->getAttribute('id'));
+        $this->postUpload->delete($post->image);
+        return parent::delete($request);
+    }
+
     /**
      * Filter the Input Parsed body
      *

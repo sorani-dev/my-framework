@@ -79,7 +79,7 @@ class Upload
      * @param string[] $formats
      * @return Upload
      */
-    public function setFormats(array $formats)
+    public function setFormats(array $formats): self
     {
         $this->formats = $formats;
         return $this;
@@ -89,7 +89,7 @@ class Upload
      * Path of the upload directory
      * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -99,7 +99,7 @@ class Upload
      * @param string $path
      * @return Upload
      */
-    public function setPath($path)
+    public function setPath($path): self
     {
         $this->path = $path;
         return $this;
@@ -151,7 +151,7 @@ class Upload
      * @param string $suffix suffix wanted
      * @return string
      */
-    private function getPathWithSuffix($path, $suffix)
+    private function getPathWithSuffix($path, $suffix): string
     {
         $info = pathinfo($path);
         $destination = $info['dirname'] .
