@@ -9,19 +9,19 @@ use DateTimeImmutable;
 trait EntityTimestampsTrait
 {
     /**
-     * @var string|\DateTimeImmutable
+     * @var \DateTimeImmutable
      */
     protected $createdAt;
 
     /**
-     * @var string|\DateTimeImmutable
+     * @var \DateTimeImmutable
      */
     protected $updatedAt;
 
     /**
      * Get the value of createdAt
      *
-     * @return  string|\DateTimeImmutable
+     * @return  \DateTimeImmutable
      */
     public function getCreatedAt()
     {
@@ -37,8 +37,8 @@ trait EntityTimestampsTrait
      */
     public function setCreatedAt($createdAt)
     {
-        if ($this->createdAt) {
-            $this->createdAt = new DateTimeImmutable($this->createdAt);
+        if (is_string($createdAt)) {
+            $this->createdAt = new DateTimeImmutable($createdAt);
         }
 
 
@@ -48,7 +48,7 @@ trait EntityTimestampsTrait
     /**
      * Get the value of updatedAt
      *
-     * @return  string|\DateTimeImmutable
+     * @return  \DateTimeImmutable
      */
     public function getUpdatedAt()
     {
@@ -58,14 +58,14 @@ trait EntityTimestampsTrait
     /**
      * Set the value of updatedAt
      *
-     * @param  string|\DateTimeImmutable  $updatedAt
+     * @param string\DateTime  $updatedAt
      *
      * @return  self
      */
     public function setUpdatedAt($updatedAt)
     {
-        if ($this->updatedAt) {
-            $this->updatedAt = new DateTimeImmutable($this->updatedAt);
+        if (is_string($updatedAt)) {
+            $this->updatedAt = new DateTimeImmutable($updatedAt);
         }
 
         return $this;

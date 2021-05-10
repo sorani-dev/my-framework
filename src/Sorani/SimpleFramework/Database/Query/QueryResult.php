@@ -73,7 +73,7 @@ class QueryResult implements \ArrayAccess, \Iterator, \Countable
     /**
      * get a value from the records
      *
-     * @param  string $key
+     * @param  string|int $key
      * @return EntityInterface|object
      */
     public function get($key)

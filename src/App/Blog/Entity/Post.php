@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Blog\Entity;
 
-use DateTimeImmutable;
 use Sorani\SimpleFramework\Database\Entity\EntityTimestampsTrait;
 use Sorani\SimpleFramework\Database\EntityInterface;
 
@@ -27,8 +26,8 @@ class Post implements EntityInterface
     public $name;
 
     /**
-    * @var string
-    */
+     * @var string
+     */
     public $slug;
 
     /**
@@ -65,7 +64,7 @@ class Post implements EntityInterface
      *
      * @return  self
      */
-    public function setId(int $id)
+    public function setId($id)
     {
         $this->id = $id;
 
@@ -155,5 +154,15 @@ class Post implements EntityInterface
         ['filename' => $filename, 'extension' => $extension] = pathinfo($this->image);
 
         return '/uploads/posts/' . $filename . '_thumb.' . $extension;
+    }
+
+    /**
+     * Get the image URL for display
+     *
+     * @return string
+     */
+    public function getImageUrl(): string
+    {
+        return '/uploads/posts/' . $this->image;
     }
 }

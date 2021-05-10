@@ -41,6 +41,7 @@ class PostSeeder extends AbstractSeed
                 'created_at' => $date,
                 'updated_at' => $date,
                 'category_id' => $faker->numberBetween(1, 5),
+                'published' => true,
             ];
         }
         $this->table('posts')

@@ -1,11 +1,14 @@
 {{ csrf_input() }}
-<div class="row">
-    <div class="col-md-6">
+<div class="row" style="align-items: flex-end;">
+    <div class="col-md-4">
         {{ field('name', item.name, 'Post title', { class: 'form-control', }) }}
     </div>
 
-    <div class="col-md-6">
-        {{ field('category_id', item.category_id, 'Category', { class: 'form-control', options: categories }) }}
+    <div class="col-md-4">
+        {{ field('category_id', item.categoryId, 'Category', { class: 'form-control', options: categories }) }}
+    </div>
+    <div class="col-md-4">
+        {{ field('published', item.published, 'On line?', { class: 'form-control', type: 'checkbox' }) }}
     </div>
 </div>
 <div class="row" style="align-items: flex-end;">
@@ -24,4 +27,4 @@
     </div>
 </div>
     {{ field('content', item.content, 'Content', { class: 'form-control', type: 'textarea' }) }}
-    {{ field('created_at', item.created_at, 'Creation date', { class: 'form-control datepicker'}) }}
+    {{ field('created_at', item.createdAt, 'Creation date', { class: 'form-control datepicker'}) }}

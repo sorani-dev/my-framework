@@ -58,6 +58,10 @@ class FormExtension extends AbstractExtension
             $input = $this->file($attributes);
             $labelClass =  'class="custom-file-label"';
             $class[] = 'custom-file align-middle';
+        } elseif ($type === 'checkbox') {
+            $class[] = 'custom-control custom-checkbox';
+            return $input = $this->checkbox($value, $attributes, $label, $class);
+            $labelClass =  ' class="custom-control-label"';
         } elseif (isset($options['options'])) {
             $input = $this->select($value, $options['options'], $attributes);
         } else {
@@ -109,6 +113,28 @@ EOT;
         // $attributes['class'] =
         $attributes['class'] .= ' custom-file-input';
         return  "<input type=\"file\" " . $this->getHtmlFromArray($attributes) . ">";
+    }
+
+
+    /**
+     * Checkbox field
+     *
+     * @param  string|null $value Field value
+     * @param  array $attributes class, ...
+     * @return string
+     */
+    public function checkbox(?string $value = null, array $attributes, string $label, array $class): string
+    {
+
+        $attributes['class'] = 'custom-control-input';
+        $html = '<input type="hidden" name="' . $attributes['name'] . '" value="0">';
+        if ($value) {
+            $attributes['checked'] = true;
+        }
+        $class = implode(' ', $class);
+        $class = str_replace('form-control', '', $class);
+        return sprintf('<div class="%s">%s<input type="checkbox" %s value="1"><label class="custom-control-label" for="%s">%s</label></div>', $class, $html, $this->getHtmlFromArray($attributes), $attributes['id'], $label);
+        return  $html . "<input type=\"checkbox\" " . $this->getHtmlFromArray($attributes) . ' value="1">';
     }
 
     /**

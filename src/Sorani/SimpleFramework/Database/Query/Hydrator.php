@@ -38,6 +38,8 @@ class Hydrator
                 $instance->$method($value);
             } elseif (property_exists($instance, $property)) {
                 $instance->$property = $value;
+            } else {
+                $instance->$property = $value;
             }
         }
         return $instance;

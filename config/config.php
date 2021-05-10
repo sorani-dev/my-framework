@@ -8,9 +8,11 @@ use function DI\create;
 use function DI\env;
 use function DI\factory;
 
+use App\Blog\Table\CategoryTable;
 use Sorani\SimpleFramework\Router;
 
 use Psr\Container\ContainerInterface;
+use Sorani\SimpleFramework\Database\Table;
 use Sorani\SimpleFramework\Middleware\CsrfMiddleware;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 use Sorani\SimpleFramework\Renderer\TwigRendererFactory;

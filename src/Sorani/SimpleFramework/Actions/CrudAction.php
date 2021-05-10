@@ -8,6 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Sorani\SimpleFramework\Actions\RouterAwareActionTrait;
 use Sorani\SimpleFramework\Database\EntityInterface;
+use Sorani\SimpleFramework\Database\Query\Hydrator;
 use Sorani\SimpleFramework\Database\Table;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 use Sorani\SimpleFramework\Router;
@@ -113,7 +114,7 @@ abstract class CrudAction
     public function index(ServerRequestInterface $request): string
     {
         $params = $request->getQueryParams();
-        $items = $this->table->findPaginated(12, (int)($params['p'] ?? 1));
+        $items = $this->table->findAll()->paginate(12, (int)($params['p'] ?? 1));
         $flash = $this->flash;
 
         return $this->renderer->render($this->viewPath . '/index', compact('items', 'flash'));
@@ -144,9 +145,7 @@ abstract class CrudAction
             // $item->slug = $params['slug'];
             // $item->content = $params['content'];
 
-            $params = $request->getParsedBody();
-            $params['id'] = $item->id;
-            $item = $params;
+            $item = Hydrator::getInstance()->hydrate($request->getParsedBody(), $item);
         }
 
         return $this->renderer->render(
@@ -176,7 +175,7 @@ abstract class CrudAction
 
             $errors = $validator->getErrors();
 
-            $item = $request->getParsedBody();
+            Hydrator::getInstance()->hydrate($request->getParsedBody(), $item);
         }
 
         return $this->renderer->render(

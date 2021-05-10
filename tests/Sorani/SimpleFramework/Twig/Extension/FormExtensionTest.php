@@ -49,9 +49,9 @@ class FormExtensionTest extends TestCase
         $expected = '<div class="mb-3 has-danger">
     <label for="name">Title</label>
     <input type="text" class="form-control is-invalid"' .
-        ' name="name" id="name" ' .
-        'aria-describedby="nameFieldFeedback" value="demoError">' .
-        '<small class="invalid-feedback" id="nameFieldFeedback">the error</small>
+            ' name="name" id="name" ' .
+            'aria-describedby="nameFieldFeedback" value="demoError">' .
+            '<small class="invalid-feedback" id="nameFieldFeedback">the error</small>
 </div>';
         $this->assertSimilarString($expected, $html);
     }
@@ -95,7 +95,7 @@ class FormExtensionTest extends TestCase
         $this->assertSimilarString('<div class="mb-3">
     <label for="name">Title</label>
     <select class="form-control" name="name" id="name">' .
-        '<option value="1" selected>Demo</option><option value="2">Demo2</option></select>
+            '<option value="1" selected>Demo</option><option value="2">Demo2</option></select>
 </div>', $html);
         $html = $this->formExtension->field(
             [],
@@ -108,7 +108,38 @@ class FormExtensionTest extends TestCase
         $this->assertSimilarString('<div class="mb-3">
     <label for="name">Title</label>
     <select class="custom-select" name="name" id="name">' .
-        '<option value="1">Demo</option><option value="2" selected>Demo2</option></select>
+            '<option value="1">Demo</option><option value="2" selected>Demo2</option></select>
 </div>', $html);
+    }
+
+
+    public function testCheckboxInput()
+    {
+        // not checked
+        $html = $this->formExtension->field([], 'name', null, 'Title', ['type' => 'checkbox']);
+        $expected = '<div class="mb-3 custom-control custom-checkbox"><input type="hidden" name="name" value="0">' .
+            '<input type="checkbox" class="custom-control-input" name="name" id="name" value="1">' .
+            '<label class="custom-control-label" for="name">' .
+            'Title</label></div>';
+        $this->assertSimilarString($expected, $html);
+
+
+        $html = $this->formExtension->field([], 'name', '0', 'Title', ['type' => 'checkbox']);
+        $expected = '<div class="mb-3 custom-control custom-checkbox">' .
+            '<input type="hidden" name="name" value="0">' .
+            '<input type="checkbox" class="custom-control-input" name="name" id="name" value="1">' .
+            '<label class="custom-control-label" for="name">' .
+            'Title</label></div>';
+        $this->assertSimilarString($expected, $html);
+
+
+        // checked
+        $html = $this->formExtension->field([], 'name', '1', 'Title', ['type' => 'checkbox']);
+        $expected = '<div class="mb-3 custom-control custom-checkbox">' .
+            '<input type="hidden" name="name" value="0">' .
+            '<input type="checkbox" class="custom-control-input" name="name" id="name" checked value="1">' .
+            '<label class="custom-control-label" for="name">' .
+            'Title</label></div>';
+        $this->assertSimilarString($expected, $html);
     }
 }

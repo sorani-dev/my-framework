@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Database\Query;
 
+use Cake\Datasource\Exception\RecordNotFoundException;
+use Pagerfanta\Pagerfanta;
 use Sorani\SimpleFramework\Database\EntityInterface;
+use Sorani\SimpleFramework\Database\Exception\NoRecordFoundException;
+use Sorani\SimpleFramework\Database\PaginatedQuery;
 
 class QueryBuilder implements \IteratorAggregate
 {
@@ -59,7 +63,7 @@ class QueryBuilder implements \IteratorAggregate
      * @var array
      */
     private $where = [];
-   /**
+    /**
      * ORDER BY
      *
      * @var array
@@ -82,7 +86,7 @@ class QueryBuilder implements \IteratorAggregate
      */
     private $having = [];
 
-     /**
+    /**
      * LIMIT
      *
      * @var string
@@ -178,6 +182,22 @@ class QueryBuilder implements \IteratorAggregate
     }
 
 
+    /**
+     * SELECT fields adding fields to select
+     *
+     * @param  string $fields Alist of fields to select
+     * @return self
+     */
+    public function addFields(string ...$fields): self
+    {
+        if ($this->fields) {
+            $this->fields = array_merge($this->fields, $fields);
+        } else {
+            $this->fields = $fields;
+        }
+        return $this;
+    }
+
     /*
     * JOIN Statement
     *
@@ -190,6 +210,23 @@ class QueryBuilder implements \IteratorAggregate
     {
         $this->joinByString[$joinType][] = [$foreignTable, $conditions];
         return $this;
+    }
+
+    /**
+     * INNER JOIN
+     *
+     * @param  string $foreignTable
+     * @param  string|null $alias null for no alias
+     * @param  string $conditions
+     * @return self
+     */
+    public function innerJoin(string $foreignTable, string $alias, string $conditions): self
+    {
+        return $this->joinByString(
+            $foreignTable . (null !== $alias ? ' AS ' . $alias : ''),
+            $conditions,
+            self::JOIN_INNER
+        );
     }
 
     /**
@@ -322,11 +359,11 @@ class QueryBuilder implements \IteratorAggregate
         if (empty($parameters)) {
             $this->parameters = $parameters;
         } else {
-            if ($replace) {
-                $this->parameters = array_merge($this->parameters, $parameters);
-            } else {
-                $this->parameters += $parameters;
-            }
+            // if ($replace) {
+            $this->parameters = array_merge($this->parameters, $parameters);
+            // } else {
+            //     $this->parameters += $parameters;
+            //     }
         }
         return $this;
     }
@@ -353,12 +390,46 @@ class QueryBuilder implements \IteratorAggregate
         return $this;
     }
 
+
+    /**
+     * retrieve a result
+     *
+     * @return mixed|bool
+     */
+    public function fetch()
+    {
+        $record = $this->execute()->fetch(\PDO::FETCH_ASSOC);
+        if (false === $record) {
+            return false;
+        }
+        if ($this->entity) {
+            return (Hydrator::getInstance())->hydrate($record, $this->entity);
+        }
+        return $record;
+    }
+
+    /**
+     * Retrieve a result or throw an exception if no record found
+     *
+     * @return \Traversable|EntityInterface|mixed
+     * @throws NoRecordFoundException
+     */
+    public function fetchOrFail()
+    {
+        $record = $this->fetch();
+        if (false === $record) {
+            throw new NoRecordFoundException();
+        }
+        return $record;
+    }
+
+
     /**
      * Retrieve all rows from the query
      *
      * @return QueryResult
      */
-    public function all(): QueryResult
+    public function fetchAll(): QueryResult
     {
         return new QueryResult($this->execute()->fetchAll(\PDO::FETCH_ASSOC), $this->entity);
     }
@@ -373,7 +444,7 @@ class QueryBuilder implements \IteratorAggregate
     public function get(int $index): EntityInterface
     {
         if ($this->entity) {
-            return Hydrator::getInstance()->hydrate($this->all()[$index], $this->entity);
+            return Hydrator::getInstance()->hydrate($this->fetchAll()[$index], $this->entity);
         }
         return $this->entity;
     }
@@ -384,10 +455,17 @@ class QueryBuilder implements \IteratorAggregate
      * @param  string $field
      * @return int Number of rows found.
      */
-    public function count(?string $field = 'id'): int
+    public function count($field = '*'): int
     {
         $query = clone $this;
+        if (null === $field) {
+            $from = $this->from;
+            reset($from);
+            $values = current($from);
+            $field = $values . '.*';
+        }
 
+        //        $table = $query->from[0];
         $query->fields = [];
         $query->fields('COUNT(' . $field . ')');
         return (int)$query->execute()->fetchColumn();
@@ -407,6 +485,22 @@ class QueryBuilder implements \IteratorAggregate
             return $statement;
         }
         return $this->pdo->query($query);
+    }
+
+
+
+
+    /**
+     * Paginate the results
+     *
+     * @param  int $nbPerPage
+     * @param  int $currentPage
+     * @return Pagerfanta
+     */
+    public function paginate(int $nbPerPage = self::RESULT_PER_PAGE, int $currentPage = 1): Pagerfanta
+    {
+        $pager = new PaginatedQuery($this);
+        return (new Pagerfanta($pager))->setMaxNbPages($nbPerPage)->setCurrentPage($currentPage);
     }
 
     /**
@@ -514,6 +608,6 @@ class QueryBuilder implements \IteratorAggregate
      */
     public function getIterator()
     {
-        return $this->all();
+        return $this->fetchAll();
     }
 }

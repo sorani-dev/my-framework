@@ -41,6 +41,7 @@ class ValidationError
         'table.unique' => "The field %s must be unique",
         'filetype' => "The field %s is not a valid format (%s)",
         'uploaded' => "You must upload a file",
+        'boolean' => 'The field %s is not a boolean',
     ];
 
     /**

@@ -78,12 +78,17 @@ class PostCrudAction extends CrudAction
     {
         $params = array_merge($request->getParsedBody(), $request->getUploadedFiles());
         // Upload the file
-        $params['image'] = $this->postUpload->upload($params['image'], $item->image);
+        $image = $this->postUpload->upload($params['image'], $item->image);
+        if ($image) {
+            $params['image'] = $image;
+        } else {
+            unset($params['image']);
+        }
 
         $params = array_filter(
             $params,
             function ($key) {
-                return in_array($key, ['name', 'slug', 'content', 'created_at', 'category_id', 'image']);
+                return in_array($key, ['name', 'slug', 'content', 'created_at', 'category_id', 'image', 'published']);
             },
             ARRAY_FILTER_USE_KEY
         );
@@ -103,6 +108,7 @@ class PostCrudAction extends CrudAction
             ->length('content', 10)
             ->length('name', 2, 250)
             ->length('slug', 2, 50)
+            ->boolean('published')
             // ->existsKey('category_id', $this->categoryTable)
             ->existsRecord('category_id', $this->categoryTable->getTable(), $this->categoryTable->getPdo())
             ->dateTime('created_at')
@@ -126,7 +132,7 @@ class PostCrudAction extends CrudAction
     protected function getNewEntity(): EntityInterface
     {
         $post = new Post();
-        $post->created_at = new \DateTimeImmutable();
+        $post->setCreatedAt(new \DateTimeImmutable());
         return $post;
     }
 }

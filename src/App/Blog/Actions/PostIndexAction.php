@@ -6,8 +6,6 @@ namespace App\Blog\Actions;
 
 use App\Blog\Table\CategoryTable;
 use App\Blog\Table\PostTable;
-use GuzzleHttp\Psr7\Response;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Sorani\SimpleFramework\Actions\RouterAwareActionTrait;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
@@ -62,9 +60,9 @@ class PostIndexAction
 
         $page = $params['p'] ?? 1;
 
-        $posts = $this->postTable->findPaginatedPublic(12, (int)$page);
+        $posts = $this->postTable->findPublic()->paginate(12, (int)$page);
         $categories = $this->categoryTable->findAll();
-
+        // var_dump($posts->getCurrentPageResults()[0]);die;
 
         return $this->renderer->render('@blog/index', compact('posts', 'categories', 'page'));
     }

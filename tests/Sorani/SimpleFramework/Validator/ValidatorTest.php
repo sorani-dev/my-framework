@@ -172,4 +172,40 @@ class ValidatorTest extends ExtendedTestCase
             $this->makeValidator(['name' => "a2"])->uniqueRecord('name', 'comments', $pdo, 1)->isValid()
         );
     }
+
+
+    /**
+     * @dataProvider booleanProvider
+     */
+    public function testBoolean($input, bool $isStrict, bool $expected)
+    {
+        $this->assertEquals(
+            $expected,
+            $this->makeValidator(['published' => $input])
+                ->boolean('published', $isStrict)
+                ->isValid()
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function booleanProvider(): array
+    {
+        return [
+            // truthy
+            ["1", false, true],
+            [1, false, true],
+            [true, false, true],
+
+            // falsy
+            ["0", false, true],
+            [0, false, true],
+            [false, false, true],
+
+            // true or false
+            [true, true, true],
+            [false, true, true],
+        ];
+    }
 }

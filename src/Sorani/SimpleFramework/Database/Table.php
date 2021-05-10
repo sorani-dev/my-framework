@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Database;
 
-use Pagerfanta\Pagerfanta;
 use Sorani\SimpleFramework\Database\EntityInterface;
 use Sorani\SimpleFramework\Database\Exception\NoRecordFoundException;
-use Sorani\SimpleFramework\Database\PaginatedQuery;
+use Sorani\SimpleFramework\Database\Query\QueryBuilder;
+use Sorani\SimpleFramework\Database\Query\QueryResult;
 use stdClass;
 
 class Table
@@ -27,7 +27,7 @@ class Table
     protected $table;
 
     /**
-     * @var \PDO
+     * @var \PDO|null
      */
     protected $pdo;
 
@@ -42,32 +42,15 @@ class Table
     }
 
     /**
-     * Paginate the items
+     * Make a new Instance of the QueryBuilder
      *
-     * @param  int $perPage number of results to display per page
-     * @return Pagerfanta
+     * @string|null $alias Table alias if needed else it will be the first letter of the table
+     * @return QueryBuilder
      */
-    public function findPaginated(int $perPage, int $currentPage): Pagerfanta
+    protected function makeQuery(?string $alias = null): QueryBuilder
     {
-        $query = new PaginatedQuery(
-            $this->pdo,
-            $this->paginationQuery(),
-            "SELECT COUNT(*) FROM {$this->table}",
-            $this->entity
-        );
-        return (new Pagerfanta($query))
-            ->setMaxPerPage($perPage)
-            ->setCurrentPage($currentPage);
-    }
-
-    /**
-     * SQL SELECT query statement as text, used for the pagination
-     *
-     * @return string
-     */
-    protected function paginationQuery(): string
-    {
-        return 'SELECT * FROM ' . $this->table;
+        return (new QueryBuilder($this->pdo))->from($this->table, $alias ?? $this->table[0])
+        ->into($this->entity);
     }
 
     /**
@@ -79,24 +62,17 @@ class Table
      */
     public function find(int $id)
     {
-        return $this->fetchOrFail("SELECT * FROM {$this->table} WHERE id = ?;", [$id]);
+        return $this->makeQuery()->where("id = :id")->params([':id' => $id])->fetchOrFail();
     }
 
     /**
      * Retrieve all records
      *
-     * @return EntityInterface
+     * @return QueryBuilder
      */
-    public function findAll(): array
+    public function findAll(): QueryBuilder
     {
-        $statement = $this->pdo->query("SELECT * FROM {$this->table};");
-
-        if ($this->entity) {
-            $statement->setFetchMode(\PDO::FETCH_CLASS, $this->entity);
-        } else {
-            $statement->setFetchMode(\PDO::FETCH_OBJ);
-        }
-        return $statement->fetchAll();
+        return $this->makeQuery();
     }
 
     /**
@@ -110,7 +86,7 @@ class Table
      */
     public function findBy(string $field, string $value)
     {
-        return $this->fetchOrFail("SELECT * FROM {$this->table} WHERE {$field}=?;", [$value]);
+        return $this->makeQuery()->where("{$field}=:$field")->params([":{$field}" => $value])->fetchOrFail();
     }
 
     /**
@@ -138,7 +114,7 @@ class Table
      */
     public function count(): int
     {
-        return (int)$this->fetchColumn("SELECT COUNT(id) FROM {$this->table};");
+        return (int)$this->makeQuery()->count();
         // return $count !== false ? (int)$count : -1;
     }
 
@@ -230,42 +206,16 @@ class Table
     }
 
     /**
-     * Execute a query and retrieve the first result
+     * Set the value of pdo
      *
-     * @param  string $query The query statement
-     * @param array $params The parameters
-     * @return EntityInterface|\stdClass|null
-     * @throws NoRecordFoundException
-     */
-    protected function fetchOrFail(string $query, array $params = [])
-    {
-        $statement = $this->pdo->prepare($query);
-        $statement->execute($params);
-        if ($this->entity) {
-            $statement->setFetchMode(\PDO::FETCH_CLASS, $this->entity);
-        }
-
-        $record = $statement->fetch();
-        if ($record === false) {
-            throw new NoRecordFoundException();
-        }
-        return $record;
-    }
-
-    /**
-     * Execute a query and retrieve the first column
+     * @param  \PDO  $pdo
      *
-     * @param  string $query The query statement
-     * @param array $params The parameters
-     * @return mixed
+     * @return  self
      */
-    protected function fetchColumn(string $query, array $params = [])
+    public function setPdo(\PDO $pdo): self
     {
-        $statement = $this->pdo->prepare($query);
-        $statement->execute($params);
-        if ($this->entity) {
-            $statement->setFetchMode(\PDO::FETCH_CLASS, $this->entity);
-        }
-        return  $statement->fetchColumn();
+        $this->pdo = $pdo;
+
+        return $this;
     }
 }

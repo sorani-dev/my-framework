@@ -60,8 +60,9 @@ class TableTest extends ExtendedTestCase
     public function testFindAll()
     {
         $this->makeInsertTestDatabase($this->table->getPdo(), "a1", "a2");
-        $actual = $this->table->findAll();
+        $actual = $this->table->findAll()->fetchAll();
         $this->assertCount(2, $actual);
+
         $this->assertInstanceOf(\stdClass::class, $actual[0]);
         $this->assertEquals('a1', $actual[0]->name);
         $this->assertEquals('a2', $actual[1]->name);

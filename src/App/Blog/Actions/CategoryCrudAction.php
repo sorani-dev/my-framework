@@ -40,8 +40,9 @@ class CategoryCrudAction extends CrudAction
     /**
      * Filter the Input Parsed body
      * @param ServerRequestInterface $request
+     * @param Category $item
      */
-    protected function getParams(ServerRequestInterface $request): array
+    protected function getParams(ServerRequestInterface $request, EntityInterface $item): array
     {
         $params = array_filter(
             $request->getParsedBody(),
