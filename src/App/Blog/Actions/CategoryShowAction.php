@@ -8,6 +8,7 @@ use App\Blog\Table\CategoryTable;
 use App\Blog\Table\PostTable;
 use Psr\Http\Message\ServerRequestInterface;
 use Sorani\SimpleFramework\Actions\RouterAwareActionTrait;
+use Sorani\SimpleFramework\Auth\UserInterface;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 
 class CategoryShowAction
@@ -39,7 +40,8 @@ class CategoryShowAction
     public function __construct(
         RendererInterface $renderer,
         PostTable $postTable,
-        CategoryTable $categoryTable
+        CategoryTable $categoryTable, 
+        UserInterface $user
     ) {
         $this->renderer = $renderer;
         $this->postTable = $postTable;
