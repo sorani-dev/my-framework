@@ -23,15 +23,6 @@ class MethodMiddlewareTest extends TestCase
         $this->middleware = new MethodMiddleware();
     }
 
-    public function testAddMethodPsr7()
-    {
-        $request = (new ServerRequest('POST', '/demo'))
-            ->withParsedBody(['_method' => 'DELETE']);
-        call_user_func($this->middleware, $request, function (ServerRequestInterface $request) {
-            $this->assertEquals('DELETE', $request->getMethod());
-        });
-    }
-
     public function testAddMethodPsr15()
     {
         $handler = $this->getMockBuilder(RequestHandlerInterface::class)

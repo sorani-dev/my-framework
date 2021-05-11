@@ -23,9 +23,10 @@ use function DI\get;
 return [
     'auth.login' => '/login',
     AuthInterface::class => get(DatabaseAuth::class),
-    UserInterface::class => factory(function(AuthInterface $auth) {
-        return $auth->getUser();
-    })->parameter('auth', get(AuthInterface::class)),
+    // UserInterface::class => factory(function(AuthInterface $auth) {
+    //     return $auth->getUser();
+    // })->parameter('auth', get(AuthInterface::class)),
+    UserInterface::class => get(User::class),
     ForbiddenMiddleware::class => autowire()->constructorParameter('loginPath', get('auth.login')),
     'twig.extensions' => add(
         get(AuthTwigExtension::class),

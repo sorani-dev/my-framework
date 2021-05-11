@@ -40,7 +40,7 @@ class CategoryShowAction
     public function __construct(
         RendererInterface $renderer,
         PostTable $postTable,
-        CategoryTable $categoryTable, 
+        CategoryTable $categoryTable,
         UserInterface $user
     ) {
         $this->renderer = $renderer;

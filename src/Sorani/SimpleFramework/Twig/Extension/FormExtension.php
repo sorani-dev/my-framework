@@ -62,6 +62,8 @@ class FormExtension extends AbstractExtension
             $class[] = 'custom-control custom-checkbox';
             return $input = $this->checkbox($value, $attributes, $label, $class);
             $labelClass =  ' class="custom-control-label"';
+        } elseif ($type === 'password') {
+            $input = $this->input($value, $attributes, 'password');
         } elseif (isset($options['options'])) {
             $input = $this->select($value, $options['options'], $attributes);
         } else {
@@ -90,15 +92,16 @@ EOT;
     }
 
     /**
-     * Input field
+     * Input field (text input only)
      *
      * @param  string|null $value Field value
      * @param  array $attributes class, ...
+     * @param string $type type of input (text, password)
      * @return string
      */
-    public function input(?string $value = null, array $attributes): string
+    public function input(?string $value = null, array $attributes, ?string $type = 'text'): string
     {
-        return  "<input type=\"text\" " . $this->getHtmlFromArray($attributes) . " value=\"{$value}\">";
+        return  "<input type=\"" . $type . "\" " . $this->getHtmlFromArray($attributes) . " value=\"{$value}\">";
     }
 
     /**

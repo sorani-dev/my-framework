@@ -47,7 +47,7 @@ class MiddlewareApp implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler = null): ResponseInterface
     {
-        return $this->process($request, $handler);
+        return $handler->handle($request);
     }
 
     /**

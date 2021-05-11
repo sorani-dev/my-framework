@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Middleware;
 
+use Middlewares\Utils\RequestHandler;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -12,6 +13,9 @@ use Sorani\SimpleFramework\Exception\CsrfInvalidException;
 use Sorani\SimpleFramework\Session\SessionInterface;
 use TypeError;
 
+/**
+ * CSRF for forms
+ */
 class CsrfMiddleware implements MiddlewareInterface
 {
     /**
@@ -32,6 +36,7 @@ class CsrfMiddleware implements MiddlewareInterface
      * @var int
      */
     private $limit = 50;
+
     /**
      * @var \ArrayAccess
      */
@@ -62,8 +67,8 @@ class CsrfMiddleware implements MiddlewareInterface
     /**
      * process
      *
-     * @param  mixed $request
-     * @param  mixed $handler
+     * @param  ServerRequestInterface $request
+     * @param  RequestHandler $handler
      * @return ResponseInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface

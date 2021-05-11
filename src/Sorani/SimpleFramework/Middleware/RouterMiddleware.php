@@ -7,9 +7,14 @@ namespace Sorani\SimpleFramework\Middleware;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Sorani\SimpleFramework\Router;
 
-class RouterMiddleware
+/**
+ * Router: match an url to a Route
+ */
+class RouterMiddleware implements MiddlewareInterface
 {
     /**
      * @var Router $router
@@ -20,17 +25,18 @@ class RouterMiddleware
     {
         $this->router = $router;
     }
-    public function __invoke(ServerRequestInterface $request, callable $next): ResponseInterface
+
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $route = $this->router->match($request);
         if (null === $route) {
-            return $next($request);
+            return $handler->handle($request);
         }
         $params = $route->getParams();
         $request = array_reduce(array_keys($params), function (ServerRequestInterface $request, $key) use ($params) {
             return $request->withAttribute($key, $params[$key]);
         }, $request);
         $request = $request->withAttribute(get_class($route), $route);
-        return $next($request);
+        return $handler->handle($request);
     }
 }

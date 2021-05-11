@@ -32,6 +32,14 @@ class ForbiddenMiddleware implements MiddlewareInterface
         $this->sessionInterface = $sessionInterface;
     }
 
+    /**
+     * process
+     *
+     * @param  mixed $request
+     * @param  mixed $handler
+     * @return ResponseInterface
+     * @throws ForbiddenException
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         try {
@@ -42,6 +50,7 @@ class ForbiddenMiddleware implements MiddlewareInterface
             if (false !== strpos($e->getMessage(), UserInterface::class)) {
                 return $this->redirectLogin($request);
             }
+            throw $e;
         }
     }
 

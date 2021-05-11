@@ -91,7 +91,7 @@ class App implements RequestHandlerInterface
     }
 
 
-    public function process(ServerRequestInterface $request): ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $middleware = $this->getMiddleware();
         if (null === $middleware) {
@@ -101,11 +101,6 @@ class App implements RequestHandlerInterface
         } elseif ($middleware instanceof MiddlewareInterface) {
             return $middleware->process($request, $this);
         }
-    }
-
-    public function handle(ServerRequestInterface $request): ResponseInterface
-    {
-        return $this->process($request);
     }
 
     /**
@@ -119,7 +114,7 @@ class App implements RequestHandlerInterface
         foreach ($this->modules as $module) {
             $this->getContainer()->get($module);
         }
-        return $this->process($request);
+        return $this->handle($request);
         /*
 
 

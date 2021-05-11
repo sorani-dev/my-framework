@@ -142,4 +142,14 @@ class FormExtensionTest extends TestCase
             'Title</label></div>';
         $this->assertSimilarString($expected, $html);
     }
+
+    public function testInputPassword()
+    {
+        $html = $this->formExtension->field([], 'name', 'demo', 'Title', ['type' => 'password']);
+        $expected = '<div class="mb-3">
+    <label for="name">Title</label>
+    <input type="password" class="form-control" name="name" id="name" value="demo">
+</div>';
+        $this->assertSimilarString($expected, $html);
+    }
 }

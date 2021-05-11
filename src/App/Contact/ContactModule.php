@@ -1,0 +1,25 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Contact;
+
+use Sorani\SimpleFramework\Modules\Module;
+use Sorani\SimpleFramework\Renderer\RendererInterface;
+use Sorani\SimpleFramework\Router;
+
+class ContactModule extends Module
+{
+    public const DEFINITIONS = __DIR__ . '/config/config.php';
+
+    public const MIGRATIONS = __DIR__ . '/db/migrations';
+
+    public const SEEDS = __DIR__ . '/db/seeds';
+
+    public function __construct(Router $router, RendererInterface $renderer)
+    {
+        $renderer->addPath('contact', __DIR__ . '/resouces/views');
+        $router->get('/contact', ContactShow::class, 'contact.show');
+        $router->post('/contact', ContactPost::class, 'contact.show');
+    }
+}

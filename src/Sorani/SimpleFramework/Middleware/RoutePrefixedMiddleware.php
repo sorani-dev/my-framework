@@ -10,6 +10,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * used for prefixed Routes
+ */
 class RoutePrefixedMiddleware implements MiddlewareInterface
 {
     /**
