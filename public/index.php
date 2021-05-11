@@ -3,6 +3,8 @@
 use Middlewares\Whoops;
 use App\Blog\BlogModule;
 use App\Admin\AdminModule;
+use App\Auth\AuthModule;
+use App\Auth\ForbiddenMiddleware;
 use GuzzleHttp\Psr7\ServerRequest;
 use Sorani\SimpleFramework\Middleware\{
     CsrfMiddleware,
@@ -10,6 +12,7 @@ use Sorani\SimpleFramework\Middleware\{
     RouterMiddleware,
     NotFoundMiddleware,
     DispatcherMiddleware,
+    LoggedInMiddleware,
     TrailingSlashMiddleware
 };
 
@@ -19,19 +22,17 @@ chdir(dirname(__DIR__));
 
 require 'vendor' . DIRECTORY_SEPARATOR . '/autoload.php';
 
-
-$modules = [
-    AdminModule::class,
-    BlogModule::class,
-];
-
-
-
 $app = (new \Sorani\SimpleFramework\App('config/config.php'))
     ->addModule(AdminModule::class)
     ->addModule(BlogModule::class)
-    ->pipe(Whoops::class)
+    ->addModule(AuthModule::class);
+
+$container = $app->getContainer();
+
+$app->pipe(Whoops::class)
     ->pipe(TrailingSlashMiddleware::class)
+    ->pipe(ForbiddenMiddleware::class)
+    ->pipe($container->get('admin.prefix'), LoggedInMiddleware::class)
     ->pipe(MethodMiddleware::class)
     ->pipe(CsrfMiddleware::class)
     ->pipe(RouterMiddleware::class)

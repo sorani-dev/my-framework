@@ -11,6 +11,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Sorani\SimpleFramework\Middleware\RoutePrefixedMiddleware;
+use Sorani\SimpleFramework\Modules\Module;
 
 /**
  * @class App
@@ -74,12 +76,17 @@ class App implements RequestHandlerInterface
     /**
      * Add a middleware (comportement)
      *
-     * @param  string $middleware
+     * @param  mixed $routePrefix
+     * @param  mixed $middleware
      * @return self
      */
-    public function pipe(string $middleware): self
+    public function pipe(string $routePrefix, ?string $middleware = null): self
     {
-        $this->middlewares[] = $middleware;
+        if (null === $middleware) {
+            $this->middlewares[] = $routePrefix;
+        } else {
+            $this->middlewares[] = new RoutePrefixedMiddleware($this->getContainer(), $routePrefix, $middleware);
+        }
         return $this;
     }
 
@@ -179,15 +186,29 @@ class App implements RequestHandlerInterface
     /**
      * getMiddleware
      *
-     * @return object
+     * @return object|null
      */
-    private function getMiddleware(): object
+    private function getMiddleware()
     {
         if (isset($this->middlewares[$this->middlewareIndex])) {
-            $middleware = $this->container->get($this->middlewares[$this->middlewareIndex]);
+            if (is_string($this->middlewares[$this->middlewareIndex])) {
+                $middleware = $this->container->get($this->middlewares[$this->middlewareIndex]);
+            } else {
+                $middleware = $this->middlewares[$this->middlewareIndex];
+            }
             $this->middlewareIndex++;
             return $middleware;
         }
         return null;
+    }
+
+    /**
+     * Get list of modules
+     *
+     * @return  Module[]
+     */
+    public function getModules(): array
+    {
+        return $this->modules;
     }
 }

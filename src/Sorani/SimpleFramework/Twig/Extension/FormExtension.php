@@ -133,7 +133,15 @@ EOT;
         }
         $class = implode(' ', $class);
         $class = str_replace('form-control', '', $class);
-        return sprintf('<div class="%s">%s<input type="checkbox" %s value="1"><label class="custom-control-label" for="%s">%s</label></div>', $class, $html, $this->getHtmlFromArray($attributes), $attributes['id'], $label);
+        return sprintf(
+            '<div class="%s">%s<input type="checkbox" %s value="1">' .
+             '<label class="custom-control-label" for="%s">%s</label></div>',
+            $class,
+            $html,
+            $this->getHtmlFromArray($attributes),
+            $attributes['id'],
+            $label
+        );
         return  $html . "<input type=\"checkbox\" " . $this->getHtmlFromArray($attributes) . ' value="1">';
     }
 

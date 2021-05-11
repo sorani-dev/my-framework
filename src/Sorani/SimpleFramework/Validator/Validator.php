@@ -217,12 +217,12 @@ class Validator
         return $this;
     }
 
-        /**
-         * Check if the file has been uploaded successfully
-         *
-         * @param  string $key
-         * @return self
-         */
+    /**
+     * Check if the file has been uploaded successfully
+     *
+     * @param  string $key
+     * @return self
+     */
     public function uploaded(string $key): self
     {
         /** @var UploadedFileInterface $file */
@@ -262,7 +262,8 @@ class Validator
      * Check if the field is a boolean value
      *
      * @param  string $key
-     * @param  bool $strict Strict comparaison: true or false. If not strict, truthy or falsy values (true, 1, false, 0, ...)
+     * @param  bool $strict Strict comparaison: true or false.
+     *  If not strict, truthy or falsy values (true, 1, false, 0, ...)
      * @return self
      */
     public function boolean(string $key, bool $strict = false): self
@@ -273,8 +274,11 @@ class Validator
             if ($value !== true && $value !== false) {
                 $this->addError($key, 'boolean');
             }
-        } elseif ($value !== true && $value !== false && $value !== 1 && $value !== 0 && $value !== '0' && $value !== '1') {
-                $this->addError($key, 'boolean');
+        } elseif (
+            $value !== true && $value !== false
+            && $value !== 1 && $value !== 0 && $value !== '0' && $value !== '1'
+        ) {
+            $this->addError($key, 'boolean');
         }
         return $this;
     }
