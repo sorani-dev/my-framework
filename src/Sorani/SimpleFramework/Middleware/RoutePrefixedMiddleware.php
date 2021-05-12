@@ -44,6 +44,9 @@ class RoutePrefixedMiddleware implements MiddlewareInterface
         $this->middleware = $middleware;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $path = $request->getUri()->getPath();

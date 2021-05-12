@@ -15,6 +15,9 @@ use Psr\Http\Server\RequestHandlerInterface;
  */
 class TrailingSlashMiddleware implements MiddlewareInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $uri = $request->getUri()->getPath();

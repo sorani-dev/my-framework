@@ -7,6 +7,9 @@ namespace Sorani\SimpleFramework\Twig\Extension;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
+/**
+ * Generate HTML form elements
+ */
 class FormExtension extends AbstractExtension
 {
     /**
@@ -27,7 +30,7 @@ class FormExtension extends AbstractExtension
      * @param  mixed $value Field value
      * @param  string $label Field label
      * @param  array $options
-     * @return string
+     * @return string Generated form field as string
      */
     public function field(array $context, string $key, $value, string $label, array $options = []): string
     {
@@ -169,7 +172,13 @@ EOT;
         return "<select " . $this->getHtmlFromArray($attributes) . ">" . $htmlOptions . "</select>";
     }
 
-    protected function getContextFieldError(array $context)
+    /**
+     * getContextFieldError
+     *
+     * @param  array $context
+     * @return string
+     */
+    protected function getContextFieldError(array $context): string
     {
         $classes = ['form-control'];
         return $classes . ' ' . !empty($context['errors']) ? 'is-invalid' : '';
@@ -182,14 +191,12 @@ EOT;
      * @param  string $key Field key
      * @return string
      */
-    protected function getErrorHtml(array $context, string $key)
+    protected function getErrorHtml(array $context, string $key): string
     {
         $errors = $context['errors'] ?? false;
 
         if (isset($errors[$key])) {
             return '<small class="invalid-feedback" id="' . $key . 'FieldFeedback">' . $errors[$key] . '</small>';
-            // return '<small class="form-text text-muted invalid-feedback" id="'
-            // . $key . 'FieldFeedback">' . $errors[$key] . '</small>';
         }
         return '';
     }

@@ -5,6 +5,7 @@ use App\Blog\BlogModule;
 use App\Admin\AdminModule;
 use App\Auth\AuthModule;
 use App\Auth\ForbiddenMiddleware;
+use App\Site\SiteModule;
 use GuzzleHttp\Psr7\ServerRequest;
 use Sorani\SimpleFramework\Middleware\{
     CsrfMiddleware,
@@ -25,7 +26,8 @@ require 'vendor' . DIRECTORY_SEPARATOR . '/autoload.php';
 $app = (new \Sorani\SimpleFramework\App('config/config.php'))
     ->addModule(AdminModule::class)
     ->addModule(BlogModule::class)
-    ->addModule(AuthModule::class);
+    ->addModule(AuthModule::class)
+    ->addModule(SiteModule::class);
 
 $container = $app->getContainer();
 

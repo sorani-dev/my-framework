@@ -11,14 +11,11 @@ use Sorani\SimpleFramework\Renderer\RendererInterface;
 use Sorani\SimpleFramework\Response\RedirectResponse;
 use Sorani\SimpleFramework\Session\FlashService;
 
+/**
+ * Logout a User Action
+ */
 class LogoutAction
 {
-    /**
-     * @var RendererInterface
-     */
-    private $renderer;
-
-
     /**
      * @var DatabaseAuth
      */
@@ -33,12 +30,11 @@ class LogoutAction
     /**
      * LogoutAction Contructor
      *
-     * @param  RendererInterface $renderer
      * @param DatabaseAuth $databaseAuth
+     * @param FlashService $flashService
      */
-    public function __construct(RendererInterface $renderer, DatabaseAuth $databaseAuth, FlashService $flashService)
+    public function __construct(DatabaseAuth $databaseAuth, FlashService $flashService)
     {
-        $this->renderer = $renderer;
         $this->databaseAuth = $databaseAuth;
         $this->flashService = $flashService;
     }

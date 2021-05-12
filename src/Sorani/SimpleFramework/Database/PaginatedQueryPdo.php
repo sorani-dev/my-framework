@@ -59,6 +59,7 @@ class PaginatedQueryPdo implements AdapterInterface
         $this->entityName = $entityName;
         $this->params = $params;
     }
+
     /**
      * Returns the number of results for the list.
      */

@@ -18,12 +18,17 @@ class PagerFantaExtension extends AbstractExtension
      */
     private $router;
 
+    /**
+     * Constructor
+     *
+     * @param  Router $router
+     */
     public function __construct(Router $router)
     {
         $this->router = $router;
     }
     /**
-     * @return TwigFunction
+     * @return TwigFunction[]
      */
     public function getFunctions(): array
     {

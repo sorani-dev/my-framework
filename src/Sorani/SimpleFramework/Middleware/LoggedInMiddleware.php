@@ -22,11 +22,20 @@ class LoggedInMiddleware implements MiddlewareInterface
      */
     private $auth;
 
+    /**
+     * Constructor
+     *
+     * @param AuthInterface $auth
+     */
     public function __construct(AuthInterface $auth)
     {
         $this->auth = $auth;
     }
 
+    /**
+     * {@inheritdoc}
+     * @throws ForbiddenException
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $user = $this->auth->getUser();

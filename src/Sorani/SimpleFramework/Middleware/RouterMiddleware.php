@@ -21,11 +21,19 @@ class RouterMiddleware implements MiddlewareInterface
      */
     private $router;
 
+    /**
+     * Constructor
+     *
+     * @param  Router $router
+     */
     public function __construct(Router $router)
     {
         $this->router = $router;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $route = $this->router->match($request);

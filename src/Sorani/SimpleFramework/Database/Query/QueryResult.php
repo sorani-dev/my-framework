@@ -7,6 +7,9 @@ namespace Sorani\SimpleFramework\Database\Query;
 use Sorani\Database\Exception\QueryException;
 use Sorani\SimpleFramework\Database\EntityInterface;
 
+/**
+ * Manage Results of the QueryBuilder
+ */
 class QueryResult implements \ArrayAccess, \Iterator, \Countable
 {
     /**
@@ -59,7 +62,7 @@ class QueryResult implements \ArrayAccess, \Iterator, \Countable
     }
 
     /**
-     *Set the current entity
+     * Set the current entity
      *
      * @param string $entity
      * @return QueryResult
@@ -231,6 +234,7 @@ class QueryResult implements \ArrayAccess, \Iterator, \Countable
     }
 
     /**
+     * Get the hydrated results entered from the QueryBuilder
      *
      * @return EntityInterface[]|array
      */

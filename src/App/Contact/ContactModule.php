@@ -16,6 +16,12 @@ class ContactModule extends Module
 
     public const SEEDS = __DIR__ . '/db/seeds';
 
+    /**
+     * Contructor
+     *
+     * @param  Router $router
+     * @param  RendererInterface $renderer
+     */
     public function __construct(Router $router, RendererInterface $renderer)
     {
         $renderer->addPath('contact', __DIR__ . '/resouces/views');

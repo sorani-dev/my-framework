@@ -11,6 +11,9 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 
+/**
+ * Migrate and Seed Database with Phinx configuration
+ */
 class DatabaseTestCase extends TestCase
 {
 
@@ -26,15 +29,23 @@ class DatabaseTestCase extends TestCase
 
     /**
      * Seed the Database before test
+     * @param \PDO
+     * @return void
      */
-    protected function migrateDatabase(\PDO $pdo)
+    protected function migrateDatabase(\PDO $pdo): void
     {
         $pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_BOTH);
         $this->getManager($pdo)->migrate('testing');
         $pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_OBJ);
     }
 
-    public function getManager(\PDO $pdo)
+    /**
+     * Get a Migration Manager
+     *
+     * @param  \PDO $pdo
+     * @return Manager
+     */
+    public function getManager(\PDO $pdo): Manager
     {
         // create Phinx to populate database
         $configArray = require('phinx.php');
@@ -48,7 +59,7 @@ class DatabaseTestCase extends TestCase
     }
 
     /**
-     * Get the value of pdo
+     * Get a new PDO instance
      *
      * @return  PDO
      */

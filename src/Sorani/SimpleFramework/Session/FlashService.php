@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Session;
 
+/**
+ * Manage Flash Messages
+ */
 class FlashService
 {
     /**
@@ -69,23 +72,4 @@ class FlashService
         }
         return $this->messages[$type] ?? null;
     }
-
-    // /**
-    //  *
-    //  * @return string
-    //  */
-    // public function getSessionKey(): string
-    // {
-    //     return $this->sessionKey;
-    // }
-
-    // /**
-    //  *
-    //  * @param string $sessionKey
-    //  * @return void
-    //  */
-    // public function setSessionKey(string $sessionKey): void
-    // {
-    //     $this->sessionKey = $sessionKey;
-    // }
 }

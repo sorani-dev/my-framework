@@ -5,6 +5,9 @@ namespace Sorani\SimpleFramework\TestCase;
 use Faker\Factory;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Helper methods for PHPUnit testing using TestCase
+ */
 class ExtendedTestCase extends TestCase
 {
     /**
@@ -32,8 +35,9 @@ class ExtendedTestCase extends TestCase
      *
      * @param string $expected
      * @param string $actual
+     * @return void
      */
-    public function assertSimilar($expected, $actual)
+    public function assertSimilar($expected, $actual): void
     {
         $this->assertEquals($this->trim($expected), $this->trim($actual));
     }
@@ -158,8 +162,9 @@ class ExtendedTestCase extends TestCase
      * Seed Sqlite Table Comments
      *
      * @param int $numberOfSeeds
+     * @return void
      */
-    protected function seed($numberOfSeeds = 100)
+    protected function seed($numberOfSeeds = 100): void
     {
         $faker = Factory::create();
         for ($i = 1; $i <= $numberOfSeeds; $i++) {
@@ -186,7 +191,8 @@ class ExtendedTestCase extends TestCase
     }
 
     /**
-     * getTestDatabase
+     * Create the test database and get  back an inqstance of PDO for this table
+     *
      * TABLE comments
      * ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
      * "name" TEXT NOT NULL)
@@ -204,6 +210,13 @@ class ExtendedTestCase extends TestCase
         return $pdo;
     }
 
+    /**
+     * Insert into test database
+     *
+     * @param  \PDO $pdo
+     * @param  string $names names to add to the test database
+     * @return void
+     */
     protected function makeInsertTestDatabase(\PDO $pdo, ...$names)
     {
         foreach ($names as $name) {

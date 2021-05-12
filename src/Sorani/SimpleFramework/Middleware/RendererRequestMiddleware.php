@@ -10,6 +10,9 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 
+/**
+ * Add a domain to the Server Request
+ */
 class RendererRequestMiddleware implements MiddlewareInterface
 {
     /**
@@ -17,11 +20,19 @@ class RendererRequestMiddleware implements MiddlewareInterface
      */
     private $renderer;
 
+    /**
+     * Construct
+     *
+     * @param  RendererInterface $renderer
+     */
     public function __construct(RendererInterface $renderer)
     {
         $this->renderer = $renderer;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $domain = sprintf(

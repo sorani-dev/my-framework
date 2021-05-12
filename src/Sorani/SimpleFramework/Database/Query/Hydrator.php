@@ -6,8 +6,16 @@ namespace Sorani\SimpleFramework\Database\Query;
 
 class Hydrator
 {
+    /**
+     * @var Hydrator
+     */
     private static $instance;
 
+    /**
+     * getInstance
+     *
+     * @return self
+     */
     public static function getInstance()
     {
         if (null === self::$instance) {

@@ -9,7 +9,13 @@ use Sorani\SimpleFramework\Database\Table;
 
 class CategoryTable extends Table
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $entity = Category::class;
 
+    /**
+     * {@inheritdoc}
+     */
     protected $table = 'categories';
 }

@@ -15,6 +15,11 @@ class AuthTwigExtension extends AbstractExtension
      */
     private $auth;
 
+    /**
+     * Constructor
+     *
+     * @param  AuthInterface $auth
+     */
     public function __construct(AuthInterface $auth)
     {
         $this->auth = $auth;

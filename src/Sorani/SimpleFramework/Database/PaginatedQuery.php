@@ -23,6 +23,7 @@ class PaginatedQuery implements AdapterInterface
     {
         $this->queryBuilder = $queryBuilder;
     }
+
     /**
      * Returns the number of results for the list.
      */
@@ -33,6 +34,7 @@ class PaginatedQuery implements AdapterInterface
 
     /**
      * Returns an slice of the results representing the current page of items in the list.
+     *
      * @return array|\Traversable
      */
     public function getSlice($offset, $length): \Traversable

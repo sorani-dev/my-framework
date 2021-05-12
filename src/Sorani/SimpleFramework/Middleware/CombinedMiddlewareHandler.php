@@ -37,12 +37,23 @@ class CombinedMiddlewareHandler implements RequestHandlerInterface
     private $handler;
 
 
+    /**
+     * Constructor
+     *
+     * @param  ContainerInterface $container
+     * @param  array $middlewares
+     * @param  RequestHandlerInterface $handler
+     */
     public function __construct(ContainerInterface $container, array $middlewares, RequestHandlerInterface $handler)
     {
         $this->container = $container;
         $this->middlewares = $middlewares;
         $this->handler = $handler;
     }
+
+    /**
+     * {@inheritdoc}
+     */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $middleware = $this->getMiddleware();
@@ -60,7 +71,7 @@ class CombinedMiddlewareHandler implements RequestHandlerInterface
     }
 
     /**
-     * getMiddleware
+     * Get the current middleware
      *
      * @return object|null
      */

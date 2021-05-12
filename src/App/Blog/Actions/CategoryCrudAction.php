@@ -21,8 +21,14 @@ class CategoryCrudAction extends CrudAction
      */
     protected $table;
 
+    /**
+     * {@inheritDoc}
+     */
     protected $viewPath = '@blog/admin/categories';
 
+    /**
+     * {@inheritDoc}
+     */
     protected $routePrefix = 'blog.admin.category';
 
     /**
@@ -37,6 +43,7 @@ class CategoryCrudAction extends CrudAction
     {
         parent::__construct($renderer, $table, $router, $flash);
     }
+
     /**
      * Filter the Input Parsed body
      * @param ServerRequestInterface $request
@@ -52,6 +59,9 @@ class CategoryCrudAction extends CrudAction
         return $params;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function getValidator(ServerRequestInterface $request): Validator
     {
         return parent::getValidator($request)
@@ -67,6 +77,9 @@ class CategoryCrudAction extends CrudAction
             ->slug('slug');
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function getNewEntity(): EntityInterface
     {
         return new Category();

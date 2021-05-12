@@ -9,6 +9,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Checks the User has the right role
+ */
 class RoleMiddleware implements MiddlewareInterface
 {
     /**
@@ -22,10 +25,10 @@ class RoleMiddleware implements MiddlewareInterface
     private $role;
 
     /**
-     * __construct
+     * Role Constructor
      *
      * @param  AuthInterface $auth
-     * @param string $role
+     * @param string $role User role
      */
     public function __construct(AuthInterface $auth, string $role)
     {
@@ -33,6 +36,9 @@ class RoleMiddleware implements MiddlewareInterface
         $this->role = $role;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $user = $this->auth->getUser();

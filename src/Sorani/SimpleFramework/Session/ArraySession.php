@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Session;
 
+/**
+ * {@inheritdoc}
+ */
 class ArraySession implements SessionInterface
 {
     /**

@@ -4,21 +4,24 @@ declare(strict_types=1);
 
 namespace App\Blog\Table;
 
-use App\Blog\Entity\Category;
 use App\Blog\Entity\Post;
-use Pagerfanta\Pagerfanta;
-use Sorani\SimpleFramework\Database\PaginatedQuery;
-use Sorani\SimpleFramework\Database\Query\QueryBuilder;
 use Sorani\SimpleFramework\Database\Table;
+use Sorani\SimpleFramework\Database\Query\QueryBuilder;
 
 class PostTable extends Table
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $entity = Post::class;
 
+    /**
+     * {@inheritdoc}
+     */
     protected $table = 'posts';
 
     /**
-     * Find all results linked with categories
+     * Find all Posts results linked with categories
      *
      * @return QueryBuilder
      */
@@ -31,7 +34,7 @@ class PostTable extends Table
     }
 
     /**
-     * findPublic
+     * Find Public Posts
      *
      * @return QueryBuilder
      */

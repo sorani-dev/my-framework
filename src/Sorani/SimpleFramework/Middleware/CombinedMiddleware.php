@@ -23,11 +23,21 @@ class CombinedMiddleware implements MiddlewareInterface
      */
     private $middlewares;
 
+    /**
+     * Constructor
+     *
+     * @param  ContainerInterface $container
+     * @param  array $middlewares
+     */
     public function __construct(ContainerInterface $container, array $middlewares)
     {
         $this->container = $container;
         $this->middlewares = $middlewares;
     }
+
+    /**
+     * {@inheritdoc}
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $handler = new CombinedMiddlewareHandler($this->container, $this->middlewares, $handler);

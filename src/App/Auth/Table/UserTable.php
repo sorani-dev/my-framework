@@ -9,7 +9,13 @@ use Sorani\SimpleFramework\Database\Table;
 
 class UserTable extends Table
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $table = 'users';
 
+    /**
+     * {@inheritdoc}
+     */
     protected $entity = User::class;
 }

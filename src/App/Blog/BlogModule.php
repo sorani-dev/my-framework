@@ -16,12 +16,27 @@ use Sorani\SimpleFramework\Renderer\RendererInterface;
 
 class BlogModule extends Module
 {
+    /**
+     * {@inheritdoc}
+     */
     public const DEFINITIONS = __DIR__ . '/config/config.php';
 
+    /**
+     * {@inheritdoc}
+     */
     public const MIGRATIONS = __DIR__ . '/db/migrations';
 
+    /**
+     * {@inheritdoc}
+     */
     public const SEEDS = __DIR__ . '/db/seeds';
 
+    /**
+     * Construct
+     *
+     * @param  ContainerInterface $c
+     * @return void
+     */
     public function __construct(ContainerInterface $c)
     {
         $blogPrefix = $c->get('blog.prefix');

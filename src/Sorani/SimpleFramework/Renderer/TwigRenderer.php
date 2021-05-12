@@ -17,10 +17,9 @@ class TwigRenderer implements RendererInterface
     private $twig;
 
     /**
-     * __construct
+     * Constructor
      *
      * @param  string $path
-     * @return void
      */
     public function __construct(Environment $twig)
     {
@@ -90,18 +89,6 @@ class TwigRenderer implements RendererInterface
     private function getNamespace(string $view): string
     {
         return substr($view, 1, strpos($view, '/') - 1);
-    }
-
-    /**
-     * Replace the namespace with the base path from the view path
-     *
-     * @param  string $view view path
-     * @return string
-     */
-    private function replaceNamespace(string $view): string
-    {
-        $namespace = $this->getNamespace($view);
-        return str_replace('@' . $namespace, $this->paths[$namespace], $view);
     }
 
     /**

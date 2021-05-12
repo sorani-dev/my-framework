@@ -14,11 +14,28 @@ use Sorani\SimpleFramework\Router;
 
 class AuthModule extends Module
 {
+    /**
+     * {@inheritdoc}
+     */
     public const DEFINITIONS = __DIR__ . '/config/config.php';
 
+    /**
+     * {@inheritdoc}
+     */
     public const MIGRATIONS = __DIR__ . '/db/migrations';
 
+    /**
+     * {@inheritdoc}
+     */
     public const SEEDS = __DIR__ . '/db/seeds';
+
+    /**
+     * AuthModule Constructor
+     *
+     * @param  ContainerInterface $container
+     * @param  Router $router
+     * @param  RendererInterface $renderer
+     */
     public function __construct(ContainerInterface $container, Router $router, RendererInterface $renderer)
     {
         $renderer->addPath('auth', __DIR__ . '/resources/views');

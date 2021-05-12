@@ -29,8 +29,9 @@ class App implements RequestHandlerInterface
 
 
     /**
-     * Definition file containing a configuration array
-     * @var string
+     * Definition file containing either a configuration array
+     * or a configuration array
+     * @var string|array
      */
     private $definition;
 
@@ -40,7 +41,7 @@ class App implements RequestHandlerInterface
     private $container;
 
     /**
-     * @var string[]
+     * @var string[] list of Middlewares
      */
     private $middlewares = [];
 
@@ -53,9 +54,9 @@ class App implements RequestHandlerInterface
     /**
      * App Constructor
      *
-     * @param  string $definition definition file path
+     * @param  string|array $definition definition file path
      */
-    public function __construct(string $definition)
+    public function __construct($definition)
     {
         $this->definition = $definition;
     }
@@ -76,11 +77,11 @@ class App implements RequestHandlerInterface
     /**
      * Add a middleware (comportement)
      *
-     * @param  mixed $routePrefix
-     * @param  mixed $middleware
+     * @param  string|MiddlewareInterface $routePrefix
+     * @param  mixed|string|MiddlewareInterface|null $middleware
      * @return self
      */
-    public function pipe(string $routePrefix, ?string $middleware = null): self
+    public function pipe($routePrefix, $middleware = null): self
     {
         if (null === $middleware) {
             $this->middlewares[] = $routePrefix;
@@ -97,7 +98,7 @@ class App implements RequestHandlerInterface
         if (null === $middleware) {
             throw new \Exception('No middleware has been able to intercept the request');
         } elseif (is_callable($middleware)) {
-            return $middleware($request, [$this, 'process']);
+            return $middleware($request, [$this, 'handle']);
         } elseif ($middleware instanceof MiddlewareInterface) {
             return $middleware->process($request, $this);
         }
@@ -161,8 +162,6 @@ class App implements RequestHandlerInterface
                 }
                 $builder->enableCompilation('tmp/proxies');
                 $builder->writeProxiesToFile(true, __DIR__ . '/tmp/proxies');
-                // $builder->enableDefinitionCache(new ApcuCache());
-                // $builder->writeProxiesToFile(true, __DIR__ . '/tmp/proxies');
             }
 
             $builder->addDefinitions($this->definition);
@@ -179,7 +178,7 @@ class App implements RequestHandlerInterface
     }
 
     /**
-     * getMiddleware
+     * Get a middleware
      *
      * @return object|null
      */

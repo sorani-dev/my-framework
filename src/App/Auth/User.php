@@ -34,11 +34,17 @@ class User implements EntityInterface, UserInterface
      */
     public $roles;
 
+    /**
+     * {@inheritdoc}
+     */
     public function getUsername(): string
     {
         return $this->username;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getRoles(): array
     {
         return [];

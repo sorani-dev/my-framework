@@ -38,6 +38,8 @@ class CsrfMiddleware implements MiddlewareInterface
     private $limit = 50;
 
     /**
+     * Current Session
+     *
      * @var \ArrayAccess
      */
     private $session;
@@ -49,7 +51,6 @@ class CsrfMiddleware implements MiddlewareInterface
      * @param  int $limit The upper limit of number of tokens
      * @param  string $formKey The key used by the form
      * @param  string $sessionKey The key used for the CSRF in the current $session
-     * @return void
      */
     public function __construct(
         \ArrayAccess &$session,
@@ -65,11 +66,7 @@ class CsrfMiddleware implements MiddlewareInterface
     }
 
     /**
-     * process
-     *
-     * @param  ServerRequestInterface $request
-     * @param  RequestHandler $handler
-     * @return ResponseInterface
+     * {@inheritdoc}
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
@@ -105,7 +102,7 @@ class CsrfMiddleware implements MiddlewareInterface
     }
 
     /**
-     * reject
+     * Reject an input request
      *
      * @return void
      * @throws CsrfInvalidException
@@ -116,7 +113,7 @@ class CsrfMiddleware implements MiddlewareInterface
     }
 
     /**
-     * Remove token from list
+     * Remove a token from list
      *
      * @param  string $currentToken
      * @return void
@@ -144,7 +141,7 @@ class CsrfMiddleware implements MiddlewareInterface
     }
 
     /**
-     * isValidSession
+     * Check if the session is a valid type
      *
      * @param  array|\ArrayAccess|mixed $session
      * @return void

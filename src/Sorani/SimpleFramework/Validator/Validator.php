@@ -21,11 +21,14 @@ class Validator
     ];
 
     /**
+     * Input parameters
      * @var array
      */
     private $params;
 
     /**
+     * List of validation errors
+     *
      * @var ValidationError[]
      */
     private $errors = [];
@@ -43,7 +46,7 @@ class Validator
     /**
      * Check the fields are in the parameters array
      *
-     * @param  string[] $keys
+     * @param  string[] $keys Fields names
      * @return self
      */
     public function required(string ...$keys): self
@@ -60,16 +63,13 @@ class Validator
     /**
      * Check the field is not an empty string
      *
-     * @param  string[] $keys
+     * @param  string[] $keys Fields names
      * @return self
      */
     public function notEmpty(string ...$keys): self
     {
         foreach ($keys as $key) {
             $value = $this->getValue($key);
-            // if (is_string($value)) {
-            //     $value = trim($value);
-            // }
             if (null === $value || empty(trim($value))) {
                 $this->addError($key, 'notEmpty');
             }
@@ -80,7 +80,7 @@ class Validator
     /**
      * Check that the element is a slug
      *
-     * @param  string $key
+     * @param  string $key Field name
      * @return self
      */
     public function slug(string $key): self
@@ -95,6 +95,15 @@ class Validator
         }
         return $this;
     }
+
+    /**
+     * Length is less than or greater than a value
+     *
+     * @param  string $key Field name
+     * @param  int|null $minLength minimum length or no minimum if null
+     * @param  int|null $maxLength maximum lengthor no maximum if null
+     * @return self
+     */
     public function length(string $key, ?int $minLength = null, ?int $maxLength = null): self
     {
         $value = $this->getValue($key);
@@ -132,7 +141,7 @@ class Validator
     /**
      * Check the field is a Full DateTime (\DateTimeInterface)
      *
-     * @param  string $key
+     * @param  string $key Field name
      * @param  string $format DateTime format
      *      year, month, day, hour, minutes and seconds are all required
      * @return self
@@ -155,9 +164,9 @@ class Validator
     }
 
     /**
-     * Check that the element exist in the table
+     * Check that the element exists in the table
      *
-     * @param  key $key
+     * @param  key $key Field name
      * @param  Table $table Table
      * @return self
      */
@@ -172,7 +181,7 @@ class Validator
     /**
      * Check that the element exists in the table
      *
-     * @param  key $key
+     * @param  key $key Field name
      * @param  Table $table Table
      * @param \PDO $pdo
      * @return self
@@ -192,10 +201,10 @@ class Validator
     /**
      * Check that the element is unique in the table
      *
-     * @param  key $key
-     * @param  Table $table Table
+     * @param  key $key Field name
+     * @param  string $table Table name to check
      * @param \PDO $pdo
-     * @param int|null $exclude
+     * @param int|null $exclude excluded primary key values
      * @return self
      */
     public function uniqueRecord(string $key, string $table, \PDO $pdo, ?int $exclude = null): self
@@ -220,7 +229,7 @@ class Validator
     /**
      * Check if the file has been uploaded successfully
      *
-     * @param  string $key
+     * @param  string $key Field name
      * @return self
      */
     public function uploaded(string $key): self
@@ -261,7 +270,7 @@ class Validator
     /**
      * Check if the field is a boolean value
      *
-     * @param  string $key
+     * @param  string $key Field name
      * @param  bool $strict Strict comparaison: true or false.
      *  If not strict, truthy or falsy values (true, 1, false, 0, ...)
      * @return self
@@ -282,7 +291,6 @@ class Validator
         }
         return $this;
     }
-
 
     /**
      * Retrieve the errors
@@ -308,19 +316,20 @@ class Validator
     }
 
     /**
-     * Get the value of errors
+     * Get the ValidationError of a field
      *
-     * @return  ValidationError
+     * @param string $key
+     * @return  ValidationError|null
      */
-    public function getError()
+    public function getError(string $key): ?ValidationError
     {
-        return $this->errors;
+        return $this->errors[$key] ?? null;
     }
 
     /**
      * Retrieve the value of a field
      *
-     * @param  string $key
+     * @param  string $key Field name
      * @return mixed|null
      */
     public function getValue(string $key)
@@ -329,9 +338,9 @@ class Validator
     }
 
     /**
-     * isValid
+     * Is the Validator valid
      *
-     * @return bool
+     * @return bool no errors
      */
     public function isValid(): bool
     {

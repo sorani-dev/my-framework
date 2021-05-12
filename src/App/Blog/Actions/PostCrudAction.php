@@ -24,8 +24,16 @@ class PostCrudAction extends CrudAction
      */
     protected $table;
 
+    /**
+     * @var string
+     * {@inheritdoc}
+     */
     protected $viewPath = '@blog/admin/posts';
 
+    /**
+     * @var string
+     * {@inheritdoc}
+     */
     protected $routePrefix = 'blog.admin';
 
     /**
@@ -46,6 +54,7 @@ class PostCrudAction extends CrudAction
      * @param PostTable $table Table instance
      * @param  Router $router
      * @param FlashService $flash
+     * @param PostUpload $postUpload
      */
     public function __construct(
         RendererInterface $renderer,
@@ -60,6 +69,12 @@ class PostCrudAction extends CrudAction
         $this->postUpload = $postUpload;
     }
 
+    /**
+     * Delete a Post
+     *
+     * @param  ServerRequestInterface $request
+     * @return ResponseInterface
+     */
     public function delete(ServerRequestInterface $request): ResponseInterface
     {
         /** @var Post $post */
@@ -73,6 +88,7 @@ class PostCrudAction extends CrudAction
      *
      * @param ServerRequestInterface $request
      * @param Post $item
+     * @return array
      */
     protected function getParams(ServerRequestInterface $request, EntityInterface $item): array
     {
@@ -101,6 +117,9 @@ class PostCrudAction extends CrudAction
         return $params;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getValidator(ServerRequestInterface $request): Validator
     {
         $v = parent::getValidator($request)
@@ -122,6 +141,11 @@ class PostCrudAction extends CrudAction
         return $v;
     }
 
+    /**
+     * Handles the parameters sent to the vue
+     *
+     * {@inheritDoc}
+     */
     protected function formParams(array $params): array
     {
         $params['categories'] = $this->categoryTable->findAsList();
@@ -129,7 +153,12 @@ class PostCrudAction extends CrudAction
         return $params;
     }
 
-    protected function getNewEntity(): EntityInterface
+    /**
+     * Get a new Post Entity
+     *
+     * @return Post
+     */
+    protected function getNewEntity(): Post
     {
         $post = new Post();
         $post->setCreatedAt(new \DateTimeImmutable());

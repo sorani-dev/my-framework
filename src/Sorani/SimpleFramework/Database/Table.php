@@ -7,9 +7,11 @@ namespace Sorani\SimpleFramework\Database;
 use Sorani\SimpleFramework\Database\EntityInterface;
 use Sorani\SimpleFramework\Database\Exception\NoRecordFoundException;
 use Sorani\SimpleFramework\Database\Query\QueryBuilder;
-use Sorani\SimpleFramework\Database\Query\QueryResult;
 use stdClass;
 
+/**
+ * Tables managing database records and Entities
+ */
 class Table
 {
     /**

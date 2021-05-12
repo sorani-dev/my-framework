@@ -7,6 +7,9 @@ namespace Sorani\SimpleFramework\Session;
 use ArrayAccess;
 use Sorani\Session\Exceptions\SessionException;
 
+/**
+ * {@inheritdoc}
+ */
 class PHPSession implements SessionInterface, ArrayAccess
 {
     /**
@@ -86,21 +89,33 @@ class PHPSession implements SessionInterface, ArrayAccess
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function offsetSet($offset, $value)
     {
         $this->set($offset, $value);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function offsetExists($offset)
     {
         return $this->has($offset);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function offsetUnset($offset)
     {
         $this->delete($offset);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function offsetGet($offset)
     {
         return $this->get($offset);

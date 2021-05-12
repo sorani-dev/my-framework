@@ -6,6 +6,9 @@ namespace Sorani\SimpleFramework\Response;
 
 use GuzzleHttp\Psr7\Response;
 
+/**
+ * URL redirection
+ */
 class RedirectResponse extends Response
 {
     /**

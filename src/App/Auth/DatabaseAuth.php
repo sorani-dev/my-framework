@@ -10,6 +10,9 @@ use Sorani\SimpleFramework\Auth\UserInterface;
 use Sorani\SimpleFramework\Database\Exception\NoRecordFoundException;
 use Sorani\SimpleFramework\Session\SessionInterface;
 
+/**
+ * {@inheritdoc}
+ */
 class DatabaseAuth implements AuthInterface
 {
     /**
@@ -27,6 +30,12 @@ class DatabaseAuth implements AuthInterface
      */
     private $user;
 
+    /**
+     * DatabaseAuth Constructor
+     *
+     * @param  UserTable $userTable
+     * @param  SessionInterface $session
+     */
     public function __construct(UserTable $userTable, SessionInterface $session)
     {
         $this->userTable = $userTable;
@@ -56,12 +65,18 @@ class DatabaseAuth implements AuthInterface
         return null;
     }
 
+    /**
+     * log out a User
+     *
+     * @return void
+     */
     public function logout(): void
     {
         $this->session->delete('auth.user');
     }
 
     /**
+     * {@inheritdoc}
      * @return User|null
      */
     public function getUser(): ?User

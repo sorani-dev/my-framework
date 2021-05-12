@@ -8,8 +8,18 @@ use Twig\Extension\DebugExtension;
 use Psr\Container\ContainerInterface;
 use Sorani\SimpleFramework\Renderer\TwigRenderer;
 
+/**
+ * Create a Twig Environement instance an populate it with default values
+ */
 class TwigRendererFactory
 {
+
+    /**
+     * Invoke method
+     *
+     * @param  ContainerInterface $container
+     * @return TwigRenderer
+     */
     public function __invoke(ContainerInterface $container): TwigRenderer
     {
         // ge tthe environement type

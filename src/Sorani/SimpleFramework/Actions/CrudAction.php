@@ -15,6 +15,10 @@ use Sorani\SimpleFramework\Router;
 use Sorani\SimpleFramework\Session\FlashService;
 use Sorani\SimpleFramework\Validator\Validator;
 
+/**
+ * Creates CRUD Actions for child classes
+ * @abstract
+ */
 abstract class CrudAction
 {
     use RouterAwareActionTrait;
@@ -68,9 +72,9 @@ abstract class CrudAction
     /**
      * CrudAction Contructor
      *
-     * @param  RendererInterface $renderer
+     * @param RendererInterface $renderer
      * @param Table $table Table instance
-     * @param  Router $router
+     * @param Router $router
      * @param FlashService $flash
      */
     public function __construct(RendererInterface $renderer, Table $table, Router $router, FlashService $flash)
@@ -85,7 +89,7 @@ abstract class CrudAction
      * Manage methods to call based on Request attributes
      *
      * @param ServerRequestInterface $request
-     * @return void
+     * @return ResponseInterface|string
      */
     public function __invoke(ServerRequestInterface $request)
     {

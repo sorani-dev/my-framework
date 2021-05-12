@@ -26,6 +26,12 @@ class ForbiddenMiddleware implements MiddlewareInterface
      */
     private $sessionInterface;
 
+    /**
+     * Constructor
+     *
+     * @param  string $loginPath
+     * @param  SessionInterface $sessionInterface
+     */
     public function __construct(string $loginPath, SessionInterface $sessionInterface)
     {
         $this->loginPath = $loginPath;
@@ -35,8 +41,8 @@ class ForbiddenMiddleware implements MiddlewareInterface
     /**
      * process
      *
-     * @param  mixed $request
-     * @param  mixed $handler
+     * @param  ServerRequestInterface $request
+     * @param  RequestHandlerInterface $handler
      * @return ResponseInterface
      * @throws ForbiddenException
      */

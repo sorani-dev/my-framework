@@ -15,6 +15,9 @@ use Psr\Http\Server\RequestHandlerInterface;
  */
 class MethodMiddleware implements MiddlewareInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $parsedBody = $request->getParsedBody();

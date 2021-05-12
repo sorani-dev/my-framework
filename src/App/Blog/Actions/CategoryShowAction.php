@@ -11,6 +11,9 @@ use Sorani\SimpleFramework\Actions\RouterAwareActionTrait;
 use Sorani\SimpleFramework\Auth\UserInterface;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 
+/**
+ * Show a single Category with its corresponding Posts
+ */
 class CategoryShowAction
 {
     use RouterAwareActionTrait;
@@ -31,11 +34,11 @@ class CategoryShowAction
     private $categoryTable;
 
     /**
-     * PostIndexAction Contructor
+     * CategoryShowAction Contrsuctor
      *
      * @param  RendererInterface $renderer
      * @param  Router $router
-     * @param CategoryTable $categoryTable
+     * @param  CategoryTable $categoryTable
      */
     public function __construct(
         RendererInterface $renderer,

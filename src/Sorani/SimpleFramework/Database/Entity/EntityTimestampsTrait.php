@@ -6,24 +6,29 @@ namespace Sorani\SimpleFramework\Database\Entity;
 
 use DateTimeImmutable;
 
+/**
+ * Defines a trait to manage Timestamps (created date, updated date)
+ * Uses DateTimeImmutable in implementing
+ * classes using the trait can override this trait with other classes implementing \DateTimeInterface
+ */
 trait EntityTimestampsTrait
 {
     /**
-     * @var \DateTimeImmutable
+     * @var \DateTimeInterface Created date as \DateTimeImmutable by trait implementation
      */
     protected $createdAt;
 
     /**
-     * @var \DateTimeImmutable
+     * @var \DateTimeInterface Update date as \DateTimeImmutable by trait implementation
      */
     protected $updatedAt;
 
     /**
      * Get the value of createdAt
      *
-     * @return  \DateTimeImmutable
+     * @return  \DateTimeInterface|null
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
@@ -31,26 +36,24 @@ trait EntityTimestampsTrait
     /**
      * Set the value of createdAt
      *
-     * @param  string|\DateTimeImmutable  $createdAt
+     * @param  string|\DateTimeInterface  $createdAt
      *
      * @return  self
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt($createdAt): self
     {
         if (is_string($createdAt)) {
             $this->createdAt = new DateTimeImmutable($createdAt);
         }
-
-
         return $this;
     }
 
     /**
      * Get the value of updatedAt
      *
-     * @return  \DateTimeImmutable
+     * @return  \DateTimeInterface|null
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
@@ -58,11 +61,11 @@ trait EntityTimestampsTrait
     /**
      * Set the value of updatedAt
      *
-     * @param string\DateTime  $updatedAt
+     * @param string\DateTimeInterface  $updatedAt
      *
      * @return  self
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt($updatedAt): self
     {
         if (is_string($updatedAt)) {
             $this->updatedAt = new DateTimeImmutable($updatedAt);

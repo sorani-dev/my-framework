@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace App\Blog\Actions;
 
 use App\Blog\Table\PostTable;
-use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Sorani\SimpleFramework\Actions\RouterAwareActionTrait;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 use Sorani\SimpleFramework\Router;
 
+/**
+ * Show a single Post
+ */
 class PostShowAction
 {
     use RouterAwareActionTrait;
@@ -35,7 +37,7 @@ class PostShowAction
      * PostShowAction Contructor
      *
      * @param  RendererInterface $renderer
-     * @param  \PDO $pdo
+     * @param  PostTable $postTable
      * @param  Router $router
      */
     public function __construct(RendererInterface $renderer, PostTable $postTable, Router $router)

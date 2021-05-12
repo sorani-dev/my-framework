@@ -14,10 +14,18 @@ use Sorani\SimpleFramework\Router;
 class AdminModule extends Module
 {
     /**
-     * @const Definitions path for PHP-DI Config
+     * {@inheritDoc}
      */
     public const DEFINITIONS = __DIR__ . '/config/config.php';
 
+    /**
+     * AdminModule Constructor
+     *
+     * @param RendererInterface $renderer
+     * @param Router $router
+     * @param AdminTwigExtension $adminTwigExtension
+     * @param string $prefix
+     */
     public function __construct(
         RendererInterface $renderer,
         Router $router,

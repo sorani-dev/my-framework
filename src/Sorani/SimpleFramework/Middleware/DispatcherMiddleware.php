@@ -20,7 +20,7 @@ class DispatcherMiddleware implements MiddlewareInterface
     private $container;
 
     /**
-     * __construct
+     * Constructor
      *
      * @param ContainerInterface $container
      */
@@ -29,6 +29,9 @@ class DispatcherMiddleware implements MiddlewareInterface
         $this->container = $container;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $route = $request->getAttribute(Route::class);

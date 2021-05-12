@@ -6,6 +6,9 @@ namespace Sorani\SimpleFramework\Renderer;
 
 class PHPRenderer implements RendererInterface
 {
+    /**
+     * @var string
+     */
     private const DEFAULT_NAMESPACE = '__MAIN__';
 
     /**
@@ -21,10 +24,9 @@ class PHPRenderer implements RendererInterface
     private array $globals = [];
 
     /**
-     * __construct
+     * Constructor
      *
      * @param  string|null $defaultPath
-     * @return void
      */
     public function __construct(?string $defaultPath = null)
     {
@@ -93,7 +95,7 @@ class PHPRenderer implements RendererInterface
     /**
      * Check if view is namespaced
      *
-     * @param  mixed $view view path
+     * @param  string $view view path
      * @return bool
      */
     private function hasNamespace(string $view): bool

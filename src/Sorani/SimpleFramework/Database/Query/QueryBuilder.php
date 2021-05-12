@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Database\Query;
 
-use Cake\Datasource\Exception\RecordNotFoundException;
 use Pagerfanta\Pagerfanta;
 use Sorani\SimpleFramework\Database\EntityInterface;
 use Sorani\SimpleFramework\Database\Exception\NoRecordFoundException;
 use Sorani\SimpleFramework\Database\PaginatedQuery;
 
+/**
+ * Build a query with a fluent interface
+ */
 class QueryBuilder implements \IteratorAggregate
 {
     /**
@@ -27,7 +29,7 @@ class QueryBuilder implements \IteratorAggregate
     public const JOIN_RIGHT = 'RIGHT';
     public const JOIN_INNER = 'INNER';
 
-    protected const RESULT_PER_PAGE = 10;
+    protected const RESULT_PER_PAGE = 12;
 
     /**
      * Query type
@@ -248,7 +250,7 @@ class QueryBuilder implements \IteratorAggregate
      * @param  mixed  $values (scalar of QueryBuilder instance)
      * @return $this
      */
-    public function in($field, $values)
+    public function in($field, $values): self
     {
         if (is_array($values)) {
             if (is_numeric($values[0])) {
@@ -394,7 +396,7 @@ class QueryBuilder implements \IteratorAggregate
     /**
      * retrieve a result
      *
-     * @return mixed|bool
+     * @return mixed|bool If no result returns false
      */
     public function fetch()
     {
@@ -438,7 +440,7 @@ class QueryBuilder implements \IteratorAggregate
     /**
      * Get an hydrated entity from the query
      *
-     * @param  string $index
+     * @param  int $index
      * @return EntityInterface
      */
     public function get(int $index): EntityInterface
@@ -500,7 +502,7 @@ class QueryBuilder implements \IteratorAggregate
     public function paginate(int $nbPerPage = self::RESULT_PER_PAGE, int $currentPage = 1): Pagerfanta
     {
         $pager = new PaginatedQuery($this);
-        return (new Pagerfanta($pager))->setMaxNbPages($nbPerPage)->setCurrentPage($currentPage);
+        return (new Pagerfanta($pager))->setMaxPerPage($nbPerPage)->setCurrentPage($currentPage);
     }
 
     /**
@@ -586,7 +588,7 @@ class QueryBuilder implements \IteratorAggregate
      *
      * @return string
      */
-    protected function buildJoin()
+    protected function buildJoin(): string
     {
         $joinString = [];
         if (!empty($this->joinByString)) {
@@ -602,11 +604,13 @@ class QueryBuilder implements \IteratorAggregate
 
     /**
      * getIterator
-     * IteratorAggregate implementation
      *
-     * @return void
+     * IteratorAggregate implementation
+     * {@inheritdoc}
+     *
+     * @return QueryResult
      */
-    public function getIterator()
+    public function getIterator(): QueryResult
     {
         return $this->fetchAll();
     }

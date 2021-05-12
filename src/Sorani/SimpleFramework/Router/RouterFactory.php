@@ -7,9 +7,16 @@ namespace Sorani\SimpleFramework\Router;
 use Psr\Container\ContainerInterface;
 use Sorani\SimpleFramework\Router;
 
+/**
+ * Create a Router instance for the DIC
+ */
 class RouterFactory
 {
-    public function __invoke(ContainerInterface $c)
+    /**
+     * @param ContainerInterface $c
+     * @return Router
+     */
+    public function __invoke(ContainerInterface $c): Router
     {
         $cache = null;
         if ($c->get('env') === 'production') {

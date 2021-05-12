@@ -11,6 +11,9 @@ use Sorani\SimpleFramework\Actions\RouterAwareActionTrait;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 use Sorani\SimpleFramework\Router;
 
+/**
+ * Show a list of Posts
+ */
 class PostIndexAction
 {
     use RouterAwareActionTrait;
@@ -53,7 +56,7 @@ class PostIndexAction
      * @param ServerRequestInterface $request
      * @return string
      */
-    public function __invoke(ServerRequestInterface $request)
+    public function __invoke(ServerRequestInterface $request): string
     {
 
         $params = $request->getQueryParams();

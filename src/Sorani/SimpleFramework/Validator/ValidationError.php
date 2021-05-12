@@ -10,17 +10,17 @@ namespace Sorani\SimpleFramework\Validator;
 class ValidationError
 {
     /**
-     * @var string
+     * @var string Field name
      */
     private $key;
 
     /**
-     * @var string
+     * @var string Error rule
      */
     private $rule;
 
     /**
-     * @var array
+     * @var array Errors values to display
      */
     private $attributes = [];
 
@@ -49,6 +49,7 @@ class ValidationError
      *
      * @param  string $key
      * @param  string $rule
+     * @param  array $attributes
      */
     public function __construct(string $key, string $rule, array $attributes = [])
     {
@@ -78,7 +79,7 @@ class ValidationError
     }
 
     /**
-     * Get the value of attributes
+     * Get the attributes
      *
      * @return  array
      */
@@ -88,7 +89,7 @@ class ValidationError
     }
 
     /**
-     * __toString
+     * Retrieve the Validation Error message
      *
      * @return string
      */

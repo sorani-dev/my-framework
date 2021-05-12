@@ -22,6 +22,11 @@ class Router
      */
     private $router;
 
+    /**
+     * Constructor
+     *
+     * @param  string|null $cache Cache path or disable cache if null
+     */
     public function __construct(?string $cache = null)
     {
         $this->router = new FastRouteRouter(null, null, [
@@ -131,9 +136,10 @@ class Router
     /**
      * Generate a URI from a Route name
      *
-     * @param  mixed $name Route name
-     * @param  mixed $params route parameters
-     * @return string
+     * @param  string $name Route name
+     * @param  array $params route parameters
+     * @param  array $queryParams route query parameters
+     * @return string generated URI
      */
     public function generateUri(string $name, array $params = [], array $queryParams = []): ?string
     {

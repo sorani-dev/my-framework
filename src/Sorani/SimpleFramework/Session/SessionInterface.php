@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Session;
 
+/**
+ * Interface to manage session data
+ */
 interface SessionInterface
 {
     /**
@@ -29,7 +32,7 @@ interface SessionInterface
      * Delete a key in the Session
      *
      * @param  string $key
-     * @return mixed
+     * @return void
      */
     public function delete(string $key): void;
 

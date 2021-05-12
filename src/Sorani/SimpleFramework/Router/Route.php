@@ -13,7 +13,7 @@ use Psr\Http\Server\MiddlewareInterface;
 class Route
 {
     /**
-     * @var string
+     * @var string Route name
      */
     private string $name;
 
@@ -23,7 +23,7 @@ class Route
     private $callback;
 
     /**
-     * @var array
+     * @var array|null Route parameters
      */
     private ?array $parameters;
 

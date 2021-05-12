@@ -8,6 +8,9 @@ use DateTimeInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
+/**
+ * Manipulate time
+ */
 class TimeExtension extends AbstractExtension
 {
     /**
@@ -20,6 +23,13 @@ class TimeExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * Time tag <time> showing how the difference between now and the input date
+     *
+     * @param  DateTimeInterface $date
+     * @param  string $format Valid date format
+     * @return string
+     */
     public function ago(DateTimeInterface $date, string $format = 'd/m/Y H:i'): string
     {
         return

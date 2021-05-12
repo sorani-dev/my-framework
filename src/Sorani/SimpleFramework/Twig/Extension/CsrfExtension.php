@@ -31,6 +31,11 @@ class CsrfExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * Create a CSRF hiddeen input field
+     *
+     * @return string
+     */
     public function csrfInput(): string
     {
         return sprintf(

@@ -7,6 +7,9 @@ namespace Sorani\SimpleFramework\Http;
 use Intervention\Image\ImageManager;
 use Psr\Http\Message\UploadedFileInterface;
 
+/**
+ * Helper class to upload files to server
+ */
 class Upload
 {
     /**
@@ -25,7 +28,7 @@ class Upload
     /**
      * Upload Constructor
      *
-     * @param string $path
+     * @param string|null $path Path to the directory to upload
      * @param array  $formats
      */
     public function __construct($path = null, array $formats = [])
@@ -42,7 +45,7 @@ class Upload
      * Get a file as input to upload and returns the old file's name or null if an error occurred
      *
      * @param \Psr\Http\Message\UploadedFileInterface $file current file to upload
-     * @param  string                                     $oldFile
+     * @param  string      $oldFile
      * @return string|null name of the old file
      */
     public function upload(UploadedFileInterface $file, ?string $oldFile = null): ?string
@@ -66,9 +69,7 @@ class Upload
     }
 
     /**
-     * @return string get the current formats
-     *
-     * @array[]
+     * @return array get the current formats
      */
     public function getFormats(): array
     {
@@ -87,6 +88,7 @@ class Upload
 
     /**
      * Path of the upload directory
+     *
      * @return string
      */
     public function getPath(): string
@@ -95,6 +97,7 @@ class Upload
     }
 
     /**
+     * Set the directory path
      *
      * @param string $path
      * @return Upload
@@ -145,11 +148,11 @@ class Upload
     }
 
     /**
-     * Get the path suffix if nneded$
+     * Get the suffix path if needed
      *
      * @param string $path input path
-     * @param string $suffix suffix wanted
-     * @return string
+     * @param string $suffix suffix to add to path
+     * @return string Suffixed path
      */
     private function getPathWithSuffix($path, $suffix): string
     {

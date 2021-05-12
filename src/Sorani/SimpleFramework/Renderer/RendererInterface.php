@@ -38,8 +38,8 @@ interface RendererInterface
      * Path can be specified with namespace added using the addPath method
      * $this->render('@blog/view')
      * $this->render('view')
-     * @param  mixed $params
-     * @return string
+     * @param  array $params Paramters to inject into the view
+     * @return string Parsed template
      */
     public function render(string $view, array $params = []): string;
 }
