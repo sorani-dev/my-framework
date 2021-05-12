@@ -58,6 +58,8 @@ class FormExtension extends AbstractExtension
         if ($type === 'textarea') {
             $input = $this->textarea($value, $attributes);
         } elseif ($type === 'file') {
+            unset($options['type'], $options['class']);
+            $attributes = array_merge($attributes, $options);
             $input = $this->file($attributes);
             $labelClass =  'class="custom-file-label"';
             $class[] = 'custom-file align-middle';

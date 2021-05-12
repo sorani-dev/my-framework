@@ -20,7 +20,7 @@
             
     </div>
     <div class="col-md-4">
-        {{ field('image', item.image, 'Image', { class: 'form-control', type: 'file' }) }}
+        {{ field('image', item.image, 'Image', { class: 'form-control', type: 'file', accept: '.jpg,.jpeg,.png' }) }}
     </div>
     <div class="col-md-4">
         {{ field('slug', item.slug, 'Link', { class: 'form-control', }) }}
