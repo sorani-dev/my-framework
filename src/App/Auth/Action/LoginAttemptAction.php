@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace App\Auth\Action;
 
@@ -66,7 +66,7 @@ class LoginAttemptAction
      * @param  ServerRequestInterface $request
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request): ResponseInterface
+    public function __invoke(ServerRequestInterface $request)
     {
         $params = $request->getParsedBody();
         $user = $this->auth->login($params['username'], $params['password']);

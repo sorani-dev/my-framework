@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace App\Blog;
 
@@ -19,17 +19,17 @@ class BlogModule extends Module
     /**
      * {@inheritdoc}
      */
-    public const DEFINITIONS = __DIR__ . '/config/config.php';
+    const DEFINITIONS = __DIR__ . '/config/config.php';
 
     /**
      * {@inheritdoc}
      */
-    public const MIGRATIONS = __DIR__ . '/db/migrations';
+    const MIGRATIONS = __DIR__ . '/db/migrations';
 
     /**
      * {@inheritdoc}
      */
-    public const SEEDS = __DIR__ . '/db/seeds';
+    const SEEDS = __DIR__ . '/db/seeds';
 
     /**
      * Construct
@@ -44,8 +44,19 @@ class BlogModule extends Module
         $c->get(RendererInterface::class)->addPath('blog', __DIR__ . '/resources/views');
         $router = $c->get(Router::class);
         $router->get($blogPrefix, PostIndexAction::class, 'blog.index');
-        $router->get($blogPrefix . '/{slug:[a-z0-9\-]+}-{id:\d+}', PostShowAction::class, 'blog.show');
-        $router->get($blogPrefix . '/category/{slug:[a-z0-9\-]+}', CategoryShowAction::class, 'blog.category');
+        // alto router
+        $router->get($blogPrefix . '/[slug:slug]-[i:id]', PostShowAction::class, 'blog.show');
+        // mezzio router
+        // $router->get($blogPrefix . '/{slug:[a-z0-9\-]+}-{id:\d+}', PostShowAction::class, 'blog.show');
+        // aura router
+        // $router->get($blogPrefix . '/{slug}-{id}', PostShowAction::class, 'blog.show', ['params' => ['slug' => '[a-z0-9\-]+', 'id' => '\d+']]);
+        
+        // alto router
+        $router->get($blogPrefix . '/category/[slug:slug]', CategoryShowAction::class, 'blog.category');
+        // mezzio router
+        //  $router->get($blogPrefix . '/category/{slug:[a-z0-9\-]+}', CategoryShowAction::class, 'blog.category'); 
+        // aura router
+        // $router->get($blogPrefix . '/category/{slug}', CategoryShowAction::class, 'blog.category', ['params' => ['slug' => '[a-z0-9\-]+']]);
 
         if ($c->has('admin.prefix')) {
             $prefix = $c->get('admin.prefix');

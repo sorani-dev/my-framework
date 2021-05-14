@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Tests\Sorani\SimpleFramework\Database\Query;
 
@@ -102,11 +102,11 @@ class QueryBuilderTest extends DatabaseTestCase
         $query = (new QueryBuilder($this->getPdo()))->from('comments')->limit(3);
         $this->assertEquals("SELECT * FROM comments LIMIT 3;", (string)$query);
 
-        $this->expectException(\TypeError::class);
+        $this->expectException((phpversion() >= '7.2.0') ? \TypeError::class : \Exception::class);
         $query = (new QueryBuilder($this->getPdo()))->from('comments')->limit('3');
         $this->assertEquals("SELECT * FROM comments LIMIT 3;", (string)$query);
 
-        $this->expectException(\TypeError::class);
+        $this->expectException((phpversion() >= '7.2.0') ? \TypeError::class : \Exception::class);
         $query = (new QueryBuilder($this->getPdo()))->from('comments')->limit('a');
     }
 
@@ -209,7 +209,7 @@ class QueryBuilderTest extends DatabaseTestCase
         $this->assertSame($comment, $comment2);
     }
 
-    public function testSelectMultipleFrom(): void
+    public function testSelectMultipleFrom()
     {
         $qb   = new QueryBuilder();
 
@@ -221,7 +221,7 @@ class QueryBuilderTest extends DatabaseTestCase
         $this->assertEquals('SELECT u.*, p.* FROM users AS u, phonenumbers AS p;', (string) $qb);
     }
 
-    public function testClone(): void
+    public function testClone()
     {
         $qb = new QueryBuilder();
 
@@ -240,7 +240,7 @@ class QueryBuilderTest extends DatabaseTestCase
         $this->assertNotSame($qb->queryToString(), $qbClone->queryToString());
     }
 
-    public function testComplexSelectWithoutTableAliases(): void
+    public function testComplexSelectWithoutTableAliases()
     {
         $qb = new QueryBuilder();
 

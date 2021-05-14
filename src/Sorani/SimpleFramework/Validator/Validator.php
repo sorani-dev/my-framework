@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Validator;
 
@@ -13,7 +13,7 @@ class Validator
      * Authorized MIME extensions with their corresponding file extensions
      * @var array
      */
-    private const MIME_TYPES = [
+    const MIME_TYPES = [
         'jpg' =>  'image/jpeg',
         'jpeg' => 'image/jpeg',
         'pdf' => 'application/pdf',
@@ -49,7 +49,7 @@ class Validator
      * @param  string[] $keys Fields names
      * @return self
      */
-    public function required(string ...$keys): self
+    public function required(...$keys)
     {
         foreach ($keys as $key) {
             $value = $this->getValue($key);
@@ -66,7 +66,7 @@ class Validator
      * @param  string[] $keys Fields names
      * @return self
      */
-    public function notEmpty(string ...$keys): self
+    public function notEmpty(...$keys)
     {
         foreach ($keys as $key) {
             $value = $this->getValue($key);
@@ -83,7 +83,7 @@ class Validator
      * @param  string $key Field name
      * @return self
      */
-    public function slug(string $key): self
+    public function slug($key)
     {
         $value = $this->getValue($key);
 
@@ -104,14 +104,13 @@ class Validator
      * @param  int|null $maxLength maximum lengthor no maximum if null
      * @return self
      */
-    public function length(string $key, ?int $minLength = null, ?int $maxLength = null): self
+    public function length($key, $minLength = null, $maxLength = null)
     {
         $value = $this->getValue($key);
         $encoding = mb_detect_encoding($value);
         $length = mb_strlen($value, false !== $encoding ? $encoding : null);
 
-        if (
-            null !== $minLength &&
+        if (null !== $minLength &&
             null !== $maxLength &&
             ($length < $minLength || $length > $maxLength)
         ) {
@@ -119,16 +118,14 @@ class Validator
             return $this;
         }
 
-        if (
-            null !== $minLength &&
+        if (null !== $minLength &&
             $length < $minLength
         ) {
             $this->addError($key, 'minLength', [$minLength]);
             return $this;
         }
 
-        if (
-            null !== $maxLength &&
+        if (null !== $maxLength &&
             $length > $maxLength
         ) {
             $this->addError($key, 'maxLength', [$maxLength]);
@@ -146,7 +143,7 @@ class Validator
      *      year, month, day, hour, minutes and seconds are all required
      * @return self
      */
-    public function dateTime(string $key, ?string $format = 'Y-m-d H:i:s'): self
+    public function dateTime($key, $format = 'Y-m-d H:i:s')
     {
         $value = $this->getValue($key);
         if (null === $value) {
@@ -170,7 +167,7 @@ class Validator
      * @param  Table $table Table
      * @return self
      */
-    public function existsKey(string $key, Table $table): self
+    public function existsKey($key, Table $table)
     {
         if (!$table->exists((int)$key)) {
             $this->addError($key, 'table.exists', [$table->getTable()]);
@@ -186,7 +183,7 @@ class Validator
      * @param \PDO $pdo
      * @return self
      */
-    public function existsRecord(string $key, string $table, \PDO $pdo): self
+    public function existsRecord($key, $table, \PDO $pdo)
     {
         $value = $this->getValue($key);
         $statement = $pdo->prepare("SELECT id FROM {$table} WHERE id = ?");
@@ -207,7 +204,7 @@ class Validator
      * @param int|null $exclude excluded primary key values
      * @return self
      */
-    public function uniqueRecord(string $key, string $table, \PDO $pdo, ?int $exclude = null): self
+    public function uniqueRecord($key, $table, \PDO $pdo, $exclude = null)
     {
         $value = $this->getValue($key);
         $query = "SELECT id FROM {$table} WHERE $key = ?";
@@ -232,7 +229,7 @@ class Validator
      * @param  string $key Field name
      * @return self
      */
-    public function uploaded(string $key): self
+    public function uploaded($key)
     {
         /** @var UploadedFileInterface $file */
         $file = $this->getValue($key);
@@ -249,7 +246,7 @@ class Validator
      * @param  string[] $extensions Accepted extensions
      * @return self
      */
-    public function extension(string $key, array $extensions): self
+    public function extension($key, array $extensions)
     {
         /** @var UploadedFileInterface */
         $file = $this->getValue($key);
@@ -257,7 +254,7 @@ class Validator
         if (null !== $file && UPLOAD_ERR_OK === $file->getError()) {
             $type = $file->getClientMediaType();
             $extension = mb_strtolower(pathinfo($file->getClientFilename(), PATHINFO_EXTENSION));
-            $expectedMimeType = self::MIME_TYPES[$extension] ?? null;
+            $expectedMimeType = !empty(self::MIME_TYPES[$extension]) ? self::MIME_TYPES[$extension] : null;
 
             if (!in_array($extension, $extensions) || $expectedMimeType !== $type) {
                 $this->addError($key, 'filetype', [implode(',', $extensions)]);
@@ -275,7 +272,7 @@ class Validator
      *  If not strict, truthy or falsy values (true, 1, false, 0, ...)
      * @return self
      */
-    public function boolean(string $key, bool $strict = false): self
+    public function boolean($key, $strict = false)
     {
         $value = $this->getValue($key);
 
@@ -283,8 +280,7 @@ class Validator
             if ($value !== true && $value !== false) {
                 $this->addError($key, 'boolean');
             }
-        } elseif (
-            $value !== true && $value !== false
+        } elseif ($value !== true && $value !== false
             && $value !== 1 && $value !== 0 && $value !== '0' && $value !== '1'
         ) {
             $this->addError($key, 'boolean');
@@ -297,7 +293,7 @@ class Validator
      *
      * @return  ValidationError[]
      */
-    public function getErrors(): array
+    public function getErrors()
     {
         return $this->errors;
     }
@@ -310,7 +306,7 @@ class Validator
      * @param  array $attributes
      * @return void
      */
-    public function addError(string $key, string $rule, ?array $attributes = []): void
+    public function addError($key, $rule, array $attributes = [])
     {
         $this->errors[$key] = new ValidationError($key, $rule, $attributes);
     }
@@ -321,9 +317,9 @@ class Validator
      * @param string $key
      * @return  ValidationError|null
      */
-    public function getError(string $key): ?ValidationError
+    public function getError($key)
     {
-        return $this->errors[$key] ?? null;
+        return isset($this->errors[$key]) ? $this->errors[$key] : null;
     }
 
     /**
@@ -332,9 +328,9 @@ class Validator
      * @param  string $key Field name
      * @return mixed|null
      */
-    public function getValue(string $key)
+    public function getValue($key)
     {
-        return $this->params[$key] ?? null;
+        return isset($this->params[$key]) ? $this->params[$key] : null;
     }
 
     /**
@@ -342,7 +338,7 @@ class Validator
      *
      * @return bool no errors
      */
-    public function isValid(): bool
+    public function isValid()
     {
         return empty($this->errors);
     }

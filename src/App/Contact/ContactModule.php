@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace App\Contact;
 
@@ -10,11 +10,11 @@ use Sorani\SimpleFramework\Router;
 
 class ContactModule extends Module
 {
-    public const DEFINITIONS = __DIR__ . '/config/config.php';
+    const DEFINITIONS = __DIR__ . '/config/config.php';
 
-    public const MIGRATIONS = __DIR__ . '/db/migrations';
+    const MIGRATIONS = __DIR__ . '/db/migrations';
 
-    public const SEEDS = __DIR__ . '/db/seeds';
+    const SEEDS = __DIR__ . '/db/seeds';
 
     /**
      * Contructor

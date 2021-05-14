@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Tests\Sorani\SimpleFramework\Database\fixtures;
 
@@ -25,7 +25,7 @@ class Demo implements EntityInterface
     /**
      * @param string $slug
      */
-    public function setSlug(string $slug)
+    public function setSlug($slug)
     {
         $this->slug = $slug . 'demo';
     }

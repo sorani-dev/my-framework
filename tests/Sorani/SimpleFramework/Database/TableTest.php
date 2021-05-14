@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Tests\Sorani\SimpleFramework\Database;
 
@@ -15,7 +15,7 @@ class TableTest extends ExtendedTestCase
      */
     private $table;
 
-    protected function setUp(): void
+    protected function setUp()
     {
 
         // create PDO instance

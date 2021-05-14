@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Middleware;
 
@@ -54,9 +54,9 @@ class CsrfMiddleware implements MiddlewareInterface
      */
     public function __construct(
         \ArrayAccess &$session,
-        int $limit = 50,
-        string $formKey = '_csrf',
-        string $sessionKey = 'csrf'
+        $limit = 50,
+        $formKey = '_csrf',
+        $sessionKey = 'csrf'
     ) {
         $this->isValidSession($session);
         $this->formKey = $formKey;
@@ -68,14 +68,15 @@ class CsrfMiddleware implements MiddlewareInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)
     {
         if (in_array($request->getMethod(), ['POST', 'PUT', 'PATCH', 'DELETE'])) {
-            $params = $request->getParsedBody() ?? [];
+            $params = $request->getParsedBody();
+            $params = isset($params) ? $request->getParsedBody() : [];
             if (!isset($params[$this->formKey])) {
                 $this->reject();
             } else {
-                $csrfList = $this->session[$this->sessionKey] ?? [];
+                $csrfList = isset($this->session[$this->sessionKey]) ? $this->session[$this->sessionKey] : [];
                 if (in_array($params[$this->formKey], $csrfList)) {
                     $this->useToken($params[$this->formKey]);
                 } else {
@@ -91,10 +92,10 @@ class CsrfMiddleware implements MiddlewareInterface
      *
      * @return string
      */
-    public function generateToken(): string
+    public function generateToken()
     {
         $token = bin2hex(random_bytes(16));
-        $csrfList = $this->session[$this->sessionKey] ?? [];
+        $csrfList = isset($this->session[$this->sessionKey]) ? $this->session[$this->sessionKey] : [];
         $csrfList[] = $token;
         $this->session[$this->sessionKey] = $csrfList;
         $this->limitTokens();
@@ -107,7 +108,7 @@ class CsrfMiddleware implements MiddlewareInterface
      * @return void
      * @throws CsrfInvalidException
      */
-    private function reject(): void
+    private function reject()
     {
         throw new CsrfInvalidException();
     }
@@ -118,7 +119,7 @@ class CsrfMiddleware implements MiddlewareInterface
      * @param  string $currentToken
      * @return void
      */
-    private function useToken(string $currentToken): void
+    private function useToken($currentToken)
     {
         $newTokens = array_filter($this->session[$this->sessionKey], function ($t) use ($currentToken) {
             return $currentToken !== $t;
@@ -131,9 +132,9 @@ class CsrfMiddleware implements MiddlewareInterface
      *
      * @return void
      */
-    private function limitTokens(): void
+    private function limitTokens()
     {
-        $tokens = $this->session[$this->sessionKey] ?? [];
+        $tokens = isset($this->session[$this->sessionKey]) ? $this->session[$this->sessionKey] : [];
         if (count($tokens) > $this->limit) {
             array_shift($tokens);
         }

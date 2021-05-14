@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Database\Entity;
 
@@ -28,7 +28,7 @@ trait EntityTimestampsTrait
      *
      * @return  \DateTimeInterface|null
      */
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt()
     {
         return $this->createdAt;
     }
@@ -40,7 +40,7 @@ trait EntityTimestampsTrait
      *
      * @return  self
      */
-    public function setCreatedAt($createdAt): self
+    public function setCreatedAt($createdAt)
     {
         if (is_string($createdAt)) {
             $this->createdAt = new DateTimeImmutable($createdAt);
@@ -53,7 +53,7 @@ trait EntityTimestampsTrait
      *
      * @return  \DateTimeInterface|null
      */
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt()
     {
         return $this->updatedAt;
     }
@@ -65,7 +65,7 @@ trait EntityTimestampsTrait
      *
      * @return  self
      */
-    public function setUpdatedAt($updatedAt): self
+    public function setUpdatedAt($updatedAt)
     {
         if (is_string($updatedAt)) {
             $this->updatedAt = new DateTimeImmutable($updatedAt);

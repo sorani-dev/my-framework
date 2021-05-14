@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace App\Blog\Entity;
 
@@ -88,7 +88,7 @@ class Post implements EntityInterface
      *
      * @return  self
      */
-    public function setName(string $name)
+    public function setName($name)
     {
         $this->name = $name;
 
@@ -112,7 +112,7 @@ class Post implements EntityInterface
      *
      * @return  self
      */
-    public function setContent(string $content)
+    public function setContent($content)
     {
         $this->content = $content;
 
@@ -137,7 +137,7 @@ class Post implements EntityInterface
      *
      * @return  self
      */
-    public function setCategoryName(string $categoryName)
+    public function setCategoryName($categoryName)
     {
         $this->categoryName = $categoryName;
 
@@ -149,9 +149,11 @@ class Post implements EntityInterface
      *
      * @return string
      */
-    public function getThumb(): string
+    public function getThumb()
     {
-        ['filename' => $filename, 'extension' => $extension] = pathinfo($this->image);
+        $file = pathinfo($this->image);
+        $filename = $file['filename'];
+        $extension = $file['extension'];
 
         return '/uploads/posts/' . $filename . '_thumb.' . $extension;
     }
@@ -161,7 +163,7 @@ class Post implements EntityInterface
      *
      * @return string
      */
-    public function getImageUrl(): string
+    public function getImageUrl()
     {
         return '/uploads/posts/' . $this->image;
     }

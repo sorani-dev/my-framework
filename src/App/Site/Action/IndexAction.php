@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace App\Site\Action;
 
@@ -30,7 +30,7 @@ class IndexAction
      * @param  ServerRequestInterface $request
      * @return string
      */
-    public function __invoke(ServerRequestInterface $request): string
+    public function __invoke(ServerRequestInterface $request)
     {
         return $this->renderer->render('@site/index');
     }

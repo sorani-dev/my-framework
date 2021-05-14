@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Database\Entity;
 
@@ -14,7 +14,7 @@ interface EntityTimestampsInterface
      *
      * @return  \DateTimeInterface
      */
-    public function getCreatedAt(): \DateTimeInterface;
+    public function getCreatedAt();
 
     /**
      * Set the value of createdAt
@@ -23,14 +23,14 @@ interface EntityTimestampsInterface
      *
      * @return  self
      */
-    public function setCreatedAt($createdAt): self;
+    public function setCreatedAt($createdAt);
 
     /**
      * Get the value of updatedAt
      *
      * @return  \DateTimeInterface
      */
-    public function getUpdatedAt(): \DateTimeInterface;
+    public function getUpdatedAt();
 
     /**
      * Set the value of updatedAt
@@ -39,5 +39,5 @@ interface EntityTimestampsInterface
      *
      * @return  self
      */
-    public function setUpdatedAt($updatedAt): self;
+    public function setUpdatedAt($updatedAt);
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Router;
 
@@ -15,7 +15,7 @@ class Route
     /**
      * @var string Route name
      */
-    private string $name;
+    private $name;
 
     /**
      * @var callable|MiddlewareInterface
@@ -25,12 +25,12 @@ class Route
     /**
      * @var array|null Route parameters
      */
-    private ?array $parameters;
+    private $parameters;
 
     /**
      * @var array
      */
-    private array $options = [];
+    private $options = [];
 
 
     /**
@@ -41,7 +41,7 @@ class Route
      * @param  array $parameters Parameters to inject in route
      * @param  array $options Route options
      */
-    public function __construct(string $name, $callback, array $parameters, ?array $options = [])
+    public function __construct($name, $callback, array $parameters, array $options = [])
     {
         $this->name = $name;
         $this->callback = $callback;
@@ -71,7 +71,7 @@ class Route
      * Get the Route URL parameters
      * @return string[]
      */
-    public function getParams(): array
+    public function getParams()
     {
         return $this->parameters;
     }

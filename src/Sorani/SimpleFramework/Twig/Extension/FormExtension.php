@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Twig\Extension;
 
@@ -15,7 +15,7 @@ class FormExtension extends AbstractExtension
     /**
      * @return TwigFunction[]
      */
-    public function getFunctions(): array
+    public function getFunctions()
     {
         return [
             new TwigFunction('field', [$this, 'field'], ['needs_context' => true, 'is_safe' => ['html']]),
@@ -32,16 +32,16 @@ class FormExtension extends AbstractExtension
      * @param  array $options
      * @return string Generated form field as string
      */
-    public function field(array $context, string $key, $value, string $label, array $options = []): string
+    public function field(array $context, $key, $value, $label, array $options = [])
     {
-        $type = $options['type'] ?? 'text';
-        $errors = $context['errors'] ?? false;
+        $type = isset($options['type'])  ? $options['type'] : 'text';
+        $errors = isset($context['errors']) ? $context['errors'] : false;
         $class = ['mb-3'];
 
         $value = $this->convertValue($value);
 
         $attributes = [
-            'class' => trim('form-control ' . ($options['class'] ?? '')),
+            'class' => trim('form-control ' . (isset($options['class']) ? $options['class'] : '')),
             'name' => $key,
             'id' => $key,
         ];
@@ -91,7 +91,7 @@ EOT;
      * @param  array $attributes
      * @return string
      */
-    public function textarea(?string $value = null, array $attributes): string
+    public function textarea($value = null, array $attributes = [])
     {
         return "<textarea " . $this->getHtmlFromArray($attributes) . " rows=\"10\">{$value}</textarea>";
     }
@@ -104,7 +104,7 @@ EOT;
      * @param string $type type of input (text, password)
      * @return string
      */
-    public function input(?string $value = null, array $attributes, ?string $type = 'text'): string
+    public function input($value = null, array $attributes = [], $type = 'text')
     {
         return  "<input type=\"" . $type . "\" " . $this->getHtmlFromArray($attributes) . " value=\"{$value}\">";
     }
@@ -115,7 +115,7 @@ EOT;
      * @param  array $attributes class, ...
      * @return string
      */
-    public function file(array $attributes): string
+    public function file(array $attributes)
     {
         // $attributes['class'] .= " form-control-file";
         // $attributes['class'] =
@@ -131,7 +131,7 @@ EOT;
      * @param  array $attributes class, ...
      * @return string
      */
-    public function checkbox(?string $value = null, array $attributes, string $label, array $class): string
+    public function checkbox($value = null, array $attributes = [], $label = '', array $class = [])
     {
 
         $attributes['class'] = 'custom-control-input';
@@ -161,12 +161,12 @@ EOT;
      * @param  array $attributes class, ...
      * @return string
      */
-    public function select($value, array $options, ?array $attributes = []): string
+    public function select($value, array $options, $attributes = [])
     {
         if (false !== strpos($attributes['class'], 'custom-select')) {
             $attributes['class'] = trim(str_replace('form-control', '', $attributes['class']));
         }
-        $htmlOptions = array_reduce(array_keys($options), function (string $html, $key) use ($options, $value) {
+        $htmlOptions = array_reduce(array_keys($options), function ($html, $key) use ($options, $value) {
             $params = ['value' => $key, 'selected' =>  (string)$key === (string)$value];
             return
                 $html . '<option ' . $this->getHtmlFromArray($params) . '>' . $options[$key] . '</option>';
@@ -180,7 +180,7 @@ EOT;
      * @param  array $context
      * @return string
      */
-    protected function getContextFieldError(array $context): string
+    protected function getContextFieldError(array $context)
     {
         $classes = ['form-control'];
         return $classes . ' ' . !empty($context['errors']) ? 'is-invalid' : '';
@@ -193,9 +193,9 @@ EOT;
      * @param  string $key Field key
      * @return string
      */
-    protected function getErrorHtml(array $context, string $key): string
+    protected function getErrorHtml(array $context, $key)
     {
-        $errors = $context['errors'] ?? false;
+        $errors = isset($context['errors']) ? $context['errors'] : false;
 
         if (isset($errors[$key])) {
             return '<small class="invalid-feedback" id="' . $key . 'FieldFeedback">' . $errors[$key] . '</small>';
@@ -209,7 +209,7 @@ EOT;
      * @param  array $attributes
      * @return string
      */
-    protected function getHtmlFromArray(array $attributes): string
+    protected function getHtmlFromArray(array $attributes)
     {
         $htmlParsed = [];
         foreach ($attributes as $key => $value) {

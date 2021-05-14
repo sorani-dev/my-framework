@@ -1,10 +1,11 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework;
 
 use DI\ContainerBuilder;
+use Doctrine\Common\Cache\FilesystemCache;
 use GuzzleHttp\Psr7\Response;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -67,7 +68,7 @@ class App implements RequestHandlerInterface
      * @param  string $module
      * @return self
      */
-    public function addModule(string $module): self
+    public function addModule($module)
     {
         $this->modules[] = $module;
         return $this;
@@ -81,7 +82,7 @@ class App implements RequestHandlerInterface
      * @param  mixed|string|MiddlewareInterface|null $middleware
      * @return self
      */
-    public function pipe($routePrefix, $middleware = null): self
+    public function pipe($routePrefix, $middleware = null)
     {
         if (null === $middleware) {
             $this->middlewares[] = $routePrefix;
@@ -92,7 +93,7 @@ class App implements RequestHandlerInterface
     }
 
 
-    public function handle(ServerRequestInterface $request): ResponseInterface
+    public function handle(ServerRequestInterface $request)
     {
         $middleware = $this->getMiddleware();
         if (null === $middleware) {
@@ -110,7 +111,7 @@ class App implements RequestHandlerInterface
      * @param  ServerRequestInterface $request
      * @return ResponseInterface
      */
-    public function run(ServerRequestInterface $request): ResponseInterface
+    public function run(ServerRequestInterface $request)
     {
         foreach ($this->modules as $module) {
             $this->getContainer()->get($module);
@@ -149,7 +150,7 @@ class App implements RequestHandlerInterface
      *
      * @return  ContainerInterface
      */
-    public function getContainer(): ContainerInterface
+    public function getContainer()
     {
         if ($this->container === null) {
             $builder = new ContainerBuilder();
@@ -158,9 +159,10 @@ class App implements RequestHandlerInterface
             if ($env === 'production') {
                 $apcuAvailable = function_exists('apcu_enabled') && apcu_enabled();
                 if ($apcuAvailable) {
-                    $builder->enableDefinitionCache(__NAMESPACE__);
+                    // $builder->ap(__NAMESPACE__);
                 }
-                $builder->enableCompilation('tmp/proxies');
+                $builder->setDefinitionCache(new FilesystemCache(__DIR__ . '/tmp/di-cache'));
+                // $builder->setDefinitionCache('tmp/proxies');
                 $builder->writeProxiesToFile(true, __DIR__ . '/tmp/proxies');
             }
 
@@ -201,7 +203,7 @@ class App implements RequestHandlerInterface
      *
      * @return  Module[]
      */
-    public function getModules(): array
+    public function getModules()
     {
         return $this->modules;
     }

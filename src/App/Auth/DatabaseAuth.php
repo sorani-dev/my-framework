@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace App\Auth;
 
@@ -49,7 +49,7 @@ class DatabaseAuth implements AuthInterface
      * @param  string $password
      * @return User|null
      */
-    public function login(string $username, string $password): ?User
+    public function login($username, $password)
     {
         if (empty($username) || empty($password)) {
             return null;
@@ -70,7 +70,7 @@ class DatabaseAuth implements AuthInterface
      *
      * @return void
      */
-    public function logout(): void
+    public function logout()
     {
         $this->session->delete('auth.user');
     }
@@ -79,7 +79,7 @@ class DatabaseAuth implements AuthInterface
      * {@inheritdoc}
      * @return User|null
      */
-    public function getUser(): ?User
+    public function getUser()
     {
         if (null !== $this->user) {
             return $this->user;

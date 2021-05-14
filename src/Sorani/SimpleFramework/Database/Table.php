@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Database;
 
@@ -49,9 +49,9 @@ class Table
      * @string|null $alias Table alias if needed else it will be the first letter of the table
      * @return QueryBuilder
      */
-    protected function makeQuery(?string $alias = null): QueryBuilder
+    protected function makeQuery($alias = null)
     {
-        return (new QueryBuilder($this->pdo))->from($this->table, $alias ?? $this->table[0])
+        return (new QueryBuilder($this->pdo))->from($this->table, (isset($alias) ? $alias : $this->table[0]))
         ->into($this->entity);
     }
 
@@ -62,7 +62,7 @@ class Table
      * @return EntityInterface|\stdClass|null
      * @throws NoRecordFoundException
      */
-    public function find(int $id)
+    public function find($id)
     {
         return $this->makeQuery()->where("id = :id")->params([':id' => $id])->fetchOrFail();
     }
@@ -72,7 +72,7 @@ class Table
      *
      * @return QueryBuilder
      */
-    public function findAll(): QueryBuilder
+    public function findAll()
     {
         return $this->makeQuery();
     }
@@ -86,7 +86,7 @@ class Table
      *
      * @throws NoRecordFoundException
      */
-    public function findBy(string $field, string $value)
+    public function findBy($field, $value)
     {
         return $this->makeQuery()->where("{$field}=:$field")->params([":{$field}" => $value])->fetchOrFail();
     }
@@ -97,7 +97,7 @@ class Table
      *
      * @return array
      */
-    public function findAsList(): array
+    public function findAsList()
     {
         $results = $this->pdo
             ->query("SELECT id, name FROM {$this->table};")
@@ -114,7 +114,7 @@ class Table
      *
      * @return int
      */
-    public function count(): int
+    public function count()
     {
         return (int)$this->makeQuery()->count();
         // return $count !== false ? (int)$count : -1;
@@ -127,7 +127,7 @@ class Table
      * @param  array $params
      * @return bool
      */
-    public function update(int $id, array $params): bool
+    public function update($id, array $params)
     {
         $fieldsQuery = join(' , ', array_map(function ($field) {
             return "{$field} = :{$field}";
@@ -143,7 +143,7 @@ class Table
      * @param  array $params
      * @return bool
      */
-    public function insert(array $params): bool
+    public function insert(array $params)
     {
         $fields = array_keys($params);
         $names = join(', ', $fields);
@@ -158,7 +158,7 @@ class Table
      * @param  int $id
      * @return bool
      */
-    public function delete(int $id): bool
+    public function delete($id)
     {
         $statement = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = :id;");
         return $statement->execute([':id' => $id]);
@@ -170,7 +170,7 @@ class Table
      * @param  int $id
      * @return bool
      */
-    public function exists(int $id): bool
+    public function exists($id)
     {
         $statement = $this->pdo->prepare("SELECT id FROM {$this->table} WHERE id = ?");
         $statement->execute([$id]);
@@ -182,7 +182,7 @@ class Table
      *
      * @return  string
      */
-    public function getEntity(): string
+    public function getEntity()
     {
         return $this->entity;
     }
@@ -192,7 +192,7 @@ class Table
      *
      * @return  \PDO
      */
-    public function getPdo(): \PDO
+    public function getPdo()
     {
         return $this->pdo;
     }
@@ -202,7 +202,7 @@ class Table
      *
      * @return string
      */
-    public function getTable(): string
+    public function getTable()
     {
         return $this->table;
     }
@@ -214,7 +214,7 @@ class Table
      *
      * @return  self
      */
-    public function setPdo(\PDO $pdo): self
+    public function setPdo(\PDO $pdo)
     {
         $this->pdo = $pdo;
 

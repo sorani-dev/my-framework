@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Middleware;
 
@@ -32,7 +32,7 @@ class DispatcherMiddleware implements MiddlewareInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)
     {
         $route = $request->getAttribute(Route::class);
         if (null === $route) { // no route match

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Tests\App\Blog\Table;
 
@@ -16,7 +16,7 @@ class PostTableTest extends DatabaseTestCase
      */
     private $postTable;
 
-    public function setUp(): void
+    public function setUp()
     {
         $pdo = $this->getPdo();
         $this->migrateDatabase($pdo);

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Tests\Sorani\SimpleFramework\Middleware;
 
@@ -35,7 +35,9 @@ class TrailingSlashMiddlewareTest extends MiddlewareTestCase
         $this->handler
             ->expects($this->once())
             ->method('handle')
-            ->will($this->returnCallback(fn ($request) => $response));
+            ->will($this->returnCallback(function ($request) use ($response) {
+                return $response;
+            }));
 
         $this->assertEquals($response, $middleware->process($request, $this->handler));
     }

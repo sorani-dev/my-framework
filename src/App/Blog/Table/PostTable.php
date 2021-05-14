@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace App\Blog\Table;
 
@@ -25,7 +25,7 @@ class PostTable extends Table
      *
      * @return QueryBuilder
      */
-    public function findAll(): QueryBuilder
+    public function findAll()
     {
         $category = new CategoryTable($this->pdo);
         return $this->makeQuery()->fields('p.*, c.name AS category_name, c.slug AS category_slug')
@@ -38,7 +38,7 @@ class PostTable extends Table
      *
      * @return QueryBuilder
      */
-    public function findPublic(): QueryBuilder
+    public function findPublic()
     {
         return $this->findAll()->where('p.created_at < NOW()')
         ->where('published = 1');
@@ -50,7 +50,7 @@ class PostTable extends Table
      * @param  mixed $categoryId
      * @return QueryBuilder
      */
-    public function findPublicForCategory(int $categoryId): QueryBuilder
+    public function findPublicForCategory($categoryId)
     {
         return $this->findPublic()->where('p.category_id = :category')->params([':category' => $categoryId]);
     }
@@ -61,7 +61,7 @@ class PostTable extends Table
      * @param  int $postId
      * @return Post
      */
-    public function findWithCategory(int $postId): Post
+    public function findWithCategory($postId)
     {
         return $this->findPublic()->where('p.id = :id')->params([':id' => $postId])->fetch();
     }

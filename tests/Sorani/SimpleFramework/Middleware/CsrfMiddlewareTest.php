@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Tests\Sorani\SimpleFramework\Middleware;
 
@@ -22,7 +22,7 @@ class CsrfMiddlewareTest extends TestCase
      */
     private $session;
 
-    public function setUp(): void
+    public function setUp()
     {
         $this->session = new \ArrayObject();
         $this->m = new CsrfMiddleware($this->session);

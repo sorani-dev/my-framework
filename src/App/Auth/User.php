@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace App\Auth;
 
@@ -37,7 +37,7 @@ class User implements EntityInterface, UserInterface
     /**
      * {@inheritdoc}
      */
-    public function getUsername(): string
+    public function getUsername()
     {
         return $this->username;
     }
@@ -45,7 +45,7 @@ class User implements EntityInterface, UserInterface
     /**
      * {@inheritdoc}
      */
-    public function getRoles(): array
+    public function getRoles()
     {
         return [];
     }

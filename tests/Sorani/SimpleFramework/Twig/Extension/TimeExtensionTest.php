@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Tests\Sorani\SimpleFramework\Twig\Extension;
 
@@ -23,7 +23,7 @@ class TimeExtensionTest extends TestCase
     private $env;
 
 
-    public function setUp(): void
+    public function setUp()
     {
         $this->env = $this->getMockBuilder(Environment::class)->disableOriginalConstructor()->getMock();
         $this->env
@@ -40,7 +40,7 @@ class TimeExtensionTest extends TestCase
 
         $result = sprintf(
             '<time class="need_to_be_rendered" datetime="%s">%s</time>',
-            $date->format(DateTimeInterface::ISO8601),
+            $date->format(phpversion() >= '7.2.0' ? DateTimeInterface::ISO8601 : "Y-m-d\TH:i:sO"),
             $date->format($format)
         );
         $this->assertEquals($result, $this->timeExtension->ago($date));

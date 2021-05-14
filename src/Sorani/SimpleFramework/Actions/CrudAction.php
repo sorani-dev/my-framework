@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Actions;
 
@@ -115,10 +115,10 @@ abstract class CrudAction
      *
      * @return string
      */
-    public function index(ServerRequestInterface $request): string
+    public function index(ServerRequestInterface $request)
     {
         $params = $request->getQueryParams();
-        $items = $this->table->findAll()->paginate(12, (int)($params['p'] ?? 1));
+        $items = $this->table->findAll()->paginate(12, (int)(isset($params['p']) ? $params['p'] : 1));
         $flash = $this->flash;
 
         return $this->renderer->render($this->viewPath . '/index', compact('items', 'flash'));
@@ -194,7 +194,7 @@ abstract class CrudAction
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      */
-    public function delete(ServerRequestInterface $request): ResponseInterface
+    public function delete(ServerRequestInterface $request)
     {
         $this->table->delete((int)$request->getAttribute('id'));
         $this->flash->success($this->messages['delete']);
@@ -207,7 +207,7 @@ abstract class CrudAction
      * @param ServerRequestInterface $request
      * @param EntityInterface $item
      */
-    protected function getParams(ServerRequestInterface $request, EntityInterface $item): array
+    protected function getParams(ServerRequestInterface $request, EntityInterface $item)
     {
         return
             array_filter(
@@ -225,7 +225,7 @@ abstract class CrudAction
      * @param  ServerRequestInterface $request
      * @return Validator
      */
-    protected function getValidator(ServerRequestInterface $request): Validator
+    protected function getValidator(ServerRequestInterface $request)
     {
         return new Validator(array_merge($request->getParsedBody(), $request->getUploadedFiles()));
     }
@@ -236,7 +236,7 @@ abstract class CrudAction
      * @param  array $params
      * @return array
      */
-    protected function formParams(array $params): array
+    protected function formParams(array $params)
     {
         return $params;
     }
@@ -246,5 +246,5 @@ abstract class CrudAction
      *
      * @return EntityInterface
      */
-    abstract protected function getNewEntity(): EntityInterface;
+    abstract protected function getNewEntity();
 }

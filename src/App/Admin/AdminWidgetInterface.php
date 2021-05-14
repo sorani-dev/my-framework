@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// // declare(strict_types=1);
 
 namespace App\Admin;
 
@@ -15,12 +15,12 @@ interface AdminWidgetInterface
      *
      * @return string
      */
-    public function render(): string;
+    public function render();
 
     /**
      * Inject an element in the Menu
      *
      * @return string
      */
-    public function renderMenu(): string;
+    public function renderMenu();
 }

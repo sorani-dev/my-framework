@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Tests\Sorani\SimpleFramework\Twig\Extension;
 
@@ -14,19 +14,19 @@ class FormExtensionTest extends TestCase
      */
     private $formExtension;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         $this->formExtension = new FormExtension();
     }
 
-    private function trimString(string $value): string
+    private function trimString($value)
     {
         $lines = explode(PHP_EOL, $value);
         $lines = array_map('trim', $lines);
         return str_replace(['\n', '\r\n'], [' '], implode('', $lines));
     }
 
-    protected function assertSimilarString(string $expected, string $actual): void
+    protected function assertSimilarString($expected, $actual)
     {
         $this->assertEquals($this->trimString($expected), $this->trimString($actual));
     }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Test\Sorani\SimpleFramework\Session;
 
@@ -15,7 +15,7 @@ class ArraySessionTest extends TestCase
     private $session;
 
 
-    protected function setUp(): void
+    protected function setUp()
     {
         $this->session = new ArraySession();
     }

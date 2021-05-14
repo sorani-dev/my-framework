@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace App\Auth;
 
@@ -17,17 +17,17 @@ class AuthModule extends Module
     /**
      * {@inheritdoc}
      */
-    public const DEFINITIONS = __DIR__ . '/config/config.php';
+    const DEFINITIONS = __DIR__ . '/config/config.php';
 
     /**
      * {@inheritdoc}
      */
-    public const MIGRATIONS = __DIR__ . '/db/migrations';
+    const MIGRATIONS = __DIR__ . '/db/migrations';
 
     /**
      * {@inheritdoc}
      */
-    public const SEEDS = __DIR__ . '/db/seeds';
+    const SEEDS = __DIR__ . '/db/seeds';
 
     /**
      * AuthModule Constructor

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 use Phinx\Db\Table\Column;
 use Phinx\Migration\AbstractMigration;
@@ -18,12 +18,12 @@ final class CreateUsersTable extends AbstractMigration
      * Remember to call "create()" or "update()" and NOT "save()" when working
      * with the Table class.
      */
-    public function change(): void
+    public function change()
     {
         $this->table('users', ['collation' => 'utf8mb4_unicode_ci'])
-                ->addColumn('username', Column::STRING)
-                ->addColumn('email', Column::STRING)
-                ->addColumn('password', Column::STRING)
+                ->addColumn('username', 'string')
+                ->addColumn('email', 'string')
+                ->addColumn('password', 'string')
                 ->addIndex(['email', 'username'], ['unique' => true])
                 ->create();
     }

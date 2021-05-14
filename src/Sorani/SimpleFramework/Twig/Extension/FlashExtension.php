@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Twig\Extension;
 
@@ -29,7 +29,7 @@ class FlashExtension extends AbstractExtension
     /**
      * @return TwigFunction[]
      */
-    public function getFunctions(): array
+    public function getFunctions()
     {
         return [new TwigFunction('flash', [$this, 'getFlash'])];
     }
@@ -40,7 +40,7 @@ class FlashExtension extends AbstractExtension
      * @param    string $type Message type
      * @return   string|null
      */
-    public function getFlash(string $type): ?string
+    public function getFlash($type)
     {
         return $this->flash->get($type);
     }

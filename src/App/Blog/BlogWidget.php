@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace App\Blog;
 
@@ -40,7 +40,7 @@ class BlogWidget implements AdminWidgetInterface
      *
      * @return string
      */
-    public function render(): string
+    public function render()
     {
         $count = $this->postTable->count();
         return $this->renderer->render('@blog/admin/widget', compact('count'));
@@ -49,7 +49,7 @@ class BlogWidget implements AdminWidgetInterface
     /**
      * {@inheritDoc}
      */
-    public function renderMenu(): string
+    public function renderMenu()
     {
         return $this->renderer->render('@blog/admin/menu');
     }

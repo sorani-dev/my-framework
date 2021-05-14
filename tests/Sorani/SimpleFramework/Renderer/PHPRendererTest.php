@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Tests\Sorani\SimpleFramework\Renderer;
 
@@ -12,9 +12,9 @@ class PHPRendererTest extends TestCase
     /**
      * @var Renderer
      */
-    private Renderer $renderer;
+    private $renderer;
 
-    public function setUp(): void
+    public function setUp()
     {
         $this->renderer = new Renderer();
     }

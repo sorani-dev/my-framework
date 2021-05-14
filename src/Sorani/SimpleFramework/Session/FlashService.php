@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Session;
 
@@ -41,7 +41,7 @@ class FlashService
      * @param string $message
      * @return void
      */
-    public function success(string $message): void
+    public function success($message)
     {
         $flash = $this->session->get($this->sessionKey, []);
         $flash['success'] = $message;
@@ -52,7 +52,7 @@ class FlashService
      * Set an error message
      * @param string $message
      */
-    public function error(string $message): void
+    public function error($message)
     {
         $flash = $this->session->get($this->sessionKey, []);
         $flash['error'] = $message;
@@ -64,12 +64,12 @@ class FlashService
      * @param  string $type
      * @return string|null
      */
-    public function get(string $type): ?string
+    public function get($type)
     {
         if (null === $this->messages) {
             $this->messages = $this->session->get($this->sessionKey, []);
             $this->session->delete($this->sessionKey);
         }
-        return $this->messages[$type] ?? null;
+        return isset($this->messages[$type]) ? $this->messages[$type] : null;
     }
 }

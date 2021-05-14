@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Tests\Sorani\SimpleFramework\Validator;
 
@@ -9,7 +9,7 @@ use Sorani\SimpleFramework\Validator\Validator;
 
 class ValidatorTest extends ExtendedTestCase
 {
-    private function makeValidator(?array $params = []): Validator
+    private function makeValidator($params = [])
     {
         return new Validator($params);
     }
@@ -137,7 +137,7 @@ class ValidatorTest extends ExtendedTestCase
         $this->assertCount(1, $this->makeValidator(['date' => '25:10:11'])->dateTime('date', 'H:i:s')->getErrors());
         $this->assertCount(
             1,
-            $this->makeValidator(['date' => '25:10:11'])->dateTime('date', \DateTimeImmutable::RFC3339)->getErrors()
+            $this->makeValidator(['date' => '25:10:11'])->dateTime('date', "Y-m-d\TH:i:sO")->getErrors()
         );
     }
 
@@ -177,7 +177,7 @@ class ValidatorTest extends ExtendedTestCase
     /**
      * @dataProvider booleanProvider
      */
-    public function testBoolean($input, bool $isStrict, bool $expected)
+    public function testBoolean($input, $isStrict, $expected)
     {
         $this->assertEquals(
             $expected,
@@ -190,7 +190,7 @@ class ValidatorTest extends ExtendedTestCase
     /**
      * @return array
      */
-    public function booleanProvider(): array
+    public function booleanProvider()
     {
         return [
             // truthy

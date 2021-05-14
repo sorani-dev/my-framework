@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Middleware;
 
@@ -38,7 +38,7 @@ class CombinedMiddleware implements MiddlewareInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)
     {
         $handler = new CombinedMiddlewareHandler($this->container, $this->middlewares, $handler);
         return $handler->handle($request);

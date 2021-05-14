@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Database\Query;
 
@@ -46,7 +46,7 @@ class QueryResult implements \ArrayAccess, \Iterator, \Countable
      * @param array $records Database results
      * @param string|null $entity Entity to populate
      */
-    public function __construct(array $records, ?string $entity = null)
+    public function __construct(array $records, $entity = null)
     {
         $this->records = $records;
         $this->entity = $entity;
@@ -56,7 +56,7 @@ class QueryResult implements \ArrayAccess, \Iterator, \Countable
      *
      * @return string|null
      */
-    public function getEntity(): ?string
+    public function getEntity()
     {
         return $this->entity;
     }
@@ -67,7 +67,7 @@ class QueryResult implements \ArrayAccess, \Iterator, \Countable
      * @param string $entity
      * @return QueryResult
      */
-    public function setEntity(string $entity): self
+    public function setEntity($entity)
     {
         $this->entity = $entity;
         return $this;
@@ -134,7 +134,7 @@ class QueryResult implements \ArrayAccess, \Iterator, \Countable
      * Returns true on success or false on failure.
      * @since 5.0.0
      */
-    public function valid(): bool
+    public function valid()
     {
         return isset($this->records[$this->index]);
     }
@@ -146,7 +146,7 @@ class QueryResult implements \ArrayAccess, \Iterator, \Countable
      * @return void Any returned value is ignored.
      * @since 5.0.0
      */
-    public function rewind(): void
+    public function rewind()
     {
         $this->index = 0;
     }
@@ -164,7 +164,7 @@ class QueryResult implements \ArrayAccess, \Iterator, \Countable
      * The return value will be casted to boolean if non-boolean was returned.
      * @since 5.0.0
      */
-    public function offsetExists($offset): bool
+    public function offsetExists($offset)
     {
         return isset($this->records[$offset]);
     }
@@ -228,7 +228,7 @@ class QueryResult implements \ArrayAccess, \Iterator, \Countable
      * The return value is cast to an integer.
      * @since 5.1.0
      */
-    public function count(): int
+    public function count()
     {
         return count($this->records);
     }
@@ -238,7 +238,7 @@ class QueryResult implements \ArrayAccess, \Iterator, \Countable
      *
      * @return EntityInterface[]|array
      */
-    public function getRecords(): array
+    public function getRecords()
     {
         $items = [];
         foreach ($this->records as $key => $value) {

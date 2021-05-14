@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Session;
 
@@ -19,10 +19,10 @@ class PHPSession implements SessionInterface, ArrayAccess
      * @param  mixed|null $default
      * @return mixed
      */
-    public function get(string $key, $default = null)
+    public function get($key, $default = null)
     {
         $this->ensureStarted();
-        return $_SESSION[$key] ?? $default;
+        return isset($_SESSION[$key]) ? $_SESSION[$key] : $default;
     }
 
     /**
@@ -32,7 +32,7 @@ class PHPSession implements SessionInterface, ArrayAccess
      * @param  mixed  $value
      * @return void
      */
-    public function set(string $key, $value): void
+    public function set($key, $value)
     {
         $this->ensureStarted();
         $_SESSION[$key] = $value;
@@ -45,7 +45,7 @@ class PHPSession implements SessionInterface, ArrayAccess
      * @param  string $key
      * @return mixed
      */
-    public function delete(string $key): void
+    public function delete($key)
     {
         $this->ensureStarted();
         unset($_SESSION[$key]);
@@ -57,7 +57,7 @@ class PHPSession implements SessionInterface, ArrayAccess
      * @param  string $key
      * @return bool
      */
-    public function has(string $key): bool
+    public function has($key)
     {
         $this->ensureStarted();
         return isset($_SESSION[$key]);
@@ -68,7 +68,7 @@ class PHPSession implements SessionInterface, ArrayAccess
      *
      * @return void
      */
-    public function destroy(): void
+    public function destroy()
     {
         $this->ensureStarted();
         $_SESSION = [];

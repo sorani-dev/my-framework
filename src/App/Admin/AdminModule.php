@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// // declare(strict_types=1);
 
 namespace App\Admin;
 
@@ -16,7 +16,7 @@ class AdminModule extends Module
     /**
      * {@inheritDoc}
      */
-    public const DEFINITIONS = __DIR__ . '/config/config.php';
+    const DEFINITIONS = __DIR__ . '/config/config.php';
 
     /**
      * AdminModule Constructor
@@ -30,7 +30,7 @@ class AdminModule extends Module
         RendererInterface $renderer,
         Router $router,
         AdminTwigExtension $adminTwigExtension,
-        string $prefix
+        $prefix
     ) {
         $renderer->addPath('admin', __DIR__ . '/resources/views');
         $router->get($prefix, DashboardAction::class, 'admin');

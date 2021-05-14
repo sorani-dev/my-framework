@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// // declare(strict_types=1);
 
 namespace App\Admin\Actions;
 
@@ -39,9 +39,9 @@ class DashboardAction
      * @param  ServerRequestInterface $request
      * @return string
      */
-    public function __invoke(ServerRequestInterface $request): string
+    public function __invoke(ServerRequestInterface $request)
     {
-        $widgets = array_reduce($this->widgets, function (string $html, AdminWidgetInterface $widget) {
+        $widgets = array_reduce($this->widgets, function ($html, AdminWidgetInterface $widget) {
             return $html . $widget->render();
         }, '');
         return $this->renderer->render('@admin/dashboard', compact('widgets'));

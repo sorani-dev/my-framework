@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace App\Admin\Twig\Extension;
 
@@ -25,7 +25,7 @@ class AdminTwigExtension extends AbstractExtension
      *
      * @return TwigFunction[]
      */
-    public function getFunctions(): array
+    public function getFunctions()
     {
         return [
             new TwigFunction('admin_menu', [$this, 'renderMenu'], ['is_safe' => ['html']]),
@@ -37,9 +37,9 @@ class AdminTwigExtension extends AbstractExtension
      *
      * @return string
      */
-    public function renderMenu(): string
+    public function renderMenu()
     {
-        return array_reduce($this->widgets, function (string $html, AdminWidgetInterface $widget) {
+        return array_reduce($this->widgets, function ($html, AdminWidgetInterface $widget) {
             return $html . $widget->renderMenu();
         }, '');
     }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Session;
 
@@ -16,7 +16,7 @@ interface SessionInterface
      * @param  mixed|null $default
      * @return mixed
      */
-    public function get(string $key, $default = null);
+    public function get($key, $default = null);
 
     /**
      * Add session information as value to a key
@@ -25,7 +25,7 @@ interface SessionInterface
      * @param  mixed  $value
      * @return void
      */
-    public function set(string $key, $value): void;
+    public function set($key, $value);
 
 
     /**
@@ -34,7 +34,7 @@ interface SessionInterface
      * @param  string $key
      * @return void
      */
-    public function delete(string $key): void;
+    public function delete($key);
 
     /**
      * Check if the key in the Session
@@ -42,12 +42,12 @@ interface SessionInterface
      * @param  string $key
      * @return bool
      */
-    public function has(string $key): bool;
+    public function has($key);
 
     /**
      * Destroys the current session
      *
      * @return void
      */
-    public function destroy(): void;
+    public function destroy();
 }

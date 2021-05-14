@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Router;
 
@@ -33,8 +33,9 @@ class MiddlewareApp implements MiddlewareInterface
      * @param  callable|string $callback
      * @param  array $extraOptions Extra options to add to the Route
      */
-    public function __construct($callback, ?array $extraOptions = [])
+    public function __construct($callback, array $extraOptions = [])
     {
+        // var_dump(class_implements(__CLASS__));die;
         $this->callback = $callback;
         $this->extraOptions = $extraOptions;
     }
@@ -44,7 +45,7 @@ class MiddlewareApp implements MiddlewareInterface
      * @param RequestHandlerInterface|null $handler
      * @return ResponseInterface
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler = null): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler = null)
     {
         return $handler->handle($request);
     }
@@ -62,7 +63,7 @@ class MiddlewareApp implements MiddlewareInterface
      *
      * @return  array
      */
-    public function getExtraOptions(): array
+    public function getExtraOptions()
     {
         return $this->extraOptions;
     }

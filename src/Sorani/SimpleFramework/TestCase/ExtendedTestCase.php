@@ -37,7 +37,7 @@ class ExtendedTestCase extends TestCase
      * @param string $actual
      * @return void
      */
-    public function assertSimilar($expected, $actual): void
+    public function assertSimilar($expected, $actual)
     {
         $this->assertEquals($this->trim($expected), $this->trim($actual));
     }
@@ -164,7 +164,7 @@ class ExtendedTestCase extends TestCase
      * @param int $numberOfSeeds
      * @return void
      */
-    protected function seed($numberOfSeeds = 100): void
+    protected function seed($numberOfSeeds = 100)
     {
         $faker = Factory::create();
         for ($i = 1; $i <= $numberOfSeeds; $i++) {
@@ -199,7 +199,7 @@ class ExtendedTestCase extends TestCase
      *
      * @return PDO
      */
-    protected function getTestDatabase(): \PDO
+    protected function getTestDatabase()
     {
         // create PDO instance
         $pdo = new \PDO('sqlite::memory:', null, null, [
