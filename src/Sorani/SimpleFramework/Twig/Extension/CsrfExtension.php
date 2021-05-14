@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Twig\Extension;
 
@@ -24,7 +24,7 @@ class CsrfExtension extends AbstractExtension
     /**
      * @return TwigFunction[]
      */
-    public function getFunctions(): array
+    public function getFunctions()
     {
         return [
             new TwigFunction('csrf_input', [$this, 'csrfInput'], ['is_safe' => ['html']]),
@@ -36,7 +36,7 @@ class CsrfExtension extends AbstractExtension
      *
      * @return string
      */
-    public function csrfInput(): string
+    public function csrfInput()
     {
         return sprintf(
             '<input type="hidden" name="%s" value="%s" />',

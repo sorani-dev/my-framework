@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Actions;
 
@@ -23,7 +23,7 @@ trait RouterAwareActionTrait
      * @param  array $params
      * @return ResponseInterface
      */
-    public function redirect(string $path, array $params = []): ResponseInterface
+    public function redirect($path, array $params = [])
     {
         $redirectUri = $this->router->generateUri($path, $params);
         return (new Response())

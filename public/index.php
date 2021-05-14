@@ -7,15 +7,13 @@ use App\Auth\AuthModule;
 use App\Auth\ForbiddenMiddleware;
 use App\Site\SiteModule;
 use GuzzleHttp\Psr7\ServerRequest;
-use Sorani\SimpleFramework\Middleware\{
-    CsrfMiddleware,
-    MethodMiddleware,
-    RouterMiddleware,
-    NotFoundMiddleware,
-    DispatcherMiddleware,
-    LoggedInMiddleware,
-    TrailingSlashMiddleware
-};
+use Sorani\SimpleFramework\Middleware\CsrfMiddleware;
+use Sorani\SimpleFramework\Middleware\MethodMiddleware;
+use Sorani\SimpleFramework\Middleware\RouterMiddleware;
+use Sorani\SimpleFramework\Middleware\NotFoundMiddleware;
+use Sorani\SimpleFramework\Middleware\DispatcherMiddleware;
+use Sorani\SimpleFramework\Middleware\LoggedInMiddleware;
+use Sorani\SimpleFramework\Middleware\TrailingSlashMiddleware;
 
 use function Http\Response\send;
 
@@ -31,7 +29,8 @@ $app = (new \Sorani\SimpleFramework\App('config/config.php'))
 
 $container = $app->getContainer();
 
-$app->pipe(Whoops::class)
+$app
+// ->pipe(Whoops::class)
     ->pipe(TrailingSlashMiddleware::class)
     ->pipe(ForbiddenMiddleware::class)
     ->pipe($container->get('admin.prefix'), LoggedInMiddleware::class)

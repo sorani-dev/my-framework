@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace App\Blog\Actions;
 
@@ -56,12 +56,12 @@ class PostIndexAction
      * @param ServerRequestInterface $request
      * @return string
      */
-    public function __invoke(ServerRequestInterface $request): string
+    public function __invoke(ServerRequestInterface $request)
     {
 
         $params = $request->getQueryParams();
 
-        $page = $params['p'] ?? 1;
+        $page = isset($params['p']) ? $params['p'] : 1;
 
         $posts = $this->postTable->findPublic()->paginate(12, (int)$page);
         $categories = $this->categoryTable->findAll();

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Tests\Sorani\SimpleFramework\Middleware;
 
@@ -8,7 +8,7 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
+// use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Sorani\SimpleFramework\Middleware\RendererRequestMiddleware;
@@ -16,7 +16,7 @@ use Sorani\SimpleFramework\Renderer\RendererInterface;
 
 class RendererRequestMiddlewareTest extends TestCase
 {
-    use ProphecyTrait;
+    // use ProphecyTrait;
 
     /**
      * ]@var RendererInterface
@@ -33,7 +33,7 @@ class RendererRequestMiddlewareTest extends TestCase
      */
     private $m;
 
-    public function setUp(): void
+    public function setUp()
     {
         $this->renderer = $this->prophesize(RendererInterface::class);
         $this->handler = $this->prophesize(RequestHandlerInterface::class);

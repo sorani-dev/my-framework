@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Database;
 
@@ -37,7 +37,7 @@ class PaginatedQuery implements AdapterInterface
      *
      * @return array|\Traversable
      */
-    public function getSlice($offset, $length): \Traversable
+    public function getSlice($offset, $length)
     {
         $query = clone $this->queryBuilder;
         return $query->limit($length)->offset($offset)->fetchAll();

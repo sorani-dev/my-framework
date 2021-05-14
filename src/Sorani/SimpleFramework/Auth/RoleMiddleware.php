@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Auth;
 
@@ -30,7 +30,7 @@ class RoleMiddleware implements MiddlewareInterface
      * @param  AuthInterface $auth
      * @param string $role User role
      */
-    public function __construct(AuthInterface $auth, string $role)
+    public function __construct(AuthInterface $auth, $role)
     {
         $this->auth = $auth;
         $this->role = $role;
@@ -39,7 +39,7 @@ class RoleMiddleware implements MiddlewareInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)
     {
         $user = $this->auth->getUser();
         if (null === $user || !in_array($this->role, $user->getRoles())) {

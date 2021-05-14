@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Renderer;
 
@@ -17,7 +17,7 @@ interface RendererInterface
      * @param  string|null $path
      * @return void
      */
-    public function addPath(string $namespace, ?string $path = null): void;
+    public function addPath($namespace, $path = null);
 
     /**
      * Adds a Global variable which can then
@@ -27,7 +27,7 @@ interface RendererInterface
      * @param  mixed $value
      * @return void
      */
-    public function addGlobal(string $key, $value): void;
+    public function addGlobal($key, $value);
 
     /**
      * Render a view
@@ -41,5 +41,5 @@ interface RendererInterface
      * @param  array $params Paramters to inject into the view
      * @return string Parsed template
      */
-    public function render(string $view, array $params = []): string;
+    public function render($view, array $params = []);
 }

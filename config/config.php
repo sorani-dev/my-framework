@@ -1,10 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
 use function DI\autowire;
 use function DI\get;
-use function DI\create;
+use function DI\object;
 use function DI\env;
 use function DI\factory;
 
@@ -37,7 +35,7 @@ return [
     'views.path' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'resources/views',
     'twig.extensions' => [
         get(RouterTwigExtension::class),
-        get(\Pagerfanta\Twig\Extension\PagerfantaExtension::class),
+        // get(\Pagerfanta\Twig\Extension\PagerfantaExtension::class),
         get(PagerFantaExtension::class),
         get(TextExtension::class),
         get(TimeExtension::class),
@@ -45,10 +43,10 @@ return [
         get(FormExtension::class),
         get(CsrfExtension::class),
     ],
-    SessionInterface::class => create(PHPSession::class),
-    FlashService::class => create(FlashService::class)->constructor(get(SessionInterface::class)),
+    SessionInterface::class => object(PHPSession::class),
+    FlashService::class => object(FlashService::class)->constructor(get(SessionInterface::class)),
     Router::class => factory(RouterFactory::class),
-    CsrfMiddleware::class => autowire()->constructorParameter('session', get(SessionInterface::class)),
+    CsrfMiddleware::class => object()->constructorParameter('session', get(SessionInterface::class)),
     RendererInterface::class => factory(TwigRendererFactory::class),
     PDO::class => function (ContainerInterface $c) {
         $pdo = new PDO(

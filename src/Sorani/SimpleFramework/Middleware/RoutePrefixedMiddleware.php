@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Middleware;
 
@@ -37,7 +37,7 @@ class RoutePrefixedMiddleware implements MiddlewareInterface
      * @param  string $routePrefix
      * @param  string $middleware
      */
-    public function __construct(ContainerInterface $container, string $routePrefix, string $middleware)
+    public function __construct(ContainerInterface $container, $routePrefix, $middleware)
     {
         $this->container = $container;
         $this->routePrefix = $routePrefix;
@@ -47,7 +47,7 @@ class RoutePrefixedMiddleware implements MiddlewareInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)
     {
         $path = $request->getUri()->getPath();
         if (0 === strpos($path, $this->routePrefix)) {

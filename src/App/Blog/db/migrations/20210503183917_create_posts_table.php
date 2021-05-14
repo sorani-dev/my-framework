@@ -1,8 +1,9 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 use Phinx\Db\Adapter\MysqlAdapter;
+use Phinx\Db\Adapter\PdoAdapter;
 use Phinx\Db\Table\Column;
 use Phinx\Migration\AbstractMigration;
 
@@ -19,14 +20,14 @@ final class CreatePostsTable extends AbstractMigration
      * Remember to call "create()" or "update()" and NOT "save()" when working
      * with the Table class.
      */
-    public function change(): void
+    public function change()
     {
         $this->table('posts')
-                ->addColumn('name', Column::STRING)
-            ->addColumn('slug', Column::STRING)
-            ->addColumn('content', Column::TEXT, ['limit' => MysqlAdapter::TEXT_LONG])
-            ->addColumn('created_at', Column::DATETIME)
-            ->addColumn('updated_at', Column::DATETIME)
+                ->addColumn('name', 'string')
+            ->addColumn('slug', 'string')
+            ->addColumn('content', PdoAdapter::PHINX_TYPE_STRING, ['limit' => MysqlAdapter::TEXT_LONG])
+            ->addColumn('created_at', 'datetime')
+            ->addColumn('updated_at', 'datetime')
             ->create();
     }
 }

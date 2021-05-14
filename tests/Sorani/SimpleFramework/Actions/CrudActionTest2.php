@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Tests\Sorani\SimpleFramework\Actions;
 
 use GuzzleHttp\Psr7\ServerRequest;
 use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
+// use Prophecy\PhpUnit\ProphecyTrait;
 use Sorani\SimpleFramework\Actions\CrudAction;
 use Sorani\SimpleFramework\Database\Table;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
@@ -17,7 +17,7 @@ use Sorani\SimpleFramework\TestCase\ExtendedTestCase;
 
 class CrudActionTest extends ExtendedTestCase
 {
-    use ProphecyTrait;
+    // use ProphecyTrait;
 
     /**
      * @var CrudAction
@@ -32,7 +32,7 @@ class CrudActionTest extends ExtendedTestCase
 
     private $flash;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         // RendererInterface
         $this->renderer = $this->prophesize(RendererInterface::class);
@@ -59,7 +59,7 @@ class CrudActionTest extends ExtendedTestCase
         $this->setProtectedProperty($this->action, 'viewPath', 'crud');
     }
 
-    public function makeEntity(int $id, string $slug): \stdClass
+    public function makeEntity($id, $slug)
     {
         //  Post test
         $Crud = new \stdClass();

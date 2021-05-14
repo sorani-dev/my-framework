@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Twig\Extension;
 
@@ -16,7 +16,7 @@ class TimeExtension extends AbstractExtension
     /**
      * @return TwigFilter[]
      */
-    public function getFilters(): array
+    public function getFilters()
     {
         return [
             new TwigFilter('ago', [$this, 'ago'], ['is_safe' => ['html']]),
@@ -30,12 +30,12 @@ class TimeExtension extends AbstractExtension
      * @param  string $format Valid date format
      * @return string
      */
-    public function ago(DateTimeInterface $date, string $format = 'd/m/Y H:i'): string
+    public function ago(DateTimeInterface $date, $format = 'd/m/Y H:i')
     {
         return
             sprintf(
                 '<time class="need_to_be_rendered" datetime="%s">%s</time>',
-                $date->format(DateTimeInterface::ISO8601),
+                $date->format(phpversion() >= '7.2.0' ? DateTimeInterface::ISO8601 : "Y-m-d\TH:i:sO"),
                 $date->format($format)
             );
     }

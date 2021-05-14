@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Test\Sorani\SimpleFramework\Session;
 
@@ -21,7 +21,7 @@ class FlashServiceTest extends TestCase
     private $flash;
 
 
-    protected function setUp(): void
+    protected function setUp()
     {
         $this->session = new ArraySession();
         $this->flash = new FlashService($this->session);

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Middleware;
 
@@ -36,7 +36,7 @@ class LoggedInMiddleware implements MiddlewareInterface
      * {@inheritdoc}
      * @throws ForbiddenException
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)
     {
         $user = $this->auth->getUser();
         if (null === $user) {

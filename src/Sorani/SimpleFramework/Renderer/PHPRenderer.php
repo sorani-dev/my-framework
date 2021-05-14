@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Renderer;
 
@@ -9,26 +9,26 @@ class PHPRenderer implements RendererInterface
     /**
      * @var string
      */
-    private const DEFAULT_NAMESPACE = '__MAIN__';
+    const DEFAULT_NAMESPACE = '__MAIN__';
 
     /**
      * View base path list
      * @var string[]
      */
-    private array $paths = [];
+    private $paths = [];
 
     /**
      * Variables which can be accessed by all views
      * @var array
      */
-    private array $globals = [];
+    private $globals = [];
 
     /**
      * Constructor
      *
      * @param  string|null $defaultPath
      */
-    public function __construct(?string $defaultPath = null)
+    public function __construct($defaultPath = null)
     {
         if (null !== $defaultPath) {
             $this->addPath($defaultPath);
@@ -42,7 +42,7 @@ class PHPRenderer implements RendererInterface
      * @param  string|null $path
      * @return void
      */
-    public function addPath(string $namespace, ?string $path = null): void
+    public function addPath($namespace, $path = null)
     {
         if (null === $path) {
             $this->paths[self::DEFAULT_NAMESPACE] = $namespace;
@@ -59,7 +59,7 @@ class PHPRenderer implements RendererInterface
      * @param  mixed $value
      * @return void
      */
-    public function addGlobal(string $key, $value): void
+    public function addGlobal($key, $value)
     {
         $this->globals[$key] = $value;
     }
@@ -76,7 +76,7 @@ class PHPRenderer implements RendererInterface
      * @param  mixed $params
      * @return string
      */
-    public function render(string $view, array $params = []): string
+    public function render($view, array $params = [])
     {
         if ($this->hasNamespace($view)) {
             $path = $this->replaceNamespace($view) .  '.php';
@@ -98,7 +98,7 @@ class PHPRenderer implements RendererInterface
      * @param  string $view view path
      * @return bool
      */
-    private function hasNamespace(string $view): bool
+    private function hasNamespace($view)
     {
         return $view[0] === '@';
     }
@@ -110,7 +110,7 @@ class PHPRenderer implements RendererInterface
      * @param  string $view view path
      * @return string
      */
-    private function getNamespace(string $view): string
+    private function getNamespace($view)
     {
         return substr($view, 1, strpos($view, '/') - 1);
     }
@@ -121,7 +121,7 @@ class PHPRenderer implements RendererInterface
      * @param  string $view view path
      * @return string
      */
-    private function replaceNamespace(string $view): string
+    private function replaceNamespace($view)
     {
         $namespace = $this->getNamespace($view);
         return str_replace('@' . $namespace, $this->paths[$namespace], $view);

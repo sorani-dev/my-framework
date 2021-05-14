@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace App\Site;
 
@@ -17,17 +17,17 @@ class SiteModule extends Module
     /**
      * @const Definitions path for PHP-DI Config
      */
-    public const DEFINITIONS = null;
+    const DEFINITIONS = null;
 
     // /**
     //  * Migrations folder for Phinx
     //  */
-    // public const MIGRATIONS = null;
+    // const MIGRATIONS = null;
 
     // /**
     //  * Seed folder for Phinx
     //  */
-    // public const SEEDS = null;
+    // const SEEDS = null;
 
     /**
      * Constructor

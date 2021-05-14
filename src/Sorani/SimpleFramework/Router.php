@@ -1,9 +1,10 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework;
 
+use AltoRouter;
 use Fig\Http\Message\RequestMethodInterface;
 use Mezzio\Router\FastRouteRouter;
 use Mezzio\Router\Route as RouterRoute;
@@ -15,10 +16,10 @@ use Sorani\SimpleFramework\Router\Route;
  * Router
  * Register and match Routes
  */
-class Router
+class Router implements RouterInterface
 {
     /**
-     * @var FastRouteRouter
+     * @var AltoRouter
      */
     private $router;
 
@@ -27,12 +28,10 @@ class Router
      *
      * @param  string|null $cache Cache path or disable cache if null
      */
-    public function __construct(?string $cache = null)
+    public function __construct($cache = null)
     {
-        $this->router = new FastRouteRouter(null, null, [
-            FastRouteRouter::CONFIG_CACHE_ENABLED => null !== $cache,
-            FastRouteRouter::CONFIG_CACHE_FILE => $cache,
-        ]);
+        $this->router = new AltoRouter();
+        $this->router->addMatchTypes(['cId' => '[a-zA-Z]{2}[0-9](?:_[0-9]++)?', 'slug' => '[a-z0-9\-]+']);
     }
 
     /**
@@ -43,15 +42,13 @@ class Router
      * @param  string $name Route name
      * @return void
      */
-    public function get(string $path, $callable, ?string $name = null, ?array $options = [])
+    public function get($path, $callable, $name = null, array $options = [])
     {
-        $this->router->addRoute(
-            new RouterRoute(
-                $path,
-                new MiddlewareApp($callable, $options),
-                [RequestMethodInterface::METHOD_GET],
-                $name
-            )
+        $this->router->map(
+            RequestMethodInterface::METHOD_GET,
+            $path,
+            $callable,
+            $name
         );
     }
 
@@ -63,15 +60,13 @@ class Router
      * @param  string|null $name Route name
      * @return void
      */
-    public function post(string $path, $callable, ?string $name = null, ?array $options = [])
+    public function post($path, $callable, $name = null, array $options = [])
     {
-        $this->router->addRoute(
-            new RouterRoute(
-                $path,
-                new MiddlewareApp($callable, $options),
-                [RequestMethodInterface::METHOD_POST],
-                $name
-            )
+        $this->router->map(
+            RequestMethodInterface::METHOD_POST,
+            $path,
+            $callable,
+            $name
         );
     }
 
@@ -83,15 +78,13 @@ class Router
      * @param  string|null $name Route name
      * @return void
      */
-    public function delete(string $path, $callable, ?string $name = null, ?array $options = [])
+    public function delete($path, $callable, $name = null, array $options = [])
     {
-        $this->router->addRoute(
-            new RouterRoute(
-                $path,
-                new MiddlewareApp($callable, $options),
-                [RequestMethodInterface::METHOD_DELETE],
-                $name
-            )
+        $this->router->map(
+            RequestMethodInterface::METHOD_DELETE,
+            $path,
+            $callable,
+            $name
         );
     }
 
@@ -104,14 +97,14 @@ class Router
      * @param  string|null $prefixName
      * @return void
      */
-    public function crud(string $prefixPath, $callable, ?string $prefixName = null)
+    public function crud($prefixPath, $callable, $prefixName = null)
     {
         $this->get($prefixPath, $callable, $prefixName . '.index');
         $this->get($prefixPath . '/new', $callable, $prefixName . '.create');
         $this->post($prefixPath . '/new', $callable);
-        $this->get($prefixPath .  '/{id:\d+}', $callable, $prefixName . '.edit');
-        $this->post($prefixPath . '/{id:\d+}', $callable);
-        $this->delete($prefixPath . '/{id:\d+}', $callable, $prefixName . '.delete');
+        $this->get($prefixPath .  '/[i:id]', $callable, $prefixName . '.edit');
+        $this->post($prefixPath . '/[i:id]', $callable);
+        $this->delete($prefixPath . '/[i:id]', $callable, $prefixName . '.delete');
     }
 
     /**
@@ -120,14 +113,15 @@ class Router
      * @param  ServerRequestInterface $request
      * @return Route|null
      */
-    public function match(ServerRequestInterface $request): ?Route
+    public function match(ServerRequestInterface $request)
     {
-        $route = $this->router->match($request);
-        if ($route->isSuccess()) {
+        $route = $this->router->match();
+        // $route = $this->router->match((string)$request->getUri(), $request->getMethod());
+        if (is_array($route)) {
             return new Route(
-                $route->getMatchedRouteName(),
-                $route->getMatchedRoute()->getMiddleware()->getCallback(),
-                $route->getMatchedParams()
+                $route['name'],
+                $route['target'],
+                is_array($route['params']) ? $route['params'] : []
             );
         }
         return null;
@@ -141,9 +135,9 @@ class Router
      * @param  array $queryParams route query parameters
      * @return string generated URI
      */
-    public function generateUri(string $name, array $params = [], array $queryParams = []): ?string
+    public function generateUri($name, array $params = [], array $queryParams = [])
     {
-        $uri = $this->router->generateUri($name, $params);
+        $uri = $this->router->generate($name, $params);
         if (!empty($queryParams)) {
             return $uri . '?' . http_build_query($queryParams);
         }

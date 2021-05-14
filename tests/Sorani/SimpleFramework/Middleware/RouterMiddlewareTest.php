@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Tests\Sorani\SimpleFramework\Middleware;
 
@@ -21,7 +21,7 @@ class RouterMiddlewareTest extends TestCase
      */
     private $handler;
 
-    public function setUp(): void
+    public function setUp()
     {
         $handler = $this->getMockBuilder(RequestHandlerInterface::class)->getMock();
 
@@ -59,7 +59,7 @@ class RouterMiddlewareTest extends TestCase
         $this->assertEquals($response, $r);
     }
 
-    private function makeMiddleware(?Route $route = null): RouterMiddleware
+    private function makeMiddleware(Route $route = null)
     {
         $router = $this->getMockBuilder(Router::class)->getMock();
         $router->method('match')->willReturn($route);

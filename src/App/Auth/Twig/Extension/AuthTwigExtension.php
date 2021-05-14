@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace App\Auth\Twig\Extension;
 
@@ -27,7 +27,7 @@ class AuthTwigExtension extends AbstractExtension
     /**
      * @return TwigFunction[]
      */
-    public function getFunctions(): array
+    public function getFunctions()
     {
         return [
             new TwigFunction('current_user', [$this->auth, 'getUser']),

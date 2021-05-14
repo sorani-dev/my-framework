@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Tests\Sorani\SimpleFramework;
 
@@ -18,7 +18,7 @@ class AppTest extends TestCase
      */
     private $app;
 
-    public function setUp(): void
+    public function setUp()
     {
         $this->app = new App('');
     }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Renderer;
 
@@ -20,7 +20,7 @@ class TwigRendererFactory
      * @param  ContainerInterface $container
      * @return TwigRenderer
      */
-    public function __invoke(ContainerInterface $container): TwigRenderer
+    public function __invoke(ContainerInterface $container)
     {
         // ge tthe environement type
         $debug = $container->get('env') !== 'production';

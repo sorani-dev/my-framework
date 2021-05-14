@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Tests\Sorani\SimpleFramework\Middleware;
 
@@ -9,7 +9,7 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
+// use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -21,7 +21,7 @@ use Sorani\SimpleFramework\Middleware\CsrfMiddleware;
 
 class RoleMiddlewareTest extends TestCase
 {
-    use ProphecyTrait;
+    // use ProphecyTrait;
 
     /**
      * @var RoleMiddlewareTest
@@ -33,7 +33,7 @@ class RoleMiddlewareTest extends TestCase
      */
     private $auth;
 
-    public function setUp(): void
+    public function setUp()
     {
         $this->auth = $this->prophesize(AuthInterface::class);
         $this->m = new RoleMiddleware(
@@ -67,7 +67,7 @@ class RoleMiddlewareTest extends TestCase
         $this->assertInstanceOf(ResponseInterface::class, $actual);
     }
 
-    private function makeHandler(): ObjectProphecy
+    private function makeHandler()
     {
         $handler = $this->prophesize(RequestHandlerInterface::class);
         $handler->handle(Argument::any())->willReturn(new Response());

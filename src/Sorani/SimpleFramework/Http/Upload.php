@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Http;
 
@@ -48,7 +48,7 @@ class Upload
      * @param  string      $oldFile
      * @return string|null name of the old file
      */
-    public function upload(UploadedFileInterface $file, ?string $oldFile = null): ?string
+    public function upload(UploadedFileInterface $file, $oldFile = null)
     {
         if ($file->getError() === UPLOAD_ERR_OK) {
             $this->delete($oldFile);
@@ -71,7 +71,7 @@ class Upload
     /**
      * @return array get the current formats
      */
-    public function getFormats(): array
+    public function getFormats()
     {
         return $this->formats;
     }
@@ -80,7 +80,7 @@ class Upload
      * @param string[] $formats
      * @return Upload
      */
-    public function setFormats(array $formats): self
+    public function setFormats(array $formats)
     {
         $this->formats = $formats;
         return $this;
@@ -91,7 +91,7 @@ class Upload
      *
      * @return string
      */
-    public function getPath(): string
+    public function getPath()
     {
         return $this->path;
     }
@@ -102,7 +102,7 @@ class Upload
      * @param string $path
      * @return Upload
      */
-    public function setPath($path): self
+    public function setPath($path)
     {
         $this->path = $path;
         return $this;
@@ -114,7 +114,7 @@ class Upload
      * @param string $targetPath path to upload to
      * @return string
      */
-    private function addCopySuffix($targetPath): string
+    private function addCopySuffix($targetPath)
     {
         while (file_exists($targetPath)) {
             $info = pathinfo($targetPath);
@@ -129,7 +129,7 @@ class Upload
      * @param string|null $file
      * @return void
      */
-    public function delete(?string $file = null): void
+    public function delete($file = null)
     {
         if (null === $file) {
             return;
@@ -154,7 +154,7 @@ class Upload
      * @param string $suffix suffix to add to path
      * @return string Suffixed path
      */
-    private function getPathWithSuffix($path, $suffix): string
+    private function getPathWithSuffix($path, $suffix)
     {
         $info = pathinfo($path);
         $destination = $info['dirname'] .
@@ -169,7 +169,7 @@ class Upload
      * @param string $targetPath path of the original file
      * @return void
      */
-    private function generatePaths(string $targetPath): void
+    private function generatePaths($targetPath)
     {
         foreach ($this->formats as $format => $size) {
             $destination = $this->getPathWithSuffix($targetPath, $format);

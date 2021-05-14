@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace App\Auth;
 
@@ -32,7 +32,7 @@ class ForbiddenMiddleware implements MiddlewareInterface
      * @param  string $loginPath
      * @param  SessionInterface $sessionInterface
      */
-    public function __construct(string $loginPath, SessionInterface $sessionInterface)
+    public function __construct($loginPath, SessionInterface $sessionInterface)
     {
         $this->loginPath = $loginPath;
         $this->sessionInterface = $sessionInterface;
@@ -46,7 +46,7 @@ class ForbiddenMiddleware implements MiddlewareInterface
      * @return ResponseInterface
      * @throws ForbiddenException
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)
     {
         try {
             return $handler->handle($request);
@@ -60,7 +60,7 @@ class ForbiddenMiddleware implements MiddlewareInterface
         }
     }
 
-    public function redirectLogin(ServerRequestInterface $request): ResponseInterface
+    public function redirectLogin(ServerRequestInterface $request)
     {
         $this->sessionInterface->set('auth.redirect', $request->getUri()->getPath());
         // $this->flashService->error('Vous devez posséder un compte pour accéder à cette page');

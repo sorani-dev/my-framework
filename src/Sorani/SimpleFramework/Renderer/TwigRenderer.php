@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Renderer;
 
@@ -33,7 +33,7 @@ class TwigRenderer implements RendererInterface
      * @param  string|null $path
      * @return void
      */
-    public function addPath(string $namespace, ?string $path = null): void
+    public function addPath($namespace, $path = null)
     {
         $this->twig->getLoader()->addPath($path, $namespace);
     }
@@ -46,7 +46,7 @@ class TwigRenderer implements RendererInterface
      * @param  mixed $value
      * @return void
      */
-    public function addGlobal(string $key, $value): void
+    public function addGlobal($key, $value)
     {
         $this->twig->addGlobal($key, $value);
     }
@@ -63,7 +63,7 @@ class TwigRenderer implements RendererInterface
      * @param  mixed $params
      * @return string
      */
-    public function render(string $view, array $params = []): string
+    public function render($view, array $params = [])
     {
         return $this->twig->render($view . '.twig', $params);
     }
@@ -74,7 +74,7 @@ class TwigRenderer implements RendererInterface
      * @param  mixed $view view path
      * @return bool
      */
-    private function hasNamespace(string $view): bool
+    private function hasNamespace($view)
     {
         return $view[0] === '@';
     }
@@ -86,7 +86,7 @@ class TwigRenderer implements RendererInterface
      * @param  string $view view path
      * @return string
      */
-    private function getNamespace(string $view): string
+    private function getNamespace($view)
     {
         return substr($view, 1, strpos($view, '/') - 1);
     }
@@ -96,7 +96,7 @@ class TwigRenderer implements RendererInterface
      *
      * @return  Environment
      */
-    public function getTwig(): Environment
+    public function getTwig()
     {
         return $this->twig;
     }

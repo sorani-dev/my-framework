@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Tests\App\Blog\Actions;
 
@@ -12,14 +12,14 @@ use App\Blog\Table\PostTable;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
+// use Prophecy\PhpUnit\ProphecyTrait;
 use SebastianBergmann\CodeCoverage\Report\Html\Renderer;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 use Sorani\SimpleFramework\Router;
 
 class PostShowActionTest extends TestCase
 {
-    use ProphecyTrait;
+    // use ProphecyTrait;
 
     /**
      * @var PostShowAction
@@ -34,7 +34,7 @@ class PostShowActionTest extends TestCase
 
     private $router;
 
-    public function setUp(): void
+    public function setUp()
     {
         // RendererInterface
         $this->renderer = $this->prophesize(RendererInterface::class);
@@ -47,11 +47,11 @@ class PostShowActionTest extends TestCase
         $this->action = new PostShowAction(
             $this->renderer->reveal(),
             $this->postTable->reveal(),
-            $this->router->reveal(),
+            $this->router->reveal()
         );
     }
 
-    public function makePost(int $id, string $slug): Post
+    public function makePost($id, $slug)
     {
         //  Post test
         $post = new Post();

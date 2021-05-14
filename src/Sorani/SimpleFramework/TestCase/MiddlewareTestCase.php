@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\TestCase;
 
@@ -20,7 +20,7 @@ class MiddlewareTestCase extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp(): void
+    public function setUp()
     {
         $handler = $this->getMockBuilder(RequestHandlerInterface::class)->getMock();
 

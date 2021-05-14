@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Validator;
 
@@ -51,7 +51,7 @@ class ValidationError
      * @param  string $rule
      * @param  array $attributes
      */
-    public function __construct(string $key, string $rule, array $attributes = [])
+    public function __construct($key, $rule, array $attributes = [])
     {
         $this->key = $key;
         $this->rule = $rule;
@@ -63,7 +63,7 @@ class ValidationError
      *
      * @return  string
      */
-    public function getKey(): string
+    public function getKey()
     {
         return $this->key;
     }
@@ -73,7 +73,7 @@ class ValidationError
      *
      * @return  string
      */
-    public function getRule(): string
+    public function getRule()
     {
         return $this->rule;
     }
@@ -93,7 +93,7 @@ class ValidationError
      *
      * @return string
      */
-    public function __toString(): string
+    public function __toString()
     {
         $params = array_merge([$this->messages[$this->rule], $this->key], $this->attributes);
         return (string)call_user_func_array('sprintf', $params);

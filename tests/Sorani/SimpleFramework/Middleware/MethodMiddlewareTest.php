@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Tests\Sorani\SimpleFramework\Middleware;
 
@@ -18,7 +18,7 @@ class MethodMiddlewareTest extends TestCase
      */
     private $middleware;
 
-    public function setUp(): void
+    public function setUp()
     {
         $this->middleware = new MethodMiddleware();
     }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace App\Auth\Action;
 
@@ -45,7 +45,7 @@ class LogoutAction
      * @param  ServerRequestInterface $request
      * @return string
      */
-    public function __invoke(ServerRequestInterface $request): ResponseInterface
+    public function __invoke(ServerRequestInterface $request)
     {
         $this->databaseAuth->logout();
         // $this->flashService->success('Vous êtes maintenant déconnecté');

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace App\Blog\Actions;
 
@@ -75,7 +75,7 @@ class PostCrudAction extends CrudAction
      * @param  ServerRequestInterface $request
      * @return ResponseInterface
      */
-    public function delete(ServerRequestInterface $request): ResponseInterface
+    public function delete(ServerRequestInterface $request)
     {
         /** @var Post $post */
         $post = $this->table->find((int)$request->getAttribute('id'));
@@ -90,7 +90,7 @@ class PostCrudAction extends CrudAction
      * @param Post $item
      * @return array
      */
-    protected function getParams(ServerRequestInterface $request, EntityInterface $item): array
+    protected function getParams(ServerRequestInterface $request, EntityInterface $item)
     {
         $params = array_merge($request->getParsedBody(), $request->getUploadedFiles());
         // Upload the file
@@ -120,7 +120,7 @@ class PostCrudAction extends CrudAction
     /**
      * {@inheritdoc}
      */
-    protected function getValidator(ServerRequestInterface $request): Validator
+    protected function getValidator(ServerRequestInterface $request)
     {
         $v = parent::getValidator($request)
             ->required('name', 'slug', 'content', 'created_at', 'category_id')
@@ -146,7 +146,7 @@ class PostCrudAction extends CrudAction
      *
      * {@inheritDoc}
      */
-    protected function formParams(array $params): array
+    protected function formParams(array $params)
     {
         $params['categories'] = $this->categoryTable->findAsList();
         // $params['categories']['14747447'] = 'Catégorie fake';
@@ -158,7 +158,7 @@ class PostCrudAction extends CrudAction
      *
      * @return Post
      */
-    protected function getNewEntity(): Post
+    protected function getNewEntity()
     {
         $post = new Post();
         $post->setCreatedAt(new \DateTimeImmutable());

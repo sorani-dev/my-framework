@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\TestCase;
 
@@ -32,7 +32,7 @@ class DatabaseTestCase extends TestCase
      * @param \PDO
      * @return void
      */
-    protected function migrateDatabase(\PDO $pdo): void
+    protected function migrateDatabase(\PDO $pdo)
     {
         $pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_BOTH);
         $this->getManager($pdo)->migrate('testing');
@@ -45,7 +45,7 @@ class DatabaseTestCase extends TestCase
      * @param  \PDO $pdo
      * @return Manager
      */
-    public function getManager(\PDO $pdo): Manager
+    public function getManager(\PDO $pdo)
     {
         // create Phinx to populate database
         $configArray = require('phinx.php');
@@ -63,7 +63,7 @@ class DatabaseTestCase extends TestCase
      *
      * @return  PDO
      */
-    public function getPdo(): \PDO
+    public function getPdo()
     {
         // create PDO instance
         $pdo = new PDO('sqlite::memory:', null, null, [

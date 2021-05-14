@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Middleware;
 
@@ -33,13 +33,13 @@ class RendererRequestMiddleware implements MiddlewareInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)
     {
         $domain = sprintf(
             '%s://%s%s',
             $request->getUri()->getScheme(),
             $request->getUri()->getHost(),
-            $request->getUri()->getPort() ? ':' . $request->getUri()->getPort() : '',
+            $request->getUri()->getPort() ? ':' . $request->getUri()->getPort() : ''
         );
         $this->renderer->addGlobal('domain', $domain);
         return $handler->handle($request);

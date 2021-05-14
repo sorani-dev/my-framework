@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Twig\Extension;
 
@@ -30,7 +30,7 @@ class PagerFantaExtension extends AbstractExtension
     /**
      * @return TwigFunction[]
      */
-    public function getFunctions(): array
+    public function getFunctions()
     {
         return [
             new TwigFunction('paginate', [$this, 'paginate'], ['is_safe' => ['html']]),
@@ -48,15 +48,15 @@ class PagerFantaExtension extends AbstractExtension
      */
     public function paginate(
         Pagerfanta $paginatedResults,
-        string $routeName,
+        $routeName,
         array $routerParams = [],
         array $queryArgs = []
-    ): string {
+    ) {
         $view = new TwitterBootstrap4View();
         $options  = ['proximity' => 3];
         return $view->render(
             $paginatedResults,
-            function (int $currentPage) use ($routeName, $routerParams, $queryArgs) {
+            function ($currentPage) use ($routeName, $routerParams, $queryArgs) {
                 if ($currentPage > 1) {
                     $queryArgs['p'] = $currentPage;
                 }

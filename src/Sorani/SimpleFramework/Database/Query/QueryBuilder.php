@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Database\Query;
 
@@ -17,19 +17,19 @@ class QueryBuilder implements \IteratorAggregate
     /**
      * constants for queryType
      */
-    public const SELECT = 0;
-    public const INSERT = 1;
-    public const UPDATE = 2;
-    public const DELETE = 3;
+    const SELECT = 0;
+    const INSERT = 1;
+    const UPDATE = 2;
+    const DELETE = 3;
 
-    public const ORDERBY_ASC = "ASC";
-    public const ORDERBY_DESC = "DESC";
+    const ORDERBY_ASC = "ASC";
+    const ORDERBY_DESC = "DESC";
 
-    public const JOIN_LEFT = 'LEFT';
-    public const JOIN_RIGHT = 'RIGHT';
-    public const JOIN_INNER = 'INNER';
+    const JOIN_LEFT = 'LEFT';
+    const JOIN_RIGHT = 'RIGHT';
+    const JOIN_INNER = 'INNER';
 
-    protected const RESULT_PER_PAGE = 12;
+    const RESULT_PER_PAGE = 12;
 
     /**
      * Query type
@@ -149,7 +149,7 @@ class QueryBuilder implements \IteratorAggregate
      *
      * @param \PDO|null $pdo
      */
-    public function __construct(?\PDO $pdo = null)
+    public function __construct(\PDO $pdo = null)
     {
         $this->pdo = $pdo;
     }
@@ -161,7 +161,7 @@ class QueryBuilder implements \IteratorAggregate
      * @param  string|null $alias table alias if needed
      * @return self
      */
-    public function from(string $table, ?string $alias = null): self
+    public function from($table, $alias = null)
     {
         if ($alias) {
             $this->from[$alias] = $table;
@@ -177,7 +177,7 @@ class QueryBuilder implements \IteratorAggregate
      * @param  string $fields Alist of fields to select
      * @return self
      */
-    public function fields(string ...$fields): self
+    public function fields(...$fields)
     {
         $this->fields = $fields;
         return $this;
@@ -190,7 +190,7 @@ class QueryBuilder implements \IteratorAggregate
      * @param  string $fields Alist of fields to select
      * @return self
      */
-    public function addFields(string ...$fields): self
+    public function addFields(...$fields)
     {
         if ($this->fields) {
             $this->fields = array_merge($this->fields, $fields);
@@ -208,7 +208,7 @@ class QueryBuilder implements \IteratorAggregate
     * @param  string $joinType
     * @return self
     */
-    public function joinByString(string $foreignTable, string $conditions, string $joinType = self::JOIN_LEFT): self
+    public function joinByString($foreignTable, $conditions, $joinType = self::JOIN_LEFT)
     {
         $this->joinByString[$joinType][] = [$foreignTable, $conditions];
         return $this;
@@ -222,7 +222,7 @@ class QueryBuilder implements \IteratorAggregate
      * @param  string $conditions
      * @return self
      */
-    public function innerJoin(string $foreignTable, string $alias, string $conditions): self
+    public function innerJoin($foreignTable, $alias, $conditions)
     {
         return $this->joinByString(
             $foreignTable . (null !== $alias ? ' AS ' . $alias : ''),
@@ -237,7 +237,7 @@ class QueryBuilder implements \IteratorAggregate
      * @param  string $conditions The conditions will be linked with an AND
      * @return self
      */
-    public function where(string ...$conditions): self
+    public function where(...$conditions)
     {
         $this->where = array_merge($this->where, $conditions);
         return $this;
@@ -250,7 +250,7 @@ class QueryBuilder implements \IteratorAggregate
      * @param  mixed  $values (scalar of QueryBuilder instance)
      * @return $this
      */
-    public function in($field, $values): self
+    public function in($field, $values)
     {
         if (is_array($values)) {
             if (is_numeric($values[0])) {
@@ -277,7 +277,7 @@ class QueryBuilder implements \IteratorAggregate
      * @param string|null $direction direction to sort (ASC, DESC)
      * @return QueryBuilder
      */
-    public function orderBy($orderBy, ?string $direction = null): self
+    public function orderBy($orderBy, $direction = null)
     {
         if (is_string($orderBy)) {
             if (null !== $direction) {
@@ -299,7 +299,7 @@ class QueryBuilder implements \IteratorAggregate
      * @return QueryBuilder
      * @throws \Exception
      */
-    public function limit(int $limit): self
+    public function limit($limit)
     {
         if (!is_int($limit)) {
             throw new \Exception('LIMIT must be an integer.');
@@ -331,7 +331,7 @@ class QueryBuilder implements \IteratorAggregate
      * @param  mixed $groupBy
      * @return QueryBuilder
      */
-    public function groupBy($groupBy): self
+    public function groupBy($groupBy)
     {
         $this->groupBy[] = $groupBy;
         return $this;
@@ -343,7 +343,7 @@ class QueryBuilder implements \IteratorAggregate
      * @param  string $groupBy
      * @return QueryBuilder
      */
-    public function having(string ...$having): self
+    public function having(...$having)
     {
         $this->having = array_merge($this->having, $having);
         return $this;
@@ -356,7 +356,7 @@ class QueryBuilder implements \IteratorAggregate
      * @param  bool  $replace replace parameters
      * @return $this
      */
-    public function params(array $parameters = [], ?bool $replace = false): self
+    public function params($parameters = [], $replace = false)
     {
         if (empty($parameters)) {
             $this->parameters = $parameters;
@@ -375,7 +375,7 @@ class QueryBuilder implements \IteratorAggregate
      *
      * @return array
      */
-    public function getParameters(): array
+    public function getParameters()
     {
         return $this->parameters;
     }
@@ -386,7 +386,7 @@ class QueryBuilder implements \IteratorAggregate
      * @param  string $entity
      * @return $this
      */
-    public function into(string $entity): self
+    public function into($entity)
     {
         $this->entity = $entity;
         return $this;
@@ -405,7 +405,7 @@ class QueryBuilder implements \IteratorAggregate
             return false;
         }
         if ($this->entity) {
-            return (Hydrator::getInstance())->hydrate($record, $this->entity);
+            return Hydrator::getInstance()->hydrate($record, $this->entity);
         }
         return $record;
     }
@@ -431,7 +431,7 @@ class QueryBuilder implements \IteratorAggregate
      *
      * @return QueryResult
      */
-    public function fetchAll(): QueryResult
+    public function fetchAll()
     {
         return new QueryResult($this->execute()->fetchAll(\PDO::FETCH_ASSOC), $this->entity);
     }
@@ -443,7 +443,7 @@ class QueryBuilder implements \IteratorAggregate
      * @param  int $index
      * @return EntityInterface
      */
-    public function get(int $index): EntityInterface
+    public function get($index)
     {
         if ($this->entity) {
             return Hydrator::getInstance()->hydrate($this->fetchAll()[$index], $this->entity);
@@ -457,7 +457,7 @@ class QueryBuilder implements \IteratorAggregate
      * @param  string $field
      * @return int Number of rows found.
      */
-    public function count($field = '*'): int
+    public function count($field = '*')
     {
         $query = clone $this;
         if (null === $field) {
@@ -478,7 +478,7 @@ class QueryBuilder implements \IteratorAggregate
      *
      * @return \PDOStatement
      */
-    protected function execute(): \PDOStatement
+    protected function execute()
     {
         $query = $this->__toString();
         if (!empty($this->parameters)) {
@@ -499,7 +499,7 @@ class QueryBuilder implements \IteratorAggregate
      * @param  int $currentPage
      * @return Pagerfanta
      */
-    public function paginate(int $nbPerPage = self::RESULT_PER_PAGE, int $currentPage = 1): Pagerfanta
+    public function paginate($nbPerPage = self::RESULT_PER_PAGE, $currentPage = 1)
     {
         $pager = new PaginatedQuery($this);
         return (new Pagerfanta($pager))->setMaxPerPage($nbPerPage)->setCurrentPage($currentPage);
@@ -510,7 +510,7 @@ class QueryBuilder implements \IteratorAggregate
      *
      * @return string
      */
-    public function __toString(): string
+    public function __toString()
     {
         $parts = [];
         if ($this->queryType === self::SELECT) {
@@ -556,7 +556,7 @@ class QueryBuilder implements \IteratorAggregate
      *
      * @return string
      */
-    public function queryToString(): string
+    public function queryToString()
     {
         return $this->__toString();
     }
@@ -566,7 +566,7 @@ class QueryBuilder implements \IteratorAggregate
      *
      * @return string
      */
-    private function buildFrom(): string
+    private function buildFrom()
     {
         $from = [];
 
@@ -588,7 +588,7 @@ class QueryBuilder implements \IteratorAggregate
      *
      * @return string
      */
-    protected function buildJoin(): string
+    protected function buildJoin()
     {
         $joinString = [];
         if (!empty($this->joinByString)) {
@@ -610,7 +610,7 @@ class QueryBuilder implements \IteratorAggregate
      *
      * @return QueryResult
      */
-    public function getIterator(): QueryResult
+    public function getIterator()
     {
         return $this->fetchAll();
     }

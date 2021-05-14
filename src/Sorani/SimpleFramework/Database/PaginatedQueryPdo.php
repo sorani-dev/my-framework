@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Database;
 
@@ -48,10 +48,10 @@ class PaginatedQueryPdo implements AdapterInterface
      */
     public function __construct(
         \PDO $pdo,
-        string $query,
-        string $countQuery,
-        ?string $entityName = \stdClass::class,
-        ?array $params = []
+        $query,
+        $countQuery,
+        $entityName = \stdClass::class,
+        array $params = []
     ) {
         $this->pdo = $pdo;
         $this->query = $query;
@@ -77,7 +77,7 @@ class PaginatedQueryPdo implements AdapterInterface
      * Returns an slice of the results representing the current page of items in the list.
      * @return array|\Traversable
      */
-    public function getSlice($offset, $length): array
+    public function getSlice($offset, $length)
     {
         $statement = $this->pdo->prepare($this->query . ' LIMIT :offset, :length;');
         foreach ($this->params as $key => $param) {

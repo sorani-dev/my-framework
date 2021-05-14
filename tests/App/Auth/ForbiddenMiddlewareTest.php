@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Tests\App\Auth;
 
@@ -21,12 +21,12 @@ class ForbiddenMiddlewareTest extends TestCase
      */
     private $session;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         $this->session = new ArraySession();
     }
 
-    private function makeRequest(string $path = '/')
+    private function makeRequest($path = '/')
     {
         $uri = $this->getMockBuilder(UriInterface::class)->getMock();
         $uri->method('getPath')->willReturn($path);

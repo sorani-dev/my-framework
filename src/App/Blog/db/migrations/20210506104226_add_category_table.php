@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 use Phinx\Db\Table\Column;
 use Phinx\Migration\AbstractMigration;
@@ -18,11 +18,11 @@ final class AddCategoryTable extends AbstractMigration
      * Remember to call "create()" or "update()" and NOT "save()" when working
      * with the Table class.
      */
-    public function change(): void
+    public function change()
     {
         $this->table('categories')
-            ->addColumn('name', Column::STRING)
-            ->addColumn('slug', Column::STRING)
+            ->addColumn('name', 'string')
+            ->addColumn('slug', 'string')
             ->addIndex('slug', ['unique' => true])
             ->create();
     }

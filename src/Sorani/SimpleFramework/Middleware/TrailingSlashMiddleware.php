@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Middleware;
 
@@ -18,10 +18,10 @@ class TrailingSlashMiddleware implements MiddlewareInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)
     {
         $uri = $request->getUri()->getPath();
-        if (!empty($uri) && $uri[-1] === '/' && $uri !== '/') {
+        if (!empty($uri) && substr($uri, -1) === '/' && $uri !== '/') {
             return (new Response())
                 ->withStatus(301)
                 ->withHeader('Location', substr($uri, 0, -1));

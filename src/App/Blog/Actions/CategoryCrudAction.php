@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace App\Blog\Actions;
 
@@ -49,11 +49,13 @@ class CategoryCrudAction extends CrudAction
      * @param ServerRequestInterface $request
      * @param Category $item
      */
-    protected function getParams(ServerRequestInterface $request, EntityInterface $item): array
+    protected function getParams(ServerRequestInterface $request, EntityInterface $item)
     {
         $params = array_filter(
             $request->getParsedBody(),
-            fn ($key) => in_array($key, ['name', 'slug']),
+            function ($key) {
+                in_array($key, ['name', 'slug']);
+            },
             ARRAY_FILTER_USE_KEY
         );
         return $params;
@@ -62,7 +64,7 @@ class CategoryCrudAction extends CrudAction
     /**
      * {@inheritDoc}
      */
-    protected function getValidator(ServerRequestInterface $request): Validator
+    protected function getValidator(ServerRequestInterface $request)
     {
         return parent::getValidator($request)
             ->required('name', 'slug')
@@ -80,7 +82,7 @@ class CategoryCrudAction extends CrudAction
     /**
      * {@inheritDoc}
      */
-    protected function getNewEntity(): EntityInterface
+    protected function getNewEntity()
     {
         return new Category();
     }

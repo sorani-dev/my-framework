@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Twig\Extension;
 
@@ -18,7 +18,7 @@ class TextExtension extends AbstractExtension
     /**
      * @return TwigFilter[]
      */
-    public function getFilters(): array
+    public function getFilters()
     {
         return [
             new  TwigFilter('excerpt', [$this, 'excerpt'], ['is_safe' => ['html']]),
@@ -33,7 +33,7 @@ class TextExtension extends AbstractExtension
      * @param  int $maxlength
      * @return string
      */
-    public function excerpt(string $content, int $maxlength = 100): string
+    public function excerpt($content, $maxlength = 100)
     {
         if (null === $content) {
             return '';

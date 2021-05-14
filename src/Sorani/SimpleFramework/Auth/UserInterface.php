@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Auth;
 
@@ -15,12 +15,12 @@ interface UserInterface
      *
      * @return string
      */
-    public function getUsername(): string;
+    public function getUsername();
 
     /**
      * Get the User's Roles
      *
      * @return string[]
      */
-    public function getRoles(): array;
+    public function getRoles();
 }

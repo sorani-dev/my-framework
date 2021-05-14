@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Tests\Sorani\SimpleFramework\Http;
 
@@ -15,12 +15,12 @@ class UploadTest extends TestCase
     */
     private $upload;
 
-    public function setUp(): void
+    public function setUp()
     {
         $this->upload = new Upload('tests');
     }
 
-    public function tearDown(): void
+    public function tearDown()
     {
         if (file_exists('tests/demo.jpg')) {
             unlink('tests/demo.jpg');

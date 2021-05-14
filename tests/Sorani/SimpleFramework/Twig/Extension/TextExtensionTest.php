@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Tests\Sorani\SimpleFramework\Twig\Extension;
 
@@ -21,7 +21,7 @@ class TestTextExtension extends TestCase
     private $env;
 
 
-    public function setUp(): void
+    public function setUp()
     {
         $this->env = $this->getMockBuilder(Environment::class)->disableOriginalConstructor()->getMock();
         $this->env

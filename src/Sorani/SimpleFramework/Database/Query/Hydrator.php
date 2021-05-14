@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Database\Query;
 
@@ -31,7 +31,7 @@ class Hydrator
      * @param  string|object $object
      * @return object
      */
-    public function hydrate(array $values, $object): object
+    public function hydrate(array $values, $object)
     {
         if (is_string($object)) {
             $instance = new $object();
@@ -59,7 +59,7 @@ class Hydrator
      * @param  string $fieldName
      * @return string
      */
-    public function getSetter(string $fieldName): string
+    public function getSetter($fieldName)
     {
         return 'set' . $this->getProperty($fieldName);
     }
@@ -70,7 +70,7 @@ class Hydrator
      * @param  string $fieldName
      * @return string
      */
-    public function getProperty(string $fieldName): string
+    public function getProperty($fieldName)
     {
         return implode('', array_map('ucfirst', explode('_', $fieldName)));
     }
