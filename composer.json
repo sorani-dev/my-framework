@@ -27,7 +27,7 @@
     },
     "require": {
         "php": "<8",
-        "guzzlehttp/psr7": "^1.8",
+        "guzzlehttp/psr7": "^1.9",
         "http-interop/response-sender": "^1.0",
         "mezzio/mezzio-fastroute": "^3.2",
         "twig/twig": "^3.4",
