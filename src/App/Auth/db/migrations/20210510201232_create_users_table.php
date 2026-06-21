@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Phinx\Db\Table\Column;
+
 use Phinx\Migration\AbstractMigration;
 
 final class CreateUsersTable extends AbstractMigration
@@ -21,9 +21,9 @@ final class CreateUsersTable extends AbstractMigration
     public function change(): void
     {
         $this->table('users', ['collation' => 'utf8mb4_unicode_ci'])
-                ->addColumn('username', Column::STRING)
-                ->addColumn('email', Column::STRING)
-                ->addColumn('password', Column::STRING)
+                ->addColumn('username', 'string')
+                ->addColumn('email', 'string')
+                ->addColumn('password', 'string')
                 ->addIndex(['email', 'username'], ['unique' => true])
                 ->create();
     }
