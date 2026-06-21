@@ -6,13 +6,14 @@ namespace Test\Sorani\SimpleFramework\Session;
 
 use PHPUnit\Framework\TestCase;
 use Sorani\SimpleFramework\Session\ArraySession;
+use Sorani\SimpleFramework\Session\SessionInterface;
 
 class ArraySessionTest extends TestCase
 {
     /**
-     * @var PhpSession
+     * @var SessionInterface
      */
-    private $session;
+    private SessionInterface $session;
 
 
     protected function setUp(): void

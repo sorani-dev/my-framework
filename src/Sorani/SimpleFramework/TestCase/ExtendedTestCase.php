@@ -14,7 +14,9 @@ class ExtendedTestCase extends TestCase
      *
      * @var \PDO
      */
-    protected $pdo;
+    protected \PDO $pdo;
+
+    protected int $lastId;
 
     /**
      * String to trim (not the base trim functionality
@@ -22,7 +24,7 @@ class ExtendedTestCase extends TestCase
      * @param  string $string
      * @return string
      */
-    protected function trim($string)
+    protected function trim(string $string)
     {
         $lines = explode("\n", $string);
         $lines = array_map('trim', $lines);
@@ -50,9 +52,9 @@ class ExtendedTestCase extends TestCase
      * @param array  $methods Specific methods to mock.
      *                        Mocks all methods by default.
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject Mock instance
+     * @return \PHPUnit\Framework\MockObject\MockObject instance
      */
-    public function abstractMock($class, $methods = [])
+    public function abstractMock($class, $methods = []): \PHPUnit\Framework\MockObject\MockObject
     {
         if (empty($methods)) {
             $reflection = new \ReflectionClass($class);
@@ -67,7 +69,7 @@ class ExtendedTestCase extends TestCase
     /**
      * Sets method expectations
      *
-     * @param \PHPUnit_Framework_MockObject_MockObject $mock           Mocked instance
+     * @param \PHPUnit\Framework\MockObject\MockObject $mock           Mocked instance
      * @param string                                   $method         Method to set expectations for
      * @param mixed                                    $return         What the method should return.
      *                                                                 If this is a Callable, e.g. a
@@ -89,10 +91,16 @@ class ExtendedTestCase extends TestCase
      *                                                                 Used for mocking methods which may return
      *                                                                 functions.
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject Mock instance
+     * @return \PHPUnit\Framework\MockObject\MockObject Mock instance
      */
-    public function method($mock, $method, $return, $with = null, $at = null, $returnCallable = false)
-    {
+    public function method(
+        $mock,
+        $method,
+        $return,
+        $with = null,
+        $at = null,
+        $returnCallable = false
+    ): \PHPUnit\Framework\MockObject\MockObject {
         $expects = $at === null ? $this->any() : $this->at($at);
         $method = $mock
             ->expects($expects)
@@ -109,9 +117,9 @@ class ExtendedTestCase extends TestCase
         $method->will($this->returnValue($return));
 
         if (!$returnCallable && is_callable($return)) {
-            $method->will($this->returnCallback($return));
+            return $method->will($this->returnCallback($return));
         } else {
-            $method->will($this->returnValue($return));
+            return $method->will($this->returnValue($return));
         }
     }
 
@@ -128,7 +136,6 @@ class ExtendedTestCase extends TestCase
     {
         $reflection = new \ReflectionClass($object);
         $reflectionProperty = $reflection->getProperty($property);
-        $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue($object, $value);
     }
 
@@ -172,7 +179,7 @@ class ExtendedTestCase extends TestCase
                 $faker->userName,
                 $faker->email,
                 $faker->text(200),
-            //                DateTime::iso8601(),
+                //                DateTime::iso8601(),
                 $faker->date('Y-m-d H:i:s', $faker->dateTimeBetween()),
                 $faker->numberBetween(1, 3),
                 $faker->numberBetween(1, 10),
@@ -183,10 +190,10 @@ class ExtendedTestCase extends TestCase
                                 VALUES (?, ?, ?, ?, ?, ?);'
             );
             $s->execute($data);
-            $this->lastId = $this->pdo->lastInsertId();
+            $this->lastId = (int)$this->pdo->lastInsertId();
         }
 
-        $this->lastId = $this->pdo->lastInsertId();
+        $this->lastId = (int)$this->pdo->lastInsertId();
         $this->lastId = $i + 1;
     }
 
@@ -197,7 +204,7 @@ class ExtendedTestCase extends TestCase
      * ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
      * "name" TEXT NOT NULL)
      *
-     * @return PDO
+     * @return \PDO
      */
     protected function getTestDatabase(): \PDO
     {
