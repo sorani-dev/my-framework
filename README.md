@@ -49,3 +49,8 @@ N.B.: Replace `$this->get35()` with the name of the method used in the first arg
 
 - on Unix-like environment: ```ENV=dev php -S localhost:8001 -d display_errors=1 -d opcache.enable_cli=1 -t public```
 - on Windows: ```SET ENV=dev && php -S localhost:8001 -d display_errors=1 -d opcache.enable_cli=1 -t public```
+
+## Entity classes
+
+The `App/Entity` directory contains the entity classes of the application.
+You have to declare all properties in camelCase (e.g. `categoryName`) otherwise you will have a deprecation notice in PHP 8. In future PHP versions, this will be changed and the dynamic properties may be removed.
