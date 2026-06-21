@@ -8,18 +8,17 @@ use Sorani\SimpleFramework\Router;
 
 use function DI\add;
 use function DI\get;
-use function DI\object;
 
 return [
     'admin.prefix' => '/admin',
     'admin.widgets' => [],
-    AdminTwigExtension::class => object()->constructor(get('admin.widgets')),
-    AdminModule::class => object()->constructor(
+    AdminTwigExtension::class => DI\create()->constructor(get('admin.widgets')),
+    AdminModule::class => DI\create()->constructor(
         get(RendererInterface::class),
         get(Router::class),
         get(AdminTwigExtension::class),
         get('admin.prefix')
     ),
-    DashboardAction::class => object()->constructor(get(RendererInterface::class), get('admin.widgets')),
+    DashboardAction::class => DI\create()->constructor(get(RendererInterface::class), get('admin.widgets')),
 
 ];

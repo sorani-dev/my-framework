@@ -12,7 +12,6 @@ use Sorani\SimpleFramework\Auth\UserInterface;
 
 use function DI\add;
 use function DI\get;
-use function DI\object;
 
 return [
     'auth.login' => '/login',
@@ -21,7 +20,7 @@ return [
     //     return $auth->getUser();
     // })->parameter('auth', get(AuthInterface::class)),
     UserInterface::class => get(User::class),
-    ForbiddenMiddleware::class => object()->constructorParameter('loginPath', get('auth.login')),
+    ForbiddenMiddleware::class => DI\create()->constructor('loginPath', get('auth.login')),
     'twig.extensions' => add(
         [get(AuthTwigExtension::class),]
     ),

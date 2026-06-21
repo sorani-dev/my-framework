@@ -2,7 +2,6 @@
 
 use function DI\autowire;
 use function DI\get;
-use function DI\object;
 use function DI\env;
 use function DI\factory;
 
@@ -43,12 +42,12 @@ return [
         get(FormExtension::class),
         get(CsrfExtension::class),
     ],
-    SessionInterface::class => object(PHPSession::class),
-    FlashService::class => object(FlashService::class)->constructor(get(SessionInterface::class)),
+    SessionInterface::class => DI\create(PHPSession::class),
+    FlashService::class => DI\create(FlashService::class)->constructor(get(SessionInterface::class)),
     Router::class => factory(RouterFactory::class),
-    CsrfMiddleware::class => object()->constructorParameter('session', get(SessionInterface::class)),
+    CsrfMiddleware::class => DI\create()->constructor('session', get(SessionInterface::class)),
     RendererInterface::class => factory(TwigRendererFactory::class),
-    PDO::class => function (ContainerInterface $c) {
+    PDO::class => factory(function (ContainerInterface $c) {
         $pdo = new PDO(
             sprintf('mysql:host=%s;dbname=%s; charset=utf8mb4', $c->get('database.host'), $c->get('database.name')),
             $c->get('database.username'),
@@ -62,5 +61,5 @@ return [
             $pdo->setAttribute(\PDO::MYSQL_ATTR_INIT_COMMAND, "SET NAMES 'UTF8'");
         }
         return $pdo;
-    },
+    }),
 ];
