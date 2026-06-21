@@ -5,8 +5,6 @@
 namespace Sorani\SimpleFramework;
 
 use DI\ContainerBuilder;
-use Doctrine\Common\Cache\FilesystemCache;
-use GuzzleHttp\Psr7\Response;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -161,7 +159,7 @@ class App implements RequestHandlerInterface
                 if ($apcuAvailable) {
                     // $builder->ap(__NAMESPACE__);
                 }
-                $builder->setDefinitionCache(new FilesystemCache(__DIR__ . '/tmp/di-cache'));
+                $builder->enableCompilation(__DIR__ . '/tmp/di-cache');
                 // $builder->setDefinitionCache('tmp/proxies');
                 $builder->writeProxiesToFile(true, __DIR__ . '/tmp/proxies');
             }
