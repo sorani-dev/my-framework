@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Database\Query;
 
+use Sorani\Database\Exception\PropertyNotExistsException;
+
 class Hydrator
 {
     /**
@@ -47,6 +49,7 @@ class Hydrator
             } elseif (property_exists($instance, $property)) {
                 $instance->$property = $value;
             } else {
+                // throw new PropertyNotExistsException(sprintf('Property "%s" does not exist in "%s"', $property, get_class($instance)));
                 $instance->$property = $value;
             }
         }

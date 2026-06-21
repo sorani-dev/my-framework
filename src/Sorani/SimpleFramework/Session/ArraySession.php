@@ -43,7 +43,7 @@ class ArraySession implements SessionInterface
      * Delete a key in the Session
      *
      * @param  string $key
-     * @return mixed
+     * @return void
      */
     public function delete(string $key): void
     {
