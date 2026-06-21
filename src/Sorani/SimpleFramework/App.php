@@ -20,7 +20,6 @@ use Sorani\SimpleFramework\Modules\Module;
  */
 class App implements RequestHandlerInterface
 {
-
     /**
      * List of modules
      * @var array
@@ -102,6 +101,7 @@ class App implements RequestHandlerInterface
         } elseif ($middleware instanceof MiddlewareInterface) {
             return $middleware->process($request, $this);
         }
+        return new Response(404, [], '<h1>Erreur 404</h1>');
     }
 
     /**

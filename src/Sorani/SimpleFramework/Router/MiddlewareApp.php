@@ -16,7 +16,6 @@ use Psr\Http\Server\RequestHandlerInterface;
  */
 class MiddlewareApp implements MiddlewareInterface
 {
-
     /**
      * @var string|callable
      */
@@ -44,8 +43,10 @@ class MiddlewareApp implements MiddlewareInterface
      * @param RequestHandlerInterface|null $handler
      * @return ResponseInterface
      */
-    public function process(ServerRequestInterface $request, ?RequestHandlerInterface $handler = null): ResponseInterface
-    {
+    public function process(
+        ServerRequestInterface $request,
+        ?RequestHandlerInterface $handler = null
+    ): ResponseInterface {
         return $handler->handle($request);
     }
 
