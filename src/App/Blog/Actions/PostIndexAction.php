@@ -33,21 +33,26 @@ class PostIndexAction
      */
     private $categoryTable;
 
+
+
     /**
      * PostIndexAction Contructor
      *
      * @param  RendererInterface $renderer
-     * @param  Router $router
+     * @param  PostTable $postTable
      * @param CategoryTable $categoryTable
+     * @param Router $router
      */
     public function __construct(
         RendererInterface $renderer,
         PostTable $postTable,
-        CategoryTable $categoryTable
+        CategoryTable $categoryTable,
+        Router $router
     ) {
         $this->renderer = $renderer;
         $this->postTable = $postTable;
         $this->categoryTable = $categoryTable;
+        $this->router = $router;
     }
 
     /**

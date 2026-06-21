@@ -47,11 +47,13 @@ class CategoryShowAction
         RendererInterface $renderer,
         PostTable $postTable,
         CategoryTable $categoryTable,
-        UserInterface $user
+        UserInterface $user,
+        Router $router
     ) {
         $this->renderer = $renderer;
         $this->postTable = $postTable;
         $this->categoryTable = $categoryTable;
+        $this->router = $router;
     }
 
     /**

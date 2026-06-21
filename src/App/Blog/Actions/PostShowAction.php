@@ -28,10 +28,6 @@ class PostShowAction
      */
     private $postTable;
 
-    /**
-     * @var Router
-     */
-    private $router;
 
     /**
      * PostShowAction Contructor

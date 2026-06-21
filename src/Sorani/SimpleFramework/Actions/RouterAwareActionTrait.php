@@ -6,6 +6,7 @@ namespace Sorani\SimpleFramework\Actions;
 
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
+use Sorani\SimpleFramework\Router;
 
 /**
  * Add methods to use with the Router
@@ -15,6 +16,10 @@ use Psr\Http\Message\ResponseInterface;
  */
 trait RouterAwareActionTrait
 {
+    /**
+     * @var Router
+     */
+    protected Router $router;
 
     /**
      * Send a Redirect Response
