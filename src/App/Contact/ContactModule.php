@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Contact;
 
+use App\Contact\Action\ContactShow;
 use Sorani\SimpleFramework\Modules\Module;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 use Sorani\SimpleFramework\Router;
@@ -26,6 +27,6 @@ class ContactModule extends Module
     {
         $renderer->addPath('contact', __DIR__ . '/resouces/views');
         $router->get('/contact', ContactShow::class, 'contact.show');
-        $router->post('/contact', ContactPost::class, 'contact.show');
+        // $router->post('/contact', ContactPost::class, 'contact.show');
     }
 }
