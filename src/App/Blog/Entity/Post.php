@@ -40,11 +40,15 @@ class Post implements EntityInterface
      */
     public $image;
 
-
+    public ?int $categoryId;
     /**
      * @var string
      */
-    public $categoryName;
+    public ?string $categoryName;
+
+    public ?string $categorySlug;
+
+    public int $published;
 
 
     /**
