@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Twig\Extension;
 
-use Psr\Container\ContainerInterface;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -14,7 +13,6 @@ use Twig\TwigFilter;
  */
 class TextExtension extends AbstractExtension
 {
-
     /**
      * @return TwigFilter[]
      */

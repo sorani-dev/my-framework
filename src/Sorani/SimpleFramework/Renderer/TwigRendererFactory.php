@@ -13,7 +13,6 @@ use Sorani\SimpleFramework\Renderer\TwigRenderer;
  */
 class TwigRendererFactory
 {
-
     /**
      * Invoke method
      *

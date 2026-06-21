@@ -16,7 +16,6 @@ use Sorani\SimpleFramework\Auth\ForbiddenException;
  */
 class LoggedInMiddleware implements MiddlewareInterface
 {
-
     /**
      * @var AuthInterface
      */

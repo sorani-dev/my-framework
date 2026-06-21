@@ -16,7 +16,6 @@ use Symfony\Component\Console\Output\NullOutput;
  */
 class DatabaseTestCase extends TestCase
 {
-
     /**
      * Seed the Database before test
      */

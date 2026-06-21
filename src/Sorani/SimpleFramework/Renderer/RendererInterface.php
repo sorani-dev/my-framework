@@ -9,7 +9,6 @@ namespace Sorani\SimpleFramework\Renderer;
  */
 interface RendererInterface
 {
-
     /**
      * Add namespaced path to renderer for loading views
      *

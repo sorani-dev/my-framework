@@ -9,5 +9,4 @@ namespace Sorani\Database\Exception;
  */
 class QueryException extends \Exception
 {
-
 }

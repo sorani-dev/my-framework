@@ -9,5 +9,4 @@ namespace Sorani\SimpleFramework\Database;
  */
 interface EntityInterface
 {
-
 }

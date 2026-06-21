@@ -9,7 +9,6 @@ namespace App\Admin;
  */
 interface AdminWidgetInterface
 {
-
     /**
      * Render the Widget
      *

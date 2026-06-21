@@ -9,7 +9,6 @@ namespace Sorani\SimpleFramework\Auth;
  */
 interface UserInterface
 {
-
     /**
      * Get the username of the User
      *
