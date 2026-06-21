@@ -8,11 +8,9 @@ use function DI\create;
 use function DI\env;
 use function DI\factory;
 
-use App\Blog\Table\CategoryTable;
 use Sorani\SimpleFramework\Router;
 
 use Psr\Container\ContainerInterface;
-use Sorani\SimpleFramework\Database\Table;
 use Sorani\SimpleFramework\Middleware\CsrfMiddleware;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 use Sorani\SimpleFramework\Renderer\TwigRendererFactory;
@@ -50,7 +48,7 @@ return [
     Router::class => factory(RouterFactory::class),
     CsrfMiddleware::class => autowire()->constructorParameter('session', get(SessionInterface::class)),
     RendererInterface::class => factory(TwigRendererFactory::class),
-    PDO::class => function (ContainerInterface $c) {
+    PDO::class => factory(function (ContainerInterface $c) {
         $pdo = new PDO(
             sprintf('mysql:host=%s;dbname=%s; charset=utf8mb4', $c->get('database.host'), $c->get('database.name')),
             $c->get('database.username'),
@@ -61,8 +59,8 @@ return [
             ]
         );
         if ($pdo->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'mysql') {
-            $pdo->setAttribute(\PDO::MYSQL_ATTR_INIT_COMMAND, "SET NAMES 'UTF8'");
+            $pdo->setAttribute(\PDO\Mysql::ATTR_INIT_COMMAND, "SET NAMES 'UTF8'");
         }
         return $pdo;
-    },
+    }),
 ];
