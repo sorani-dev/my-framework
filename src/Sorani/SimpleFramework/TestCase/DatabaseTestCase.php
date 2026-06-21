@@ -20,7 +20,7 @@ class DatabaseTestCase extends TestCase
     /**
      * Seed the Database before test
      */
-    protected function seedDatabase(\PDO $pdo)
+    protected function seedDatabase(\PDO $pdo): void
     {
         $pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_BOTH);
         $this->getManager($pdo)->seed('testing');
@@ -29,7 +29,7 @@ class DatabaseTestCase extends TestCase
 
     /**
      * Seed the Database before test
-     * @param \PDO
+     * @param \PDO $pdo
      * @return void
      */
     protected function migrateDatabase(\PDO $pdo): void

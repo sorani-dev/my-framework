@@ -316,7 +316,7 @@ class QueryBuilder implements \IteratorAggregate
      * @return QueryBuilder
      * @throws \Exception
      */
-    public function offset($offset = 0)
+    public function offset($offset = 0): self
     {
         if (!is_int($offset)) {
             throw new \Exception('OFFSET must be an integer.');

@@ -97,7 +97,7 @@ class QueryResult implements \ArrayAccess, \Iterator, \Countable
      * @return mixed Can return any type.
      * @since 5.0.0
      */
-    public function current()
+    public function current(): mixed
     {
         return $this->get($this->index);
     }
@@ -109,7 +109,7 @@ class QueryResult implements \ArrayAccess, \Iterator, \Countable
      * @return void Any returned value is ignored.
      * @since 5.0.0
      */
-    public function next()
+    public function next(): void
     {
         $this->index++;
     }
@@ -121,7 +121,7 @@ class QueryResult implements \ArrayAccess, \Iterator, \Countable
      * @return mixed scalar on success, or null on failure.
      * @since 5.0.0
      */
-    public function key()
+    public function key(): mixed
     {
         return $this->index;
     }
@@ -180,7 +180,7 @@ class QueryResult implements \ArrayAccess, \Iterator, \Countable
      * @return mixed Can return all value types.
      * @since 5.0.0
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->get($offset);
     }
@@ -198,7 +198,7 @@ class QueryResult implements \ArrayAccess, \Iterator, \Countable
      * @throws QueryException
      * @since 5.0.0
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         throw new QueryException('Cannot set a key from the DataSet.');
     }
@@ -213,7 +213,7 @@ class QueryResult implements \ArrayAccess, \Iterator, \Countable
      * @throws QueryException
      * @since 5.0.0
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         throw new QueryException('Cannot unset a key from the DataSet.');
     }

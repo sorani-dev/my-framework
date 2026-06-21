@@ -17,7 +17,7 @@ class PaginatedQuery implements AdapterInterface
     /**
      * PaginatedQuery contructor
      *
-     * @param  QueryBuilder
+     * @param QueryBuilder
      */
     public function __construct(QueryBuilder $queryBuilder)
     {
@@ -27,7 +27,7 @@ class PaginatedQuery implements AdapterInterface
     /**
      * Returns the number of results for the list.
      */
-    public function getNbResults()
+    public function getNbResults(): int
     {
         return $this->queryBuilder->count();
     }

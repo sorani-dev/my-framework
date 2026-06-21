@@ -10,6 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Sorani\SimpleFramework\Actions\RouterAwareActionTrait;
 use Sorani\SimpleFramework\Auth\UserInterface;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
+use Sorani\SimpleFramework\Router;
 
 /**
  * Show a single Category with its corresponding Posts
@@ -37,8 +38,10 @@ class CategoryShowAction
      * CategoryShowAction Contrsuctor
      *
      * @param  RendererInterface $renderer
-     * @param  Router $router
+     * @param  PostTable $postTable
      * @param  CategoryTable $categoryTable
+     * @param  UserInterface $user
+     * @return void
      */
     public function __construct(
         RendererInterface $renderer,

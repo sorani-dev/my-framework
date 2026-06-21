@@ -43,7 +43,7 @@ class PHPSession implements SessionInterface, ArrayAccess
      * Delete a key in the Session
      *
      * @param  string $key
-     * @return mixed
+     * @return void
      */
     public function delete(string $key): void
     {
@@ -92,7 +92,7 @@ class PHPSession implements SessionInterface, ArrayAccess
     /**
      * {@inheritdoc}
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->set($offset, $value);
     }
@@ -100,7 +100,7 @@ class PHPSession implements SessionInterface, ArrayAccess
     /**
      * {@inheritdoc}
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return $this->has($offset);
     }
@@ -108,7 +108,7 @@ class PHPSession implements SessionInterface, ArrayAccess
     /**
      * {@inheritdoc}
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->delete($offset);
     }
@@ -116,7 +116,7 @@ class PHPSession implements SessionInterface, ArrayAccess
     /**
      * {@inheritdoc}
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->get($offset);
     }
