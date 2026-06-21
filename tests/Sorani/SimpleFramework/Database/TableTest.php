@@ -68,6 +68,7 @@ class TableTest extends ExtendedTestCase
         $this->assertEquals('a2', $actual[1]->name);
     }
 
+    #{AllowDynamicProperties}
     public function testFindBy()
     {
         $this->makeInsertTestDatabase($this->table->getPdo(), "a1", "a2", "a1");
