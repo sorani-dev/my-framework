@@ -49,7 +49,7 @@ class Validator
      * @param  string[] $keys Fields names
      * @return self
      */
-    public function required(string ...$keys): self
+    public function required(...$keys): self
     {
         foreach ($keys as $key) {
             $value = $this->getValue($key);
@@ -66,7 +66,7 @@ class Validator
      * @param  string[] $keys Fields names
      * @return self
      */
-    public function notEmpty(string ...$keys): self
+    public function notEmpty(...$keys): self
     {
         foreach ($keys as $key) {
             $value = $this->getValue($key);
@@ -155,10 +155,12 @@ class Validator
         \DateTimeImmutable::createFromFormat($format, $value);
 
         $errors = \DateTimeImmutable::getLastErrors();
-        if ($errors['error_count'] > 0) {
-            $this->addError($key, 'dateTime.invalid', ['format' => $format]);
-        } elseif ($errors['warning_count'] > 0) {
-            $this->addError($key, 'dateTime.error', ['format' => $format]);
+        if ($errors !== false) {
+            if ($errors['error_count'] > 0) {
+                $this->addError($key, 'dateTime.invalid', ['format' => $format]);
+            } elseif ($errors['warning_count'] > 0) {
+                $this->addError($key, 'dateTime.error', ['format' => $format]);
+            }
         }
         return $this;
     }
@@ -166,7 +168,7 @@ class Validator
     /**
      * Check that the element exists in the table
      *
-     * @param  key $key Field name
+     * @param  string $key Field name
      * @param  Table $table Table
      * @return self
      */
@@ -181,8 +183,8 @@ class Validator
     /**
      * Check that the element exists in the table
      *
-     * @param  key $key Field name
-     * @param  Table $table Table
+     * @param string $key Field name
+     * @param string $table Table
      * @param \PDO $pdo
      * @return self
      */
@@ -201,7 +203,7 @@ class Validator
     /**
      * Check that the element is unique in the table
      *
-     * @param  key $key Field name
+     * @param  string $key Field name
      * @param  string $table Table name to check
      * @param \PDO $pdo
      * @param int|null $exclude excluded primary key values

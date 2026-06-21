@@ -91,7 +91,7 @@ EOT;
      * @param  array $attributes
      * @return string
      */
-    public function textarea(?string $value = null, array $attributes): string
+    public function textarea(?string $value = null, ?array $attributes = []): string
     {
         return "<textarea " . $this->getHtmlFromArray($attributes) . " rows=\"10\">{$value}</textarea>";
     }
@@ -104,7 +104,7 @@ EOT;
      * @param string $type type of input (text, password)
      * @return string
      */
-    public function input(?string $value = null, array $attributes, ?string $type = 'text'): string
+    public function input(?string $value = null, ?array $attributes = [], ?string $type = 'text'): string
     {
         return  "<input type=\"" . $type . "\" " . $this->getHtmlFromArray($attributes) . " value=\"{$value}\">";
     }
@@ -131,8 +131,12 @@ EOT;
      * @param  array $attributes class, ...
      * @return string
      */
-    public function checkbox(?string $value = null, array $attributes, string $label, array $class): string
-    {
+    public function checkbox(
+        ?string $value = null,
+        ?array $attributes = [],
+        ?string $label = '',
+        array $class = []
+    ): string {
 
         $attributes['class'] = 'custom-control-input';
         $html = '<input type="hidden" name="' . $attributes['name'] . '" value="0">';
@@ -143,7 +147,7 @@ EOT;
         $class = str_replace('form-control', '', $class);
         return sprintf(
             '<div class="%s">%s<input type="checkbox" %s value="1">' .
-             '<label class="custom-control-label" for="%s">%s</label></div>',
+                '<label class="custom-control-label" for="%s">%s</label></div>',
             $class,
             $html,
             $this->getHtmlFromArray($attributes),
@@ -183,7 +187,7 @@ EOT;
     protected function getContextFieldError(array $context): string
     {
         $classes = ['form-control'];
-        return $classes . ' ' . !empty($context['errors']) ? 'is-invalid' : '';
+        return implode(' ', $classes) . ' ' . !empty($context['errors']) ? 'is-invalid' : '';
     }
 
     /**
