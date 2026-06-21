@@ -28,7 +28,7 @@ class TestTextExtension extends TestCase
             ->expects($this->any())
             ->method('getCharset')
             ->willReturn('utf-8');
-        $this->textExtension = new TextExtension($this->env);
+        $this->textExtension = new TextExtension();
     }
 
     public function testExcertptWithShortText()

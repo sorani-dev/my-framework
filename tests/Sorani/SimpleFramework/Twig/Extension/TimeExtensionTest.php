@@ -30,7 +30,7 @@ class TimeExtensionTest extends TestCase
             ->expects($this->any())
             ->method('getCharset')
             ->willReturn('utf-8');
-        $this->timeExtension = new TimeExtension($this->env);
+        $this->timeExtension = new TimeExtension();
     }
 
     public function testDateFormat()
