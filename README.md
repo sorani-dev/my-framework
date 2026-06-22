@@ -8,7 +8,7 @@ Install app with a php version < 8 (required).
 
 Install dependencies with `composer install`
 
-Create a Mysql database named `pratiquepoo`.
+Create a Mysql database named `pratiquepoo` with 'utf8mb4' charset for MySQL and 'utf8' for the rest.
 
 Migrate database tables and seed the database with:
 
