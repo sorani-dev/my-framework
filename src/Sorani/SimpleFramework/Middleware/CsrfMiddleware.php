@@ -82,6 +82,7 @@ class CsrfMiddleware implements MiddlewareInterface
                     $this->reject();
                 }
             }
+            $request = $request->withParsedBody(array_diff_key($params, [$this->formKey => null]));
         }
         return $handler->handle($request);
     }
