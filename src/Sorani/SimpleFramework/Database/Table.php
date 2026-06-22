@@ -7,7 +7,6 @@ namespace Sorani\SimpleFramework\Database;
 use Sorani\SimpleFramework\Database\EntityInterface;
 use Sorani\SimpleFramework\Database\Exception\NoRecordFoundException;
 use Sorani\SimpleFramework\Database\Query\QueryBuilder;
-use stdClass;
 
 /**
  * Tables managing database records and Entities
@@ -19,28 +18,22 @@ class Table
      *
      * @var string|null EntityInterface::class
      */
-    protected $entity = \stdClass::class;
+    protected ?string $entity = \stdClass::class;
 
     /**
      * Table name in database (eg: 'posts')
      *
      * @var string
      */
-    protected $table;
-
-    /**
-     * @var \PDO|null
-     */
-    protected $pdo;
+    protected string $table;
 
     /**
      * Table Cconstruct
      *
-     * @param  PDO $pdo
+     * @param \PDO $pdo
      */
-    public function __construct(\PDO $pdo)
+    public function __construct(protected readonly ?\PDO $pdo = null)
     {
-        $this->pdo = $pdo;
     }
 
     /**

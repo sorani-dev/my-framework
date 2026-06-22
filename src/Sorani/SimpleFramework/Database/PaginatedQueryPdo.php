@@ -9,55 +9,21 @@ use Pagerfanta\Adapter\AdapterInterface;
 class PaginatedQueryPdo implements AdapterInterface
 {
     /**
-     * @var \PDO
-     */
-    private $pdo;
-
-    /**
-     * Query to execute
-     * @var string
-     */
-    private $query;
-
-    /**
-     * Query for the count of rows
-     * @var string
-     */
-    private $countQuery;
-
-    /**
-     * Name of the Entity
-     * @var string
-     */
-    private $entityName;
-
-    /**
-     * Parameters for prepared queries
-     * @var array
-     */
-    private $params;
-
-    /**
      * PaginatedQueryPdo contructor
      *
      * @param  \PDO $pdo
      * @param  string $query Query enabling to retrieve X results
      * @param  string $countQuery Query enabling the count of the total number of results
-     * @param array $params Params for prepared queries
+     * @param  array $params Params for prepared queries
      * @return void
      */
     public function __construct(
-        \PDO $pdo,
-        string $query,
-        string $countQuery,
-        ?string $entityName = \stdClass::class,
-        ?array $params = []
+        private readonly \PDO $pdo,
+        private readonly string $query,
+        private readonly string $countQuery,
+        private readonly ?string $entityName = \stdClass::class,
+        private readonly ?array $params = []
     ) {
-        $this->pdo = $pdo;
-        $this->query = $query;
-        $this->countQuery = $countQuery;
-        $this->entityName = $entityName;
-        $this->params = $params;
     }
 
     /**
@@ -75,9 +41,12 @@ class PaginatedQueryPdo implements AdapterInterface
 
     /**
      * Returns an slice of the results representing the current page of items in the list.
-     * @return array|\Traversable
+     *
+     * @param int $offset
+     * @param int $length
+     * @return iterable
      */
-    public function getSlice($offset, $length): array
+    public function getSlice(int $offset, int $length): iterable
     {
         $statement = $this->pdo->prepare($this->query . ' LIMIT :offset, :length;');
         foreach ($this->params as $key => $param) {
