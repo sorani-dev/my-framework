@@ -7,7 +7,6 @@ namespace App\Auth\Action;
 use App\Auth\DatabaseAuth;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Sorani\SimpleFramework\Renderer\RendererInterface;
 use Sorani\SimpleFramework\Response\RedirectResponse;
 use Sorani\SimpleFramework\Session\FlashService;
 

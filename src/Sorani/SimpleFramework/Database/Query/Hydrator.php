@@ -50,7 +50,10 @@ class Hydrator
                 $value = $this->convertValue($instance, $property, $value);
                 $instance->$property = $value;
             } else {
-                // throw new PropertyNotExistsException(sprintf('Property "%s" does not exist in "%s"', $property, get_class($instance)));
+                // throw new PropertyNotExistsException(
+                // sprintf('Property "%s" does not exist in "%s"',
+                // $property, get_class($instance))
+                //);
                 $instance->$property = $value;
             }
         }
@@ -81,7 +84,7 @@ class Hydrator
 
     /**
      * Convert the value to the type of the property
-     * 
+     *
      * @param  object $object
      * @param  string $property
      * @param  mixed $value
