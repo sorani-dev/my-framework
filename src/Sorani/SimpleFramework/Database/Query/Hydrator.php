@@ -47,6 +47,7 @@ class Hydrator
             if (method_exists($instance, $method)) {
                 $instance->$method($value);
             } elseif (property_exists($instance, $property)) {
+                $value = $this->convertValue($instance, $property, $value);
                 $instance->$property = $value;
             } else {
                 // throw new PropertyNotExistsException(sprintf('Property "%s" does not exist in "%s"', $property, get_class($instance)));
@@ -71,10 +72,39 @@ class Hydrator
      * Get the <name> of the property from the snake cased field name
      *
      * @param  string $fieldName
-     * @return string
+     * @return string in CamelCase
      */
     public function getProperty(string $fieldName): string
     {
         return implode('', array_map('ucfirst', explode('_', $fieldName)));
+    }
+
+    /**
+     * Convert the value to the type of the property
+     * 
+     * @param  object $object
+     * @param  string $property
+     * @param  mixed $value
+     * @return mixed
+     */
+    public function convertValue(object $object, string $property, $value)
+    {
+        $reflection = new \ReflectionProperty($object, $property);
+        $type = $reflection->getType();
+
+        if ($type === null) {
+            return $value;
+        }
+        if ($type->getName() === 'string') {
+            return (string) $value;
+        } elseif ($type->getName() === 'int') {
+            return (int) $value;
+        } elseif ($type->getName() === 'float') {
+            return (float) $value;
+        } elseif ($type->getName() === 'bool') {
+            return (bool) $value;
+        }
+
+        return $value;
     }
 }
