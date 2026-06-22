@@ -219,10 +219,10 @@ class QueryBuilder implements \IteratorAggregate
      *
      * @param  string $foreignTable
      * @param  string|null $alias null for no alias
-     * @param  string $conditions
+     * @param  ?string $conditions
      * @return self
      */
-    public function innerJoin(string $foreignTable, string $alias, string $conditions): self
+    public function innerJoin(string $foreignTable, ?string $alias, ?string $conditions): self
     {
         return $this->joinByString(
             $foreignTable . (null !== $alias ? ' AS ' . $alias : ''),
@@ -340,7 +340,7 @@ class QueryBuilder implements \IteratorAggregate
     /**
      * HAVING ...
      *
-     * @param  string $groupBy
+     * @param  string $having
      * @return QueryBuilder
      */
     public function having(string ...$having): self

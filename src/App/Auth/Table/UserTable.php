@@ -12,10 +12,10 @@ class UserTable extends Table
     /**
      * {@inheritdoc}
      */
-    protected $table = 'users';
+    protected string $table = 'users';
 
     /**
      * {@inheritdoc}
      */
-    protected $entity = User::class;
+    protected ?string $entity = User::class;
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Sorani\SimpleFramework\Middleware;
 
 use GuzzleHttp\Psr7\ServerRequest;
+use PHPUnit\Framework\MockObject\Rule\InvokedCount;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Sorani\SimpleFramework\Auth\AuthInterface;
@@ -15,14 +16,24 @@ use Sorani\SimpleFramework\TestCase\MiddlewareTestCase;
 
 class LoggedInMiddlewareTest extends MiddlewareTestCase
 {
-    public function makeMiddleware($user)
+    /**
+     * Create a mock middleware
+     * @param UserInterface|null $user
+     * @return LoggedInMiddleware
+     */
+    public function makeMiddleware(?UserInterface $user): LoggedInMiddleware
     {
         $auth = $this->getMockBuilder(AuthInterface::class)->getMock();
         $auth->method('getUser')->willReturn($user);
         return new LoggedInMiddleware($auth);
     }
 
-    public function makeHandler($calls)
+    /**
+     * Create a mock request handler
+     * @param InvokedCount $calls
+     * @return RequestHandlerInterface
+     */
+    public function makeHandler(InvokedCount $calls)
     {
         $this->handler = $this->getMockBuilder(RequestHandlerInterface::class)->getMock();
         $response = $this->getMockBuilder(ResponseInterface::class)->getMock();

@@ -35,7 +35,7 @@ interface EntityTimestampsInterface
     /**
      * Set the value of updatedAt
      *
-     * @param string\DateTimeInterface  $updatedAt
+     * @param string|\DateTimeInterface  $updatedAt
      *
      * @return  self
      */

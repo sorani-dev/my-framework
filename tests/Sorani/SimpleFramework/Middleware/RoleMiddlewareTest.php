@@ -16,20 +16,18 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Sorani\SimpleFramework\Auth\AuthInterface;
 use Sorani\SimpleFramework\Auth\ForbiddenException;
 use Sorani\SimpleFramework\Auth\RoleMiddleware;
-use Sorani\SimpleFramework\Exception\CsrfInvalidException;
-use Sorani\SimpleFramework\Middleware\CsrfMiddleware;
 
 class RoleMiddlewareTest extends TestCase
 {
     use ProphecyTrait;
 
     /**
-     * @var RoleMiddlewareTest
+     * @var RoleMiddleware
      */
-    private $m;
+    private RoleMiddleware $m;
 
     /**
-     * @var AuthInterface
+     * @var AuthInterface|ObjectProphecy
      */
     private $auth;
 

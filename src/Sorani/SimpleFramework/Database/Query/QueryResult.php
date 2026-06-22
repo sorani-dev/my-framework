@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Database\Query;
 
-use Sorani\Database\Exception\QueryException;
 use Sorani\SimpleFramework\Database\EntityInterface;
+use Sorani\SimpleFramework\Database\Exception\QueryException;
 
 /**
  * Manage Results of the QueryBuilder
@@ -213,7 +213,7 @@ class QueryResult implements \ArrayAccess, \Iterator, \Countable
      * @throws QueryException
      * @since 5.0.0
      */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         throw new QueryException('Cannot unset a key from the DataSet.');
     }

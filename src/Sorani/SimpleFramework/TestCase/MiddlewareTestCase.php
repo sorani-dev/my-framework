@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\TestCase;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Server\RequestHandlerInterface;
 
@@ -13,7 +14,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 class MiddlewareTestCase extends TestCase
 {
     /**
-     * @var RequestHandlerInterface
+     * @var RequestHandlerInterface| MockObject
      */
     protected $handler;
 

@@ -6,8 +6,8 @@ namespace Tests\Sorani\SimpleFramework\Middleware;
 
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Sorani\SimpleFramework\Middleware\RouterMiddleware;
@@ -17,7 +17,7 @@ use Sorani\SimpleFramework\Router\Route;
 class RouterMiddlewareTest extends TestCase
 {
     /**
-     * @var RequestHandlerInterface
+     * @var RequestHandlerInterface|MockObject
      */
     private $handler;
 

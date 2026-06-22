@@ -12,7 +12,7 @@ class Module
 
     /**
      * Migrations folder for Phinx
-     * @var strin|nullg
+     * @var string|null
      */
     public const MIGRATIONS = null;
 

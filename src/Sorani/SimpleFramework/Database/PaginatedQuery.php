@@ -12,12 +12,12 @@ class PaginatedQuery implements AdapterInterface
     /**
      * @var QueryBuilder
      */
-    private $queryBuilder;
+    private QueryBuilder $queryBuilder;
 
     /**
      * PaginatedQuery contructor
      *
-     * @param QueryBuilder
+     * @param QueryBuilder $queryBuilder
      */
     public function __construct(QueryBuilder $queryBuilder)
     {
@@ -26,6 +26,8 @@ class PaginatedQuery implements AdapterInterface
 
     /**
      * Returns the number of results for the list.
+     *
+     * @return int The number of results
      */
     public function getNbResults(): int
     {
@@ -35,9 +37,11 @@ class PaginatedQuery implements AdapterInterface
     /**
      * Returns an slice of the results representing the current page of items in the list.
      *
-     * @return array|\Traversable
+     * @param int $offset
+     * @param int $length
+     * @return iterable
      */
-    public function getSlice($offset, $length): \Traversable
+    public function getSlice(int $offset, int $length): iterable
     {
         $query = clone $this->queryBuilder;
         return $query->limit($length)->offset($offset)->fetchAll();

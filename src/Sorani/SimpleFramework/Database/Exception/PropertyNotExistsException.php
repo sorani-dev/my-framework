@@ -1,11 +1,11 @@
 <?php
 
-namespace Sorani\Database\Exception;
+namespace Sorani\SimpleFramework\Database\Exception;
 
 /**
  * Class DbException
  *
- * @package sorani\Soratori\Database
+ * @package sorani\database
  */
 class PropertyNotExistsException extends \UnexpectedValueException
 {

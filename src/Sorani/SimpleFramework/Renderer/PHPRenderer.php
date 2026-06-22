@@ -59,7 +59,7 @@ class PHPRenderer implements RendererInterface
      * @param  mixed $value
      * @return void
      */
-    public function addGlobal(string $key, $value): void
+    public function addGlobal(string $key, mixed $value): void
     {
         $this->globals[$key] = $value;
     }
@@ -73,7 +73,7 @@ class PHPRenderer implements RendererInterface
      * Path can be specified with namespace added using the addPath method
      * $this->render('@blog/view')
      * $this->render('view')
-     * @param  mixed $params
+     * @param  array $params Paramters to inject into the view
      * @return string
      */
     public function render(string $view, array $params = []): string

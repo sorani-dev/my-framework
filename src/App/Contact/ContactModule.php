@@ -11,10 +11,19 @@ use Sorani\SimpleFramework\Router;
 
 class ContactModule extends Module
 {
+    /**
+     * {@inheritDoc}
+     */
     public const DEFINITIONS = __DIR__ . '/config/config.php';
 
+    /**
+     * {@inheritDoc}
+     */
     public const MIGRATIONS = __DIR__ . '/db/migrations';
 
+    /**
+     * {@inheritDoc}
+     */
     public const SEEDS = __DIR__ . '/db/seeds';
 
     /**

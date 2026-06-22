@@ -4,26 +4,18 @@ declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Renderer;
 
-use PHPUnit\Util\FileLoader;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
 
 class TwigRenderer implements RendererInterface
 {
     /**
-     * @var Environment
-     */
-    private $twig;
-
-    /**
      * Constructor
      *
-     * @param  string $path
+     * @param  Environment $twig
      */
-    public function __construct(Environment $twig)
+    public function __construct(private readonly Environment $twig)
     {
-        $this->twig = $twig;
     }
 
     /**
@@ -46,7 +38,7 @@ class TwigRenderer implements RendererInterface
      * @param  mixed $value
      * @return void
      */
-    public function addGlobal(string $key, $value): void
+    public function addGlobal(string $key, mixed $value): void
     {
         $this->twig->addGlobal($key, $value);
     }
@@ -60,7 +52,7 @@ class TwigRenderer implements RendererInterface
      * Path can be specified with namespace added using the addPath method
      * $this->render('@blog/view')
      * $this->render('view')
-     * @param  mixed $params
+     * @param  array $params Paramters to inject into the view
      * @return string
      */
     public function render(string $view, array $params = []): string
@@ -71,7 +63,7 @@ class TwigRenderer implements RendererInterface
     /**
      * Check if view is namespaced
      *
-     * @param  mixed $view view path
+     * @param  string $view view path
      * @return bool
      */
     private function hasNamespace(string $view): bool

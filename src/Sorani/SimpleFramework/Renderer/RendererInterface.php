@@ -26,7 +26,7 @@ interface RendererInterface
      * @param  mixed $value
      * @return void
      */
-    public function addGlobal(string $key, $value): void;
+    public function addGlobal(string $key, mixed $value): void;
 
     /**
      * Render a view

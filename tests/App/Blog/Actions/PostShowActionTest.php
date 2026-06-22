@@ -13,6 +13,7 @@ use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 use SebastianBergmann\CodeCoverage\Report\Html\Renderer;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 use Sorani\SimpleFramework\Router;
@@ -26,7 +27,7 @@ class PostShowActionTest extends TestCase
      */
     private $action;
     /**
-     * @var Renderer
+     * @var RendererInterface|ObjectProphecy
      */
     private $renderer;
 

@@ -9,6 +9,7 @@ use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Sorani\SimpleFramework\Middleware\RendererRequestMiddleware;
@@ -19,12 +20,12 @@ class RendererRequestMiddlewareTest extends TestCase
     use ProphecyTrait;
 
     /**
-     * ]@var RendererInterface
+     * ]@var RendererInterface|ObjectProphecy
      */
     private $renderer;
 
     /**
-     * @var RequestHandlerInterface
+     * @var RequestHandlerInterface|ObjectProphecy
      */
     private $handler;
 

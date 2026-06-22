@@ -16,12 +16,12 @@ trait EntityTimestampsTrait
     /**
      * @var \DateTimeInterface Created date as \DateTimeImmutable by trait implementation
      */
-    protected $createdAt;
+    protected \DateTimeInterface $createdAt;
 
     /**
      * @var \DateTimeInterface Update date as \DateTimeImmutable by trait implementation
      */
-    protected $updatedAt;
+    protected \DateTimeInterface $updatedAt;
 
     /**
      * Get the value of createdAt
@@ -61,7 +61,7 @@ trait EntityTimestampsTrait
     /**
      * Set the value of updatedAt
      *
-     * @param string\DateTimeInterface  $updatedAt
+     * @param string|\DateTimeInterface  $updatedAt
      *
      * @return  self
      */

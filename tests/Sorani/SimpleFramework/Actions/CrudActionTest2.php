@@ -7,15 +7,15 @@ namespace Tests\Sorani\SimpleFramework\Actions;
 use GuzzleHttp\Psr7\ServerRequest;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 use Sorani\SimpleFramework\Actions\CrudAction;
 use Sorani\SimpleFramework\Database\Table;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 use Sorani\SimpleFramework\Router;
 use Sorani\SimpleFramework\Session\FlashService;
-use Sorani\SimpleFramework\TestCase\DatabaseTestCase;
 use Sorani\SimpleFramework\TestCase\ExtendedTestCase;
 
-class CrudActionTest extends ExtendedTestCase
+class CrudActionTest2 extends ExtendedTestCase
 {
     use ProphecyTrait;
 
@@ -24,12 +24,24 @@ class CrudActionTest extends ExtendedTestCase
      */
     private $action;
 
+    /**
+     * @var RendererInterface|ObjectProphecy
+     */
     private $renderer;
 
+    /**
+     * @var Table|ObjectProphecy
+     */
     private $CrudTable;
 
+    /**
+     * @var Router|ObjectProphecy
+     */
     private $router;
 
+    /**
+     * @var FlashService|ObjectProphecy
+     */
     private $flash;
 
     protected function setUp(): void

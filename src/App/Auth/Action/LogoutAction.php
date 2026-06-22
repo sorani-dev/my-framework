@@ -42,7 +42,7 @@ class LogoutAction
      * __invoke
      *
      * @param  ServerRequestInterface $request
-     * @return string
+     * @return ResponseInterface
      */
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
