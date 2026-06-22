@@ -22,7 +22,7 @@ final class CreatePostsTable extends AbstractMigration
     public function change(): void
     {
         $this->table('posts')
-                ->addColumn('name', Column::STRING)
+            ->addColumn('name', Column::STRING)
             ->addColumn('slug', Column::STRING)
             ->addColumn('content', Column::TEXT, ['limit' => MysqlAdapter::TEXT_LONG])
             ->addColumn('created_at', Column::DATETIME)

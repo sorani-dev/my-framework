@@ -21,9 +21,9 @@ final class AddCategoryIdToPost extends AbstractMigration
     public function change(): void
     {
         $this->table('posts')
-        ->addColumn('category_id', Column::INTEGER, ['null' => true,])
-            ->addForeignKey('category_id', 'categories', 'id', [
-                'delete' => 'SET NULL',
+            ->addColumn('category_id', Column::INTEGER, ['null' => true, 'signed' => false,])
+            ->addForeignKey('category_id', 'categories', 'id',  [
+                'delete' => 'SET_NULL',
             ])
             ->update();
     }
