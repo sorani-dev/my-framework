@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Auth\Action;
 
 use App\Auth\DatabaseAuth;
-use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Sorani\SimpleFramework\Actions\RouterAwareActionTrait;
@@ -28,11 +27,6 @@ class LoginAttemptAction
      * @var DatabaseAuth
      */
     private $auth;
-
-    /**
-     * @var Router
-     */
-    private $router;
 
 
     /**

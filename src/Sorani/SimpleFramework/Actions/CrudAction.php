@@ -35,11 +35,6 @@ abstract class CrudAction
     protected $table;
 
     /**
-     * @var Router
-     */
-    protected $router;
-
-    /**
      * @var FlashService
      */
     protected $flash;
@@ -127,7 +122,7 @@ abstract class CrudAction
     /**
      * Edit an Item
      *
-     * @param  ResponseInterface $request
+     * @param  ServerRequestInterface $request
      * @return ResponseInterface|string
      */
     public function edit(ServerRequestInterface $request)
