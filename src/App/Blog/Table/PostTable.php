@@ -13,12 +13,12 @@ class PostTable extends Table
     /**
      * {@inheritdoc}
      */
-    protected $entity = Post::class;
+    protected ?string $entity = Post::class;
 
     /**
      * {@inheritdoc}
      */
-    protected $table = 'posts';
+    protected string $table = 'posts';
 
     /**
      * Find all Posts results linked with categories
@@ -47,7 +47,7 @@ class PostTable extends Table
     /**
      * Find Category for the given Post
      *
-     * @param  mixed $categoryId
+     * @param  int $categoryId
      * @return QueryBuilder
      */
     public function findPublicForCategory(int $categoryId): QueryBuilder

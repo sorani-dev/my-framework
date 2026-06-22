@@ -12,10 +12,10 @@ class CategoryTable extends Table
     /**
      * {@inheritdoc}
      */
-    protected $entity = Category::class;
+    protected ?string $entity = Category::class;
 
     /**
      * {@inheritdoc}
      */
-    protected $table = 'categories';
+    protected string $table = 'categories';
 }
