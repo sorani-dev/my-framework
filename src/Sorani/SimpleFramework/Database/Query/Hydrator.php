@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sorani\SimpleFramework\Database\Query;
 
+use ReflectionClass;
 use Sorani\Database\Exception\PropertyNotExistsException;
 
 class Hydrator
@@ -36,7 +37,13 @@ class Hydrator
     public function hydrate(array $values, $object): object
     {
         if (is_string($object)) {
-            $instance = new $object();
+            /** @var ReflectionClass $reflection */
+            $reflection = new \ReflectionClass($object);
+            if ($reflection->getConstructor() !== null) {
+                $instance = $reflection->newInstance();
+            } else {
+                $instance = $reflection->newInstanceWithoutConstructor();
+            }
         } else {
             $instance = $object;
         }
@@ -93,6 +100,7 @@ class Hydrator
     public function convertValue(object $object, string $property, $value)
     {
         $reflection = new \ReflectionProperty($object, $property);
+        /** @var \ReflectionNamedType|\ReflectionUnionType|\ReflectionIntersectionType|null */
         $type = $reflection->getType();
 
         if ($type === null) {
