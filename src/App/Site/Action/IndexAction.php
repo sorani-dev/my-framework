@@ -10,18 +10,12 @@ use Sorani\SimpleFramework\Renderer\RendererInterface;
 class IndexAction
 {
     /**
-     * @var RendererInterface
-     */
-    private $renderer;
-
-    /**
      * Constructor
      *
      * @param  RendererInterface $renderer
      */
-    public function __construct(RendererInterface $renderer)
+    public function __construct(private readonly RendererInterface $renderer)
     {
-        $this->renderer = $renderer;
     }
 
     /**

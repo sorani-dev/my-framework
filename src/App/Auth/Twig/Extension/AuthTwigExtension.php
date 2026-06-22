@@ -11,18 +11,12 @@ use Twig\TwigFunction;
 class AuthTwigExtension extends AbstractExtension
 {
     /**
-     * @var AuthInterface
-     */
-    private $auth;
-
-    /**
      * Constructor
      *
      * @param  AuthInterface $auth
      */
-    public function __construct(AuthInterface $auth)
+    public function __construct(private readonly AuthInterface $auth)
     {
-        $this->auth = $auth;
     }
     /**
      * @return TwigFunction[]

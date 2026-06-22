@@ -5,26 +5,20 @@ declare(strict_types=1);
 namespace App\Contact\Action;
 
 use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Sorani\SimpleFramework\Renderer\RendererInterface;
 
 class ContactShow
 {
     /**
-     * @var RendererInterface
-     */
-    private $renderer;
-
-
-    /**
      * Constructor
      *
      * @param  RendererInterface $renderer
      * @return void
      */
-    public function __construct(RendererInterface $renderer)
+    public function __construct(private readonly RendererInterface $renderer)
     {
-        $this->renderer = $renderer;
     }
 
     /**
@@ -32,9 +26,9 @@ class ContactShow
      * Redirects to good URL for post if slug is incorrect
      *
      * @param  ServerRequestInterface $request
-     * @return ResponseInterface|string
+     * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request)
+    public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
         return new Response();
     }

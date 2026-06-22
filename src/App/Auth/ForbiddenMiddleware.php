@@ -17,25 +17,13 @@ use Sorani\SimpleFramework\Session\SessionInterface;
 class ForbiddenMiddleware implements MiddlewareInterface
 {
     /**
-     * @var string
-     */
-    private $loginPath;
-
-    /**
-     * @var SessionInterface
-     */
-    private $sessionInterface;
-
-    /**
      * Constructor
      *
      * @param  string $loginPath
      * @param  SessionInterface $sessionInterface
      */
-    public function __construct(string $loginPath, SessionInterface $sessionInterface)
+    public function __construct(private readonly string $loginPath, private readonly SessionInterface $sessionInterface)
     {
-        $this->loginPath = $loginPath;
-        $this->sessionInterface = $sessionInterface;
     }
 
     /**
