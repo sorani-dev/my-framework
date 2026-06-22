@@ -35,7 +35,12 @@ class CategoryShowAction
     private $categoryTable;
 
     /**
-     * CategoryShowAction Contrsuctor
+     * @var UserInterface
+     */
+    private UserInterface $user;
+
+    /**
+     * CategoryShowAction Contructor
      *
      * @param  RendererInterface $renderer
      * @param  PostTable $postTable
@@ -53,6 +58,7 @@ class CategoryShowAction
         $this->renderer = $renderer;
         $this->postTable = $postTable;
         $this->categoryTable = $categoryTable;
+        $this->user = $user;
         $this->router = $router;
     }
 
