@@ -6,12 +6,13 @@ namespace App\Blog\Entity;
 
 use Sorani\SimpleFramework\Database\Entity\EntityTimestampsTrait;
 use Sorani\SimpleFramework\Database\EntityInterface;
+use Sorani\SimpleFramework\Database\Entity;
 
 /**
  * Post Entity
  * Describes a Post (in the respective fields in the db table)
  */
-class Post implements EntityInterface
+class Post extends Entity implements EntityInterface
 {
     use EntityTimestampsTrait;
 

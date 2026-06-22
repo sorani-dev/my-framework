@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Blog\Entity;
 
+use Sorani\SimpleFramework\Database\Entity;
 use Sorani\SimpleFramework\Database\EntityInterface;
 
 /**
  * Category Entity
  * Describes a Category (in the respective fields in the db table)
  */
-class Category implements EntityInterface
+class Category extends Entity implements EntityInterface
 {
     /**
      * @var int
