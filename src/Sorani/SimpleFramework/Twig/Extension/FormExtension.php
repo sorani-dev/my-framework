@@ -65,7 +65,7 @@ class FormExtension extends AbstractExtension
             $class[] = 'custom-file align-middle';
         } elseif ($type === 'checkbox') {
             $class[] = 'custom-control custom-checkbox';
-            return $input = $this->checkbox($value, $attributes, $label, $class);
+            return $input = $this->checkbox((string)$value, $attributes, $label, $class);
             $labelClass =  ' class="custom-control-label"';
         } elseif ($type === 'password') {
             $input = $this->input($value, $attributes, 'password');
