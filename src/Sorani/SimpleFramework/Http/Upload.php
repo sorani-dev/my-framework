@@ -173,8 +173,8 @@ class Upload
     {
         foreach ($this->formats as $format => $size) {
             $destination = $this->getPathWithSuffix($targetPath, $format);
-            $manager = new ImageManager(['driver' => 'gd']);
-            $manager->make($targetPath)->fit($size[0], $size[1])->save($destination);
+            $manager = ImageManager::usingDriver(\Intervention\Image\Drivers\Gd\Driver::class);
+            $manager->decodePath($targetPath)->scale(height: (int)$size[0], width: (int)$size[1])->save($destination);
         }
     }
 }
